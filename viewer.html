@@ -33,8 +33,7 @@
       </div>
     </div>
 
-    <!-- أزرار الإجراءات (طباعة وتحميل) -->
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-2" id="actionButtons">
       <button onclick="window.print()" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition">
         <i data-lucide="printer" class="w-3.5 h-3.5"></i>
         <span class="hidden sm:inline">طباعة</span>
@@ -46,125 +45,29 @@
     </div>
   </header>
 
-  <!-- مساحة العرض الكاملة Edge-to-Edge -->
+  <!-- مساحة العرض الكاملة -->
   <main class="flex-1 flex flex-col p-4 md:p-6 max-w-6xl w-full mx-auto">
-    <div id="pdfContainer" class="flex-1 bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden flex flex-col min-h-[750px]">
+    <div id="pdfContainer" class="flex-1 bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden flex flex-col min-h-[750px] relative">
       
-      <!-- إطار المستند الحقيقي (في حال وجود بيانات Base64) -->
+      <!-- إطار المستند المرفوع الحقيقي -->
       <iframe id="pdfFrame" class="w-full flex-1 border-0 hidden" src=""></iframe>
 
-      <!-- القالب النموذجي المعتمد للوثائق التعليمية (عند عدم توفر ملف خام) -->
-      <div id="defaultDocView" class="p-8 sm:p-12 space-y-8 flex-1 flex flex-col justify-between">
-        
-        <!-- ترويسة الوثيقة الرسمية -->
-        <div class="border-b-2 border-[#0d5c75] pb-6 flex items-start justify-between">
-          <div class="text-right space-y-1">
-            <h3 class="font-bold text-sm text-[#0d5c75]">المملكة العربية السعودية</h3>
-            <h4 class="font-bold text-xs text-slate-700">وزارة التعليم</h4>
-            <p class="text-xs text-slate-600">الإدارة العامة للتعليم بالمنطقة الشرقية</p>
-            <p class="text-xs font-bold text-[#0d5c75]">ثانوية الكسائي (مقررات - عام)</p>
-          </div>
-
-          <div class="text-center">
-            <div class="w-14 h-14 rounded-2xl bg-teal-50 border border-teal-200 flex items-center justify-center text-[#0d5c75] mx-auto mb-1">
-              <i data-lucide="shield-check" class="w-8 h-8 text-emerald-600"></i>
-            </div>
-            <span class="text-[10px] font-bold text-teal-900">نظام الأرشفة الرقمي المعتمد</span>
-          </div>
-
-          <div class="text-left text-xs text-slate-500 space-y-1 font-mono">
-            <p>الرقم: 1446/3882/ش</p>
-            <p>التاريخ: 1446/07/14 هـ</p>
-            <p class="text-emerald-700 font-bold">QR-VERIFIED • SHA-256</p>
-          </div>
+      <!-- بطاقة في حال كانت الوثيقة لا تحتوي على ملف مرفق بعد أو لا توجد وثيقة مختارة -->
+      <div id="emptyView" class="p-12 space-y-4 flex-1 flex flex-col items-center justify-center text-center">
+        <div class="w-16 h-16 rounded-2xl bg-teal-50 text-[#0d5c75] flex items-center justify-center">
+          <i data-lucide="file-text" class="w-8 h-8 text-[#0d5c75]"></i>
         </div>
-
-        <!-- محتوى المستند الرئيسي -->
-        <div class="space-y-6 flex-1 py-4">
-          <div class="bg-teal-50/60 p-4 rounded-xl text-center border border-teal-100">
-            <h2 id="docContentTitle" class="text-lg font-bold text-[#0d5c75]">كشف الدرجات والبيانات المعتمدة</h2>
-            <p class="text-xs text-slate-500 mt-1">نسخة مؤرشفة ومعتمدة رقمياً ومحمية ضد التعديل والتغيير</p>
-          </div>
-
-          <!-- كروت المؤشرات والأرقام -->
-          <div class="grid grid-cols-3 gap-4 text-center">
-            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
-              <span class="text-[10px] text-slate-400">نسبة الاجتياز</span>
-              <p class="text-lg font-bold text-emerald-600 font-mono">98.2%</p>
-            </div>
-            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
-              <span class="text-[10px] text-slate-400">المتوسط العام</span>
-              <p class="text-lg font-bold text-[#0d5c75] font-mono">94.65</p>
-            </div>
-            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
-              <span class="text-[10px] text-slate-400">حالة الاعتماد</span>
-              <p class="text-sm font-bold text-emerald-600 mt-1 flex items-center justify-center gap-1">
-                <i data-lucide="check-circle" class="w-4 h-4"></i> معتمد رسمياً
-              </p>
-            </div>
-          </div>
-
-          <!-- جدول البيانات المعتمدة -->
-          <div class="border border-slate-200 rounded-xl overflow-hidden text-xs">
-            <table class="w-full text-right">
-              <thead class="bg-slate-50 text-slate-700 font-bold border-b border-slate-200">
-                <tr>
-                  <th class="p-3">رقم الجلوس</th>
-                  <th class="p-3">اسم الطالب</th>
-                  <th class="p-3">الرياضيات</th>
-                  <th class="p-3">الفيزياء</th>
-                  <th class="p-3">اللغة الإنجليزية</th>
-                  <th class="p-3">المعدل</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-slate-100 font-medium">
-                <tr>
-                  <td class="p-3 font-mono">301</td>
-                  <td class="p-3 font-bold">إبراهيم عبدالله العتيبي</td>
-                  <td class="p-3 font-mono">98</td>
-                  <td class="p-3 font-mono">99</td>
-                  <td class="p-3 font-mono">96</td>
-                  <td class="p-3 font-bold text-emerald-700 font-mono">97.66</td>
-                </tr>
-                <tr>
-                  <td class="p-3 font-mono">302</td>
-                  <td class="p-3 font-bold">أحمد سعود الشمري</td>
-                  <td class="p-3 font-mono">95</td>
-                  <td class="p-3 font-mono">94</td>
-                  <td class="p-3 font-mono">98</td>
-                  <td class="p-3 font-bold text-emerald-700 font-mono">95.66</td>
-                </tr>
-                <tr>
-                  <td class="p-3 font-mono">303</td>
-                  <td class="p-3 font-bold">بندر فهد القرني</td>
-                  <td class="p-3 font-mono">100</td>
-                  <td class="p-3 font-mono">99</td>
-                  <td class="p-3 font-mono">100</td>
-                  <td class="p-3 font-bold text-emerald-700 font-mono">99.66</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- التوقيعات والاعتماد الرسمي -->
-        <div class="border-t border-slate-200 pt-6 grid grid-cols-2 text-center text-xs">
-          <div>
-            <p class="text-slate-400">وكيل شؤون الطلاب والقبول</p>
-            <p class="font-bold text-slate-800 mt-1">أ. ماجد فهد الهاجري</p>
-            <p class="text-[10px] text-emerald-600 mt-1 font-mono">توقيع رقمي موثق</p>
-          </div>
-          <div>
-            <p class="text-slate-400">مدير ثانوية الكسائي</p>
-            <p class="font-bold text-slate-800 mt-1">د. خالد بن محمد السبيعي</p>
-            <p class="text-[10px] text-emerald-600 mt-1 font-mono">ختم الاعتماد الإلكتروني الرسمي</p>
-          </div>
-        </div>
-
+        <h3 id="docEmptyTitle" class="text-base font-bold text-slate-800">لم يتم تحديد وثيقة للاستعراض</h3>
+        <p class="text-xs text-slate-500 max-w-sm">يرجى الذهاب إلى صفحة استعراض الملفات واختيار الوثيقة التي ترغب بقراءتها.</p>
+        <a href="./files.html" class="px-5 py-2.5 bg-[#0d5c75] hover:bg-[#094254] text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-xs">
+          <i data-lucide="layout-grid" class="w-4 h-4"></i>
+          <span>الذهاب لاستعراض الملفات</span>
+        </a>
       </div>
+
     </div>
 
-    <!-- التذييل الرسمي -->
+    <!-- التذييل الرسمي الموحد -->
     <footer class="pt-4 text-center text-xs text-slate-500 space-y-1">
       <p class="font-semibold text-[#0d5c75]">تصميم وتطوير: أ. سعد القرني</p>
       <p>كافة الحقوق محفوظة لثانوية الكسائي — الإدارة العامة للتعليم بالمنطقة الشرقية © 1446هـ</p>
@@ -174,7 +77,6 @@
   <!-- JavaScript -->
   <script>
     lucide.createIcons();
-
     let currentDoc = null;
 
     function initViewer() {
@@ -187,25 +89,34 @@
       } catch(e) {}
 
       if (docId) {
-        currentDoc = docs.find(d => d.id === docId);
-      }
-
-      if (!currentDoc && docs.length > 0) {
+        currentDoc = docs.find(d => String(d.id) === String(docId));
+      } else if (docs.length > 0) {
         currentDoc = docs[0];
       }
 
+      const frame = document.getElementById('pdfFrame');
+      const emptyView = document.getElementById('emptyView');
+
       if (currentDoc) {
         document.getElementById('viewerDocTitle').textContent = currentDoc.name;
-        document.getElementById('docContentTitle').textContent = currentDoc.name.replace('.pdf', '');
 
-        // إذا كان الملف يحتوي على بيانات Base64 يتم عرضه داخل الـ iframe
+        // إذا كان ملف PDF حقيقي مرفوع (Base64)
         if (currentDoc.pdfData) {
-          const frame = document.getElementById('pdfFrame');
           frame.src = currentDoc.pdfData;
           frame.classList.remove('hidden');
-          document.getElementById('defaultDocView').classList.add('hidden');
+          emptyView.classList.add('hidden');
+        } else {
+          // ملف مسجل بدون بيانات خام
+          frame.classList.add('hidden');
+          emptyView.classList.remove('hidden');
+          document.getElementById('docEmptyTitle').textContent = currentDoc.name;
         }
+      } else {
+        frame.classList.add('hidden');
+        emptyView.classList.remove('hidden');
       }
+
+      lucide.createIcons();
     }
 
     function downloadCurrentPdf() {
