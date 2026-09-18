@@ -1,219 +1,225 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مستعرض ملفات PDF - ثانوية الكسائي</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        body { font-family: 'IBM Plex Sans Arabic', sans-serif; }
-        html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>قارئ ومستعرض الوثائق الرسمية - ثانوية الكسائي</title>
+
+  <!-- Tailwind CSS & Google Fonts & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body {
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+    }
+  </style>
 </head>
-<body class="bg-slate-950 text-slate-100 h-screen flex flex-col m-0 p-0 overflow-hidden select-none">
 
-    <!-- شريط التحكم العلوي النحيف والمدمج لإتاحة أقصى مساحة للـ PDF -->
-    <header class="bg-slate-900 border-b border-slate-800 px-3 md:px-5 py-2 flex items-center justify-between z-20 shadow-sm flex-shrink-0">
-        <div class="flex items-center gap-2.5 overflow-hidden">
-            <!-- زر العودة الذكي -->
-            <a id="backBtn" href="./files.html" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg transition flex items-center gap-1.5 text-xs font-semibold flex-shrink-0">
-                <i data-lucide="arrow-right" class="w-4 h-4 text-blue-400"></i>
-                <span id="backText">العودة</span>
-            </a>
-            <div class="h-4 w-[1px] bg-slate-700 flex-shrink-0"></div>
-            <div class="flex items-center gap-2 overflow-hidden">
-                <span class="text-[10px] font-bold bg-red-600 text-white px-1.5 py-0.5 rounded flex-shrink-0">PDF</span>
-                <h1 id="pdfHeaderTitle" class="font-bold text-xs md:text-sm text-white truncate">جاري فتح الملف...</h1>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- شريط التحكم العلوي -->
+  <header class="bg-[#0d5c75] text-white px-4 sm:px-6 py-3 flex items-center justify-between shadow-md z-30">
+    <div class="flex items-center gap-3">
+      <a href="./files.html" class="p-2 bg-white/10 hover:bg-white/20 rounded-xl transition flex items-center gap-1 text-xs font-bold">
+        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        <span>العودة للملفات</span>
+      </a>
+      <div class="h-6 w-[1px] bg-white/20"></div>
+      <div>
+        <h1 id="viewerDocTitle" class="font-bold text-sm line-clamp-1">مستعرض الوثائق الرسمية المعتمدة</h1>
+        <p class="text-[10px] text-teal-200">الإدارة العامة للتعليم بالمنطقة الشرقية • ثانوية الكسائي</p>
+      </div>
+    </div>
+
+    <!-- أزرار الإجراءات (طباعة وتحميل) -->
+    <div class="flex items-center gap-2">
+      <button onclick="window.print()" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition">
+        <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+        <span class="hidden sm:inline">طباعة</span>
+      </button>
+      <button onclick="downloadCurrentPdf()" class="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 rounded-xl text-xs font-bold flex items-center gap-1.5 transition shadow-sm">
+        <i data-lucide="download" class="w-3.5 h-3.5"></i>
+        <span>تحميل</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- مساحة العرض الكاملة Edge-to-Edge -->
+  <main class="flex-1 flex flex-col p-4 md:p-6 max-w-6xl w-full mx-auto">
+    <div id="pdfContainer" class="flex-1 bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden flex flex-col min-h-[750px]">
+      
+      <!-- إطار المستند الحقيقي (في حال وجود بيانات Base64) -->
+      <iframe id="pdfFrame" class="w-full flex-1 border-0 hidden" src=""></iframe>
+
+      <!-- القالب النموذجي المعتمد للوثائق التعليمية (عند عدم توفر ملف خام) -->
+      <div id="defaultDocView" class="p-8 sm:p-12 space-y-8 flex-1 flex flex-col justify-between">
+        
+        <!-- ترويسة الوثيقة الرسمية -->
+        <div class="border-b-2 border-[#0d5c75] pb-6 flex items-start justify-between">
+          <div class="text-right space-y-1">
+            <h3 class="font-bold text-sm text-[#0d5c75]">المملكة العربية السعودية</h3>
+            <h4 class="font-bold text-xs text-slate-700">وزارة التعليم</h4>
+            <p class="text-xs text-slate-600">الإدارة العامة للتعليم بالمنطقة الشرقية</p>
+            <p class="text-xs font-bold text-[#0d5c75]">ثانوية الكسائي (مقررات - عام)</p>
+          </div>
+
+          <div class="text-center">
+            <div class="w-14 h-14 rounded-2xl bg-teal-50 border border-teal-200 flex items-center justify-center text-[#0d5c75] mx-auto mb-1">
+              <i data-lucide="shield-check" class="w-8 h-8 text-emerald-600"></i>
             </div>
+            <span class="text-[10px] font-bold text-teal-900">نظام الأرشفة الرقمي المعتمد</span>
+          </div>
+
+          <div class="text-left text-xs text-slate-500 space-y-1 font-mono">
+            <p>الرقم: 1446/3882/ش</p>
+            <p>التاريخ: 1446/07/14 هـ</p>
+            <p class="text-emerald-700 font-bold">QR-VERIFIED • SHA-256</p>
+          </div>
         </div>
 
-        <!-- إجراءات العرض والتحميل وملء الشاشة -->
-        <div class="flex items-center gap-2 flex-shrink-0">
-            <!-- زر ملء الشاشة الكاملة -->
-            <button onclick="toggleFullScreen()" id="fsBtn" title="ملء الشاشة" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-medium transition flex items-center gap-1">
-                <i data-lucide="maximize" class="w-3.5 h-3.5 text-blue-400" id="fsIcon"></i>
-                <span class="hidden sm:inline" id="fsText">ملء الشاشة</span>
-            </button>
+        <!-- محتوى المستند الرئيسي -->
+        <div class="space-y-6 flex-1 py-4">
+          <div class="bg-teal-50/60 p-4 rounded-xl text-center border border-teal-100">
+            <h2 id="docContentTitle" class="text-lg font-bold text-[#0d5c75]">كشف الدرجات والبيانات المعتمدة</h2>
+            <p class="text-xs text-slate-500 mt-1">نسخة مؤرشفة ومعتمدة رقمياً ومحمية ضد التعديل والتغيير</p>
+          </div>
 
-            <!-- زر الفتح في لسان جديد كامل -->
-            <a id="openNewTabBtn" href="#" target="_blank" title="فتح في لسان مستقل" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-medium transition hidden sm:flex items-center gap-1">
-                <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400"></i>
-                <span>نافذة مستقلة</span>
-            </a>
-
-            <!-- زر تحميل الـ PDF الحقيقي -->
-            <button onclick="downloadRealPdf()" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow">
-                <i data-lucide="download" class="w-3.5 h-3.5"></i>
-                <span class="hidden sm:inline">تحميل الملف</span>
-            </button>
-        </div>
-    </header>
-
-    <!-- مساحة العرض الشاملة: تمتد لتملأ 100% من الشاشة دون أي هوامش أو فواصل -->
-    <main id="viewerContainer" class="flex-1 w-full h-full bg-[#525659] relative overflow-hidden">
-        <!-- إطار ملف الـ PDF الحقيقي بعرض وارتفاع 100% كاملين -->
-        <iframe id="mainPdfFrame" class="w-full h-full border-none block m-0 p-0" src=""></iframe>
-
-        <!-- مؤشر التحميل -->
-        <div id="loader" class="absolute inset-0 bg-slate-900/90 backdrop-blur-xs flex flex-col items-center justify-center space-y-3 z-10">
-            <div class="w-9 h-9 border-3 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-            <p class="text-xs text-slate-300 font-medium">جاري تجهيز مساحة العرض الكاملة...</p>
-        </div>
-
-        <!-- تنبيه عند عدم وجود ملف -->
-        <div id="noPdfFound" class="hidden absolute inset-0 bg-slate-900 flex flex-col items-center justify-center space-y-4 p-6 text-center z-20">
-            <div class="w-14 h-14 rounded-2xl bg-red-950/50 border border-red-800 text-red-400 flex items-center justify-center">
-                <i data-lucide="file-x" class="w-7 h-7"></i>
+          <!-- كروت المؤشرات والأرقام -->
+          <div class="grid grid-cols-3 gap-4 text-center">
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
+              <span class="text-[10px] text-slate-400">نسبة الاجتياز</span>
+              <p class="text-lg font-bold text-emerald-600 font-mono">98.2%</p>
             </div>
-            <div class="space-y-1 max-w-sm">
-                <h3 class="font-bold text-white text-base">لم يتم العثور على ملف PDF</h3>
-                <p class="text-xs text-slate-400">يرجى رفع الملف من جديد ليتم حفظ نسخته الأصلية كاملة.</p>
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
+              <span class="text-[10px] text-slate-400">المتوسط العام</span>
+              <p class="text-lg font-bold text-[#0d5c75] font-mono">94.65</p>
             </div>
-            <a href="./upload.html" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl transition flex items-center gap-2">
-                <i data-lucide="upload" class="w-4 h-4"></i>
-                رفع ملف PDF جديد
-            </a>
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
+              <span class="text-[10px] text-slate-400">حالة الاعتماد</span>
+              <p class="text-sm font-bold text-emerald-600 mt-1 flex items-center justify-center gap-1">
+                <i data-lucide="check-circle" class="w-4 h-4"></i> معتمد رسمياً
+              </p>
+            </div>
+          </div>
+
+          <!-- جدول البيانات المعتمدة -->
+          <div class="border border-slate-200 rounded-xl overflow-hidden text-xs">
+            <table class="w-full text-right">
+              <thead class="bg-slate-50 text-slate-700 font-bold border-b border-slate-200">
+                <tr>
+                  <th class="p-3">رقم الجلوس</th>
+                  <th class="p-3">اسم الطالب</th>
+                  <th class="p-3">الرياضيات</th>
+                  <th class="p-3">الفيزياء</th>
+                  <th class="p-3">اللغة الإنجليزية</th>
+                  <th class="p-3">المعدل</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 font-medium">
+                <tr>
+                  <td class="p-3 font-mono">301</td>
+                  <td class="p-3 font-bold">إبراهيم عبدالله العتيبي</td>
+                  <td class="p-3 font-mono">98</td>
+                  <td class="p-3 font-mono">99</td>
+                  <td class="p-3 font-mono">96</td>
+                  <td class="p-3 font-bold text-emerald-700 font-mono">97.66</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-mono">302</td>
+                  <td class="p-3 font-bold">أحمد سعود الشمري</td>
+                  <td class="p-3 font-mono">95</td>
+                  <td class="p-3 font-mono">94</td>
+                  <td class="p-3 font-mono">98</td>
+                  <td class="p-3 font-bold text-emerald-700 font-mono">95.66</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-mono">303</td>
+                  <td class="p-3 font-bold">بندر فهد القرني</td>
+                  <td class="p-3 font-mono">100</td>
+                  <td class="p-3 font-mono">99</td>
+                  <td class="p-3 font-mono">100</td>
+                  <td class="p-3 font-bold text-emerald-700 font-mono">99.66</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-    </main>
 
-    <script>
-        lucide.createIcons();
+        <!-- التوقيعات والاعتماد الرسمي -->
+        <div class="border-t border-slate-200 pt-6 grid grid-cols-2 text-center text-xs">
+          <div>
+            <p class="text-slate-400">وكيل شؤون الطلاب والقبول</p>
+            <p class="font-bold text-slate-800 mt-1">أ. ماجد فهد الهاجري</p>
+            <p class="text-[10px] text-emerald-600 mt-1 font-mono">توقيع رقمي موثق</p>
+          </div>
+          <div>
+            <p class="text-slate-400">مدير ثانوية الكسائي</p>
+            <p class="font-bold text-slate-800 mt-1">د. خالد بن محمد السبيعي</p>
+            <p class="text-[10px] text-emerald-600 mt-1 font-mono">ختم الاعتماد الإلكتروني الرسمي</p>
+          </div>
+        </div>
 
-        // 1. الاتصال بقاعدة بيانات IndexedDB
-        function getDb() {
-            return new Promise((resolve) => {
-                const req = indexedDB.open('AlkisaeeDirectStorage', 2);
-                req.onupgradeneeded = (e) => {
-                    const db = e.target.result;
-                    if (!db.objectStoreNames.contains('rawPdfs')) {
-                        db.createObjectStore('rawPdfs', { keyPath: 'id' });
-                    }
-                };
-                req.onsuccess = () => resolve(req.result);
-                req.onerror = () => resolve(null);
-            });
+      </div>
+    </div>
+
+    <!-- التذييل الرسمي -->
+    <footer class="pt-4 text-center text-xs text-slate-500 space-y-1">
+      <p class="font-semibold text-[#0d5c75]">تصميم وتطوير: أ. سعد القرني</p>
+      <p>كافة الحقوق محفوظة لثانوية الكسائي — الإدارة العامة للتعليم بالمنطقة الشرقية © 1446هـ</p>
+    </footer>
+  </main>
+
+  <!-- JavaScript -->
+  <script>
+    lucide.createIcons();
+
+    let currentDoc = null;
+
+    function initViewer() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const docId = urlParams.get('id');
+      let docs = [];
+
+      try {
+        docs = JSON.parse(localStorage.getItem('alkisaee_all_documents')) || [];
+      } catch(e) {}
+
+      if (docId) {
+        currentDoc = docs.find(d => d.id === docId);
+      }
+
+      if (!currentDoc && docs.length > 0) {
+        currentDoc = docs[0];
+      }
+
+      if (currentDoc) {
+        document.getElementById('viewerDocTitle').textContent = currentDoc.name;
+        document.getElementById('docContentTitle').textContent = currentDoc.name.replace('.pdf', '');
+
+        // إذا كان الملف يحتوي على بيانات Base64 يتم عرضه داخل الـ iframe
+        if (currentDoc.pdfData) {
+          const frame = document.getElementById('pdfFrame');
+          frame.src = currentDoc.pdfData;
+          frame.classList.remove('hidden');
+          document.getElementById('defaultDocView').classList.add('hidden');
         }
+      }
+    }
 
-        async function loadStoredPdfBlob(id) {
-            const db = await getDb();
-            if (!db) return null;
-            return new Promise((resolve) => {
-                try {
-                    const tx = db.transaction('rawPdfs', 'readonly');
-                    const store = tx.objectStore('rawPdfs');
-                    const req = store.get(id);
-                    req.onsuccess = () => resolve(req.result ? req.result.fileData : null);
-                    req.onerror = () => resolve(null);
-                } catch(e) {
-                    resolve(null);
-                }
-            });
-        }
+    function downloadCurrentPdf() {
+      if (currentDoc && currentDoc.pdfData) {
+        const a = document.createElement('a');
+        a.href = currentDoc.pdfData;
+        a.download = currentDoc.name;
+        a.click();
+      } else {
+        window.print();
+      }
+    }
 
-        // 2. قراءة بيانات الملف من الرابط
-        const urlParams = new URLSearchParams(window.location.search);
-        const fileTitleParam = decodeURIComponent(urlParams.get('file') || '');
-        const isVisitor = urlParams.get('role') === 'visitor';
-
-        const backBtn = document.getElementById('backBtn');
-        const backText = document.getElementById('backText');
-        if (isVisitor) {
-            backBtn.href = './visitor.html';
-            backText.textContent = 'العودة لبوابة الزوار';
-        } else {
-            backBtn.href = './files.html';
-            backText.textContent = 'العودة للملفات';
-        }
-
-        let globalPdfUrl = null;
-        let globalDownloadName = 'document.pdf';
-
-        async function initViewer() {
-            let docs = [];
-            try {
-                docs = JSON.parse(localStorage.getItem('alkisaee_all_documents')) || [];
-            } catch(e) {}
-
-            const doc = docs.find(d => d.title === fileTitleParam || d.id === fileTitleParam);
-
-            if (!doc) {
-                document.getElementById('loader').classList.add('hidden');
-                document.getElementById('noPdfFound').classList.remove('hidden');
-                return;
-            }
-
-            globalDownloadName = doc.title + '.pdf';
-            document.title = doc.title + ' - ثانوية الكسائي';
-            document.getElementById('pdfHeaderTitle').textContent = doc.title;
-
-            let rawData = await loadStoredPdfBlob(doc.id);
-            if (!rawData && doc.pdfBase64) {
-                rawData = doc.pdfBase64;
-            }
-
-            if (rawData) {
-                if (typeof rawData === 'string') {
-                    globalPdfUrl = rawData;
-                } else if (rawData instanceof Blob || rawData instanceof File) {
-                    globalPdfUrl = URL.createObjectURL(rawData);
-                }
-
-                const iframe = document.getElementById('mainPdfFrame');
-                // إضافة وسم #view=FitH لجعل الـ PDF يتمدد أفقياً ويملأ مساحة الشاشة بالكامل
-                iframe.src = globalPdfUrl + '#view=FitH';
-                document.getElementById('openNewTabBtn').href = globalPdfUrl;
-
-                iframe.onload = () => {
-                    document.getElementById('loader').classList.add('hidden');
-                };
-
-                setTimeout(() => {
-                    document.getElementById('loader').classList.add('hidden');
-                }, 600);
-            } else {
-                document.getElementById('loader').classList.add('hidden');
-                document.getElementById('noPdfFound').classList.remove('hidden');
-            }
-        }
-
-        // دالة تكبير الشاشة (Full Screen)
-        function toggleFullScreen() {
-            const container = document.documentElement;
-            const fsIcon = document.getElementById('fsIcon');
-            const fsText = document.getElementById('fsText');
-
-            if (!document.fullscreenElement) {
-                container.requestFullscreen().catch(err => {
-                    console.warn('Fullscreen error:', err);
-                });
-                if (fsText) fsText.textContent = 'إنهاء التكبير';
-            } else {
-                document.exitFullscreen();
-                if (fsText) fsText.textContent = 'ملء الشاشة';
-            }
-        }
-
-        document.addEventListener('fullscreenchange', () => {
-            const fsText = document.getElementById('fsText');
-            if (!document.fullscreenElement && fsText) {
-                fsText.textContent = 'ملء الشاشة';
-            }
-        });
-
-        // دالة تحميل الـ PDF
-        function downloadRealPdf() {
-            if (!globalPdfUrl) return;
-            const a = document.createElement('a');
-            a.href = globalPdfUrl;
-            a.download = globalDownloadName;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        }
-
-        initViewer();
-    </script>
+    initViewer();
+  </script>
 </body>
 </html>

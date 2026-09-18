@@ -1,1 +1,354 @@
-<!DOCTYPE html> <html lang="ar" dir="rtl"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>لوحة التحكم والأرشفة - ثانوية الكسائي</title> <script src="https://cdn.tailwindcss.com"></script> <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet"> <script src="https://unpkg.com/lucide@latest"></script> <style> body { font-family: 'IBM Plex Sans Arabic', sans-serif; } .del-btn svg { pointer-events: none; } </style> </head> <body class="bg-[#f8f9ff] text-slate-800 min-h-screen flex flex-col"> <header class="bg-white border-b border-slate-200 sticky top-0 z-30 px-6 py-3.5 flex items-center justify-between shadow-sm"> <div class="flex items-center gap-4"> <div class="w-10 h-10 rounded-xl bg-blue-900 flex items-center justify-center text-white shadow-sm font-bold"> <i data-lucide="graduation-cap" class="w-6 h-6"></i> </div> <div> <h1 class="font-bold text-lg text-blue-950">نظام إدارة وأرشفة وثائق ثانوية الكسائي</h1> <p class="text-xs text-slate-500">لوحة التحكم المركزية • الإدارة المدرسية المعتمدة</p> </div> </div> <div class="flex items-center gap-3"> <a href="./visitor.html" class="px-3.5 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl text-xs font-semibold transition flex items-center gap-1.5" title="معاينة شاشة الزوار"> <i data-lucide="qr-code" class="w-4 h-4 text-blue-900"></i> بوابة الزوار (QR) </a> <a href="./upload.html" class="px-4 py-2 bg-blue-900 text-white rounded-xl text-xs font-bold hover:bg-blue-800 transition flex items-center gap-1.5 shadow-sm"> <i data-lucide="upload" class="w-4 h-4"></i> رفع وثيقة جديدة </a> </div> </header> <main class="flex-1 max-w-7xl mx-auto p-6 md:p-8 w-full space-y-8"> <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"> <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between"> <div> <p class="text-xs font-semibold text-slate-500 mb-1">إجمالي الوثائق المؤرشفة</p> <h3 id="statTotalDocs" class="text-2xl font-bold text-blue-950">0</h3> <span class="text-[11px] text-emerald-600 font-medium">محدث تلقائياً</span> </div> <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-900 flex items-center justify-center"> <i data-lucide="files" class="w-6 h-6"></i> </div> </div> <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between"> <div> <p class="text-xs font-semibold text-slate-500 mb-1">المساحة المستخدمة</p> <h3 id="statTotalSize" class="text-2xl font-bold text-slate-900">0 MB</h3> <span class="text-[11px] text-slate-400 font-medium">من سعة 1,000 MB</span> </div> <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-900 flex items-center justify-center"> <i data-lucide="hard-drive" class="w-6 h-6"></i> </div> </div> <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between"> <div> <p class="text-xs font-semibold text-slate-500 mb-1">المجلدات الرئيسية</p> <h3 class="text-2xl font-bold text-slate-900">5 مجلدات</h3> <span class="text-[11px] text-blue-600 font-medium">هيكلية تنظيمية كاملة</span> </div> <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-900 flex items-center justify-center"> <i data-lucide="folder-tree" class="w-6 h-6"></i> </div> </div> <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm"> <div class="flex items-center justify-between mb-2"> <p class="text-xs font-semibold text-slate-500">معدل الاستيعاب</p> <span id="statPercentText" class="text-xs font-bold text-blue-950 font-mono">0%</span> </div> <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden"> <div id="statProgressBar" class="bg-blue-900 h-full w-0 transition-all duration-500"></div> </div> <p class="text-[11px] text-slate-400 mt-2">الأرشيف يعمل بحالة ممتازة</p> </div> </div> <div> <div class="flex items-center justify-between mb-4"> <h2 class="font-bold text-base text-slate-900 flex items-center gap-2"> <i data-lucide="folder-open" class="w-5 h-5 text-blue-900"></i> المجلدات المدرسية المعتمدة </h2> <a href="./files.html" class="text-xs text-blue-700 font-bold hover:underline">عرض جميع الملفات ←</a> </div> <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"> <a href="./files.html?folder=planning" class="bg-white p-5 rounded-2xl border border-slate-200 hover:border-blue-600 hover:shadow-md transition group block"> <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-900 flex items-center justify-center mb-3 group-hover:bg-blue-900 group-hover:text-white transition"> <i data-lucide="compass" class="w-5 h-5"></i> </div> <h4 class="font-bold text-sm text-slate-900 mb-1 group-hover:text-blue-900">التنظيم والتخطيط</h4> <p class="text-xs text-slate-400 mb-3">الخطة التشغيلية وتوزيع المسؤوليات</p> <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs"> <span id="count_planning" class="font-bold text-blue-950">0 ملفات</span> <span class="text-blue-600 font-medium">فتح المجلد</span> </div> </a> <a href="./files.html?folder=circulars" class="bg-white p-5 rounded-2xl border border-slate-200 hover:border-indigo-600 hover:shadow-md transition group block"> <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-900 flex items-center justify-center mb-3 group-hover:bg-indigo-900 group-hover:text-white transition"> <i data-lucide="mail" class="w-5 h-5"></i> </div> <h4 class="font-bold text-sm text-slate-900 mb-1 group-hover:text-indigo-900">الوثائق والتعاميم</h4> <p class="text-xs text-slate-400 mb-3">القرارات واللوائح الرسمية</p> <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs"> <span id="count_circulars" class="font-bold text-indigo-950">0 ملفات</span> <span class="text-indigo-600 font-medium">فتح المجلد</span> </div> </a> <a href="./files.html?folder=academic" class="bg-white p-5 rounded-2xl border border-slate-200 hover:border-cyan-600 hover:shadow-md transition group block"> <div class="w-10 h-10 rounded-xl bg-cyan-50 text-cyan-900 flex items-center justify-center mb-3 group-hover:bg-cyan-900 group-hover:text-white transition"> <i data-lucide="calendar" class="w-5 h-5"></i> </div> <h4 class="font-bold text-sm text-slate-900 mb-1 group-hover:text-cyan-900">الشؤون التعليمية</h4> <p class="text-xs text-slate-400 mb-3">الجداول والاختبارات والمتابعة</p> <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs"> <span id="count_academic" class="font-bold text-cyan-950">0 ملفات</span> <span class="text-cyan-600 font-medium">فتح المجلد</span> </div> </a> <a href="./files.html?folder=students" class="bg-white p-5 rounded-2xl border border-slate-200 hover:border-emerald-600 hover:shadow-md transition group block"> <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-900 flex items-center justify-center mb-3 group-hover:bg-emerald-900 group-hover:text-white transition"> <i data-lucide="users" class="w-5 h-5"></i> </div> <h4 class="font-bold text-sm text-slate-900 mb-1 group-hover:text-emerald-900">شؤون الطلاب</h4> <p class="text-xs text-slate-400 mb-3">السلوك والمواظبة والأنشطة</p> <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs"> <span id="count_students" class="font-bold text-emerald-950">0 ملفات</span> <span class="text-emerald-600 font-medium">فتح المجلد</span> </div> </a> <a href="./files.html?folder=committees" class="bg-white p-5 rounded-2xl border border-slate-200 hover:border-amber-600 hover:shadow-md transition group block"> <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-900 flex items-center justify-center mb-3 group-hover:bg-amber-900 group-hover:text-white transition"> <i data-lucide="message-square" class="w-5 h-5"></i> </div> <h4 class="font-bold text-sm text-slate-900 mb-1 group-hover:text-amber-900">الاجتماعات واللجان</h4> <p class="text-xs text-slate-400 mb-3">محاضر اللجان ومجالس الآباء</p> <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs"> <span id="count_committees" class="font-bold text-amber-950">0 ملفات</span> <span class="text-amber-600 font-medium">فتح المجلد</span> </div> </a> </div> </div> <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6"> <div class="flex items-center justify-between mb-4"> <h3 class="font-bold text-base text-blue-950 flex items-center gap-2"> <i data-lucide="clock" class="w-5 h-5 text-blue-900"></i> أحدث الوثائق المودعة في الأرشيف </h3> <a href="./upload.html" class="text-xs font-bold text-blue-900 bg-blue-50 px-3 py-1.5 rounded-lg hover:bg-blue-100 transition"> + إضافة وثيقة </a> </div> <div class="overflow-x-auto"> <table class="w-full text-right text-xs"> <thead> <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 font-semibold"> <th class="py-3 px-4">اسم الوثيقة والمستند</th> <th class="py-3 px-4">المجلد</th> <th class="py-3 px-4">الحجم</th> <th class="py-3 px-4">تاريخ الإيداع</th> <th class="py-3 px-4 text-center">الإجراءات</th> </tr> </thead> <tbody id="recentDocsBody" class="divide-y divide-slate-100 text-slate-700"> </tbody> </table> </div> <div id="emptyDocsMsg" class="hidden p-8 text-center text-slate-400"> <p class="text-xs">لا توجد وثائق مؤرشفة حتى الآن، ابدأ برفع أول وثيقة!</p> </div> </div> </main> <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500"> نظام أرشفة وثائق ثانوية الكسائي • لوحة الإدارة </footer> <script> const defaultDocuments = [ { id: 'init_1', title: 'دليل الإجراءات الوقائية وخطة الطوارئ المدرسية', folder: 'planning', code: 'SAF-GL-2025', author: 'لجنة الأمن والسلامة المدرسية', size: 8.6, date: '04 فبراير 2025' }, { id: 'init_2', title: 'تعميم وزاري رقم (18) مواعيد بدء التسجيل الإلكتروني', folder: 'circulars', code: 'CIRC-2025-018', author: 'وكالة الوزارة للتخطيط المدرسي', size: 2.1, date: '29 يناير 2025' }, { id: 'init_3', title: 'لائحة الانضباط المدرسي وقواعد السلوك والمواظبة المعدّلة', folder: 'students', code: 'REG-DISC-902', author: 'الإدارة العامة للتوجيه والأنشطة', size: 5.7, date: '22 يناير 2025' } ]; const folderMap = { 'planning': { name: 'التنظيم والتخطيط', badge: 'bg-blue-50 text-blue-800' }, 'circulars': { name: 'الوثائق والتعاميم', badge: 'bg-indigo-50 text-indigo-800' }, 'academic': { name: 'الشؤون التعليمية', badge: 'bg-cyan-50 text-cyan-800' }, 'students': { name: 'شؤون الطلاب', badge: 'bg-emerald-50 text-emerald-800' }, 'committees': { name: 'الاجتماعات واللجان', badge: 'bg-amber-50 text-amber-800' } }; function loadData() { let stored = localStorage.getItem('alkisaee_all_documents'); if (!stored) { localStorage.setItem('alkisaee_all_documents', JSON.stringify(defaultDocuments)); return defaultDocuments; } try { return JSON.parse(stored); } catch(e) { return defaultDocuments; } } function renderDashboard() { const docs = loadData(); document.getElementById('statTotalDocs').textContent = docs.length + ' وثيقة'; const totalMB = docs.reduce((acc, cur) => acc + (parseFloat(cur.size) || 0), 0); document.getElementById('statTotalSize').textContent = totalMB.toFixed(1) + ' MB'; const percent = Math.min(100, ((totalMB / 1000) * 100)).toFixed(1); document.getElementById('statPercentText').textContent = percent + '%'; document.getElementById('statProgressBar').style.width = percent + '%'; ['planning', 'circulars', 'academic', 'students', 'committees'].forEach(fKey => { const count = docs.filter(d => d.folder === fKey).length; const el = document.getElementById('count_' + fKey); if (el) el.textContent = count + ' وثائق'; }); const tbody = document.getElementById('recentDocsBody'); const emptyMsg = document.getElementById('emptyDocsMsg'); if (docs.length === 0) { tbody.innerHTML = ''; emptyMsg.classList.remove('hidden'); } else { emptyMsg.classList.add('hidden'); tbody.innerHTML = docs.slice(0, 5).map(doc => { const fInfo = folderMap[doc.folder] || { name: 'أرشيف عام', badge: 'bg-slate-100 text-slate-800' }; return ` <tr class="hover:bg-slate-50 transition"> <td class="py-3.5 px-4 font-semibold text-blue-950 flex items-center gap-2"> <span class="text-red-500 font-bold bg-red-50 px-1.5 py-0.5 rounded text-[10px]">PDF</span> <span>${doc.title}</span> </td> <td class="py-3.5 px-4"> <span class="${fInfo.badge} px-2 py-0.5 rounded text-[11px] font-medium">${fInfo.name}</span> </td> <td class="py-3.5 px-4 font-mono text-slate-400 text-[11px]">${doc.size} MB</td> <td class="py-3.5 px-4 text-slate-500">${doc.date || 'معتمد'}</td> <td class="py-3.5 px-4 text-center"> <a href="./viewer.html?file=${encodeURIComponent(doc.title)}" class="px-2.5 py-1 bg-blue-50 text-blue-900 rounded-lg hover:bg-blue-100 font-semibold transition text-[11px]"> استعراض </a> </td> </tr> `; }).join(''); } lucide.createIcons(); } renderDashboard(); </script> </body> </html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة القيادة والمجلدات - ثانوية الكسائي</title>
+  
+  <!-- Tailwind CSS & Google Fonts & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <style>
+    body {
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+    }
+  </style>
+</head>
+
+<body class="bg-[#f7faf9] text-slate-800 min-h-screen flex antialiased">
+
+  <!-- القائمة الجانبية (Sidebar) -->
+  <aside class="w-64 bg-white border-l border-teal-100 min-h-screen p-5 flex flex-col justify-between hidden md:flex flex-shrink-0 sticky top-0 h-screen overflow-y-auto">
+    <div class="space-y-6">
+      
+      <!-- شعار المدرسة والجهة -->
+      <div class="pb-4 border-b border-teal-50">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-[#0d5c75] text-white flex items-center justify-center font-bold shadow-sm">
+            <i data-lucide="graduation-cap" class="w-6 h-6 text-emerald-300"></i>
+          </div>
+          <div>
+            <h2 class="font-bold text-xs text-[#0d5c75] leading-tight">الإدارة العامة للتعليم بالمنطقة الشرقية</h2>
+            <p class="text-[11px] text-teal-800 font-semibold mt-0.5">ثانوية الكسائي</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- زر رفع وثيقة جديدة -->
+      <a href="./upload.html" class="w-full py-2.5 px-4 bg-[#0d5c75] hover:bg-[#094254] text-white text-xs font-bold rounded-xl transition flex items-center justify-center gap-2 shadow-sm">
+        <i data-lucide="file-plus-2" class="w-4 h-4 text-emerald-400"></i>
+        <span>رفع وثيقة جديدة</span>
+      </a>
+
+      <!-- روابط التنقل -->
+      <nav class="space-y-1.5 text-xs font-semibold">
+        <a href="./index.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-teal-50 text-[#0d5c75] font-bold transition">
+          <i data-lucide="folder" class="w-4 h-4 text-[#0d5c75]"></i>
+          <span>لوحة المجلدات الرئيسية</span>
+        </a>
+        <a href="./files.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-teal-50 hover:text-[#0d5c75] transition">
+          <i data-lucide="layout-grid" class="w-4 h-4 text-slate-400"></i>
+          <span>استعراض الملفات</span>
+        </a>
+        <a href="./viewer.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-teal-50 hover:text-[#0d5c75] transition">
+          <i data-lucide="file-text" class="w-4 h-4 text-slate-400"></i>
+          <span>مستعرض الوثائق (PDF)</span>
+        </a>
+        <a href="./visitor.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-emerald-700 bg-emerald-50 hover:bg-emerald-100 transition">
+          <i data-lucide="qr-code" class="w-4 h-4 text-emerald-600"></i>
+          <span>بوابة الزوار (رمز QR)</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- ويدجت المساحة والحقوق -->
+    <div class="pt-4 border-t border-teal-50 space-y-3">
+      <div>
+        <div class="flex items-center justify-between text-xs mb-1.5">
+          <span class="text-slate-500 font-medium flex items-center gap-1.5">
+            <i data-lucide="cloud" class="w-3.5 h-3.5 text-[#0d5c75]"></i> المساحة السحابية
+          </span>
+          <span id="storagePercent" class="font-bold text-[#0d5c75]">64%</span>
+        </div>
+        <div class="w-full bg-teal-100 h-2 rounded-full overflow-hidden">
+          <div id="storageBar" class="bg-gradient-to-l from-[#0d5c75] to-emerald-500 h-full rounded-full transition-all duration-500" style="width: 64%;"></div>
+        </div>
+        <p id="storageText" class="text-[10px] text-slate-400 mt-1">32 جيجابايت من 50 جيجابايت</p>
+      </div>
+
+      <div class="p-2.5 bg-teal-50/70 rounded-xl text-center border border-teal-100/50">
+        <p class="text-[10px] text-teal-900 font-bold flex items-center justify-center gap-1">
+          <i data-lucide="shield-check" class="w-3 h-3 text-emerald-600"></i> تصميم وتطوير: أ. سعد القرني
+        </p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- المحتوى الرئيسي -->
+  <div class="flex-1 flex flex-col min-w-0">
+
+    <!-- الترويسة العليا -->
+    <header class="bg-white border-b border-teal-100 px-6 py-3.5 flex items-center justify-between sticky top-0 z-20 shadow-xs">
+      <div class="flex items-center gap-3 flex-1 max-w-lg">
+        <div class="relative w-full">
+          <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2"></i>
+          <input type="text" placeholder="البحث السريع عن ملف أو وثيقة أو رقم قيد أكاديمي..." class="w-full pr-10 pl-4 py-2 bg-slate-50 border border-teal-100 rounded-xl text-xs focus:ring-2 focus:ring-[#0d5c75] outline-none">
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="text-left hidden sm:block">
+          <p class="text-xs font-bold text-slate-800">د. خالد المنصوري</p>
+          <p class="text-[10px] text-slate-400">مدير المدرسة ومسؤول الأرشيف</p>
+        </div>
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#0d5c75] to-emerald-600 text-white flex items-center justify-center font-bold text-xs shadow-xs">
+          خ.م
+        </div>
+      </div>
+    </header>
+
+    <!-- منطقة المحتوى الرئيسي -->
+    <main class="p-6 md:p-8 space-y-8 max-w-7xl w-full mx-auto">
+      
+      <!-- البانر القيادي بالهوية الرسمية -->
+      <div class="bg-gradient-to-l from-[#0d5c75] to-[#083847] text-white p-6 sm:p-7 rounded-2xl shadow-sm relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div class="space-y-2 z-10">
+          <div class="flex items-center gap-2 text-xs font-semibold text-emerald-300">
+            <span>المملكة العربية السعودية</span> • <span>وزارة التعليم</span> • <span>الإدارة العامة للتعليم بالمنطقة الشرقية</span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-bold">لوحة القيادة والمستودع الرقمي - ثانوية الكسائي</h1>
+          <p class="text-xs text-teal-100">إدارة وأرشفة السجلات المدرسية الرسمية وملفات PDF المؤرشفة سحابياً</p>
+        </div>
+
+        <div class="flex items-center gap-3 z-10">
+          <a href="./upload.html" class="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold rounded-xl transition flex items-center gap-2 shadow">
+            <i data-lucide="file-up" class="w-4 h-4"></i>
+            <span>رفع ملف PDF جديد</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- الإحصائيات -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- إجمالي الوثائق -->
+        <div class="bg-white p-5 rounded-2xl border border-teal-100 shadow-xs flex items-center justify-between">
+          <div>
+            <span class="text-[11px] font-semibold text-slate-400">إجمالي الوثائق المؤرشفة</span>
+            <h3 id="statTotalDocs" class="text-2xl font-bold text-[#0d5c75] mt-1">1,420</h3>
+            <p class="text-[10px] text-emerald-600 mt-1 font-semibold flex items-center gap-1">
+              <i data-lucide="check-circle" class="w-3 h-3"></i> وثائق معتمدة رسمياً
+            </p>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-teal-50 text-[#0d5c75] flex items-center justify-center">
+            <i data-lucide="file-text" class="w-6 h-6"></i>
+          </div>
+        </div>
+
+        <!-- الأقسام والمجلدات -->
+        <div class="bg-white p-5 rounded-2xl border border-teal-100 shadow-xs flex items-center justify-between">
+          <div>
+            <span class="text-[11px] font-semibold text-slate-400">الأقسام والمجلدات</span>
+            <h3 class="text-2xl font-bold text-[#0d5c75] mt-1">5</h3>
+            <p class="text-[10px] text-teal-600 mt-1 font-semibold">تصنيف هيكلي معتمد</p>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center">
+            <i data-lucide="folder-kanban" class="w-6 h-6"></i>
+          </div>
+        </div>
+
+        <!-- أضيفت هذا الشهر -->
+        <div class="bg-white p-5 rounded-2xl border border-teal-100 shadow-xs flex items-center justify-between">
+          <div>
+            <span class="text-[11px] font-semibold text-slate-400">ملفات أضيفت هذا الشهر</span>
+            <h3 id="statMonthDocs" class="text-2xl font-bold text-[#0d5c75] mt-1">145</h3>
+            <p class="text-[10px] text-slate-500 mt-1">معدل الرفع ~ 6 ملفات/يوم</p>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
+            <i data-lucide="cloud-upload" class="w-6 h-6"></i>
+          </div>
+        </div>
+
+        <!-- المساحة المتاحة -->
+        <div class="bg-white p-5 rounded-2xl border border-teal-100 shadow-xs flex items-center justify-between">
+          <div>
+            <span class="text-[11px] font-semibold text-slate-400">المساحة المتاحة</span>
+            <h3 class="text-2xl font-bold text-[#0d5c75] mt-1">18.0 <span class="text-xs font-normal">GB</span></h3>
+            <p class="text-[10px] text-slate-400 mt-1">من إجمالي 50 جيجابايت</p>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-teal-50 text-[#0d5c75] flex items-center justify-center">
+            <i data-lucide="hard-drive" class="w-6 h-6"></i>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- المجلدات المدرسية المعتمدة -->
+      <section class="space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-1.5 h-4 bg-[#0d5c75] rounded-full"></span>
+            <h2 class="text-base font-bold text-[#0d5c75]">المجلدات المدرسية المعتمدة</h2>
+          </div>
+          <a href="./files.html" class="text-xs text-[#0d5c75] font-bold hover:underline flex items-center gap-1">
+            عرض كافة الملفات <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <!-- مجلد 1: التنظيم والتخطيط -->
+          <a href="./files.html?folder=planning" class="bg-white p-5 rounded-2xl border border-teal-100 hover:border-emerald-400 hover:shadow-md transition group block">
+            <div class="flex items-start justify-between mb-4">
+              <div class="w-11 h-11 rounded-xl bg-teal-50 text-[#0d5c75] flex items-center justify-center group-hover:scale-105 transition">
+                <i data-lucide="calendar" class="w-5 h-5"></i>
+              </div>
+              <span id="count-planning" class="text-xs bg-teal-50 text-[#0d5c75] px-2.5 py-0.5 rounded-md font-bold">48 ملف</span>
+            </div>
+            <h3 class="font-bold text-sm text-[#0d5c75] group-hover:text-emerald-700 transition">التنظيم والتخطيط</h3>
+            <p class="text-xs text-slate-500 mt-1 leading-relaxed">الخطة التشغيلية للمدرسة، توزيع المسؤوليات، الهيكل التنظيمي واللجان والفرق المدرسية.</p>
+          </a>
+
+          <!-- مجلد 2: الوثائق والتعاميم -->
+          <a href="./files.html?folder=circulars" class="bg-white p-5 rounded-2xl border border-teal-100 hover:border-emerald-400 hover:shadow-md transition group block">
+            <div class="flex items-start justify-between mb-4">
+              <div class="w-11 h-11 rounded-xl bg-teal-50 text-[#0d5c75] flex items-center justify-center group-hover:scale-105 transition">
+                <i data-lucide="mail" class="w-5 h-5"></i>
+              </div>
+              <span id="count-circulars" class="text-xs bg-teal-50 text-[#0d5c75] px-2.5 py-0.5 rounded-md font-bold">215 ملف</span>
+            </div>
+            <h3 class="font-bold text-sm text-[#0d5c75] group-hover:text-emerald-700 transition">الوثائق والتعاميم</h3>
+            <p class="text-xs text-slate-500 mt-1 leading-relaxed">سجل اطلاع منسوبي المدرسة على التعاميم، القرارات الوزارية، واللوائح التنظيمية.</p>
+          </a>
+
+          <!-- مجلد 3: الشؤون التعليمية والمتابعة -->
+          <a href="./files.html?folder=academic" class="bg-white p-5 rounded-2xl border border-teal-100 hover:border-emerald-400 hover:shadow-md transition group block">
+            <div class="flex items-start justify-between mb-4">
+              <div class="w-11 h-11 rounded-xl bg-teal-50 text-[#0d5c75] flex items-center justify-center group-hover:scale-105 transition">
+                <i data-lucide="clipboard-check" class="w-5 h-5"></i>
+              </div>
+              <span id="count-academic" class="text-xs bg-teal-50 text-[#0d5c75] px-2.5 py-0.5 rounded-md font-bold">164 ملف</span>
+            </div>
+            <h3 class="font-bold text-sm text-[#0d5c75] group-hover:text-emerald-700 transition">الشؤون التعليمية والمتابعة</h3>
+            <p class="text-xs text-slate-500 mt-1 leading-relaxed">خطة الزيارات الصفية، سجل متابعة المعلمين وأثر الزيارات، والمناوبة والاختبارات.</p>
+          </a>
+
+          <!-- مجلد 4: شؤون الطلاب -->
+          <a href="./files.html?folder=students" class="bg-white p-5 rounded-2xl border border-teal-100 hover:border-emerald-400 hover:shadow-md transition group block">
+            <div class="flex items-start justify-between mb-4">
+              <div class="w-11 h-11 rounded-xl bg-teal-50 text-[#0d5c75] flex items-center justify-center group-hover:scale-105 transition">
+                <i data-lucide="users" class="w-5 h-5"></i>
+              </div>
+              <span id="count-students" class="text-xs bg-teal-50 text-[#0d5c75] px-2.5 py-0.5 rounded-md font-bold">320 ملف</span>
+            </div>
+            <h3 class="font-bold text-sm text-[#0d5c75] group-hover:text-emerald-700 transition">شؤون الطلاب</h3>
+            <p class="text-xs text-slate-500 mt-1 leading-relaxed">سجلات الانضباط المدرسي، قواعد السلوك والمواظبة، ومتابعة غياب وتأخر الطلاب.</p>
+          </a>
+
+          <!-- مجلد 5: الاجتماعات واللجان -->
+          <a href="./files.html?folder=committees" class="bg-white p-5 rounded-2xl border border-teal-100 hover:border-emerald-400 hover:shadow-md transition group block">
+            <div class="flex items-start justify-between mb-4">
+              <div class="w-11 h-11 rounded-xl bg-teal-50 text-[#0d5c75] flex items-center justify-center group-hover:scale-105 transition">
+                <i data-lucide="messages-square" class="w-5 h-5"></i>
+              </div>
+              <span id="count-committees" class="text-xs bg-teal-50 text-[#0d5c75] px-2.5 py-0.5 rounded-md font-bold">92 ملف</span>
+            </div>
+            <h3 class="font-bold text-sm text-[#0d5c75] group-hover:text-emerald-700 transition">الاجتماعات واللجان</h3>
+            <p class="text-xs text-slate-500 mt-1 leading-relaxed">سجل الاجتماعات المدرسية ومحاضر مجتمعات التعلم المهنية ومجلس المدرسة واللجان.</p>
+          </a>
+        </div>
+      </section>
+
+      <!-- أحدث وثائق PDF -->
+      <section class="bg-white p-6 rounded-2xl border border-teal-100 shadow-xs space-y-4">
+        <div class="flex items-center justify-between border-b border-teal-50 pb-3">
+          <h2 class="text-sm font-bold text-[#0d5c75] flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span> أحدث وثائق PDF المودعة في الأرشيف
+          </h2>
+          <a href="./files.html" class="text-xs text-[#0d5c75] font-bold hover:underline">عرض الأرشيف الكامل</a>
+        </div>
+        <div id="recentDocsList" class="divide-y divide-teal-50"></div>
+      </section>
+
+      <!-- التذييل الرسمي -->
+      <footer class="pt-6 border-t border-teal-100 text-center text-xs text-slate-500 space-y-1">
+        <p class="font-semibold text-teal-900">تصميم وتطوير: أ. سعد القرني</p>
+        <p>كافة الحقوق محفوظة لثانوية الكسائي — الإدارة العامة للتعليم بالمنطقة الشرقية © 1446هـ - 2025م</p>
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    lucide.createIcons();
+
+    function initDashboard() {
+      let docs = [];
+      try {
+        docs = JSON.parse(localStorage.getItem('alkisaee_all_documents')) || [];
+      } catch(e) {}
+
+      // إذا كانت الذاكرة فارغة، نضع مستندات أولية افتراضية
+      if (docs.length === 0) {
+        docs = [
+          { 
+            id: '1', 
+            name: 'كشف_درجات_نهائي_الصف_الثالث_ثانوي_الفصل_الأول.pdf', 
+            folder: 'academic', 
+            folderName: 'الشؤون التعليمية والمتابعة', 
+            date: 'منذ 35 دقيقة', 
+            size: '3.4 ميجابايت' 
+          },
+          { 
+            id: '2', 
+            name: 'محضر_اجتماع_مجلس_الإدارة_رقم_4_الربع_الثاني.pdf', 
+            folder: 'committees', 
+            folderName: 'الاجتماعات واللجان', 
+            date: 'اليوم، 10:30 ص', 
+            size: '1.1 ميجابايت' 
+          },
+          { 
+            id: '3', 
+            name: 'تقرير_تقييم_الأداء_الوظيفي_معلمي_العلوم.pdf', 
+            folder: 'circulars', 
+            folderName: 'الوثائق والتعاميم', 
+            date: 'أمس، 01:20 م', 
+            size: '4.8 ميجابايت' 
+          }
+        ];
+        localStorage.setItem('alkisaee_all_documents', JSON.stringify(docs));
+      }
+
+      document.getElementById('statTotalDocs').textContent = (1420 + docs.length).toLocaleString('ar-SA');
+      document.getElementById('statMonthDocs').textContent = (145 + docs.length).toLocaleString('ar-SA');
+
+      const recentList = document.getElementById('recentDocsList');
+      recentList.innerHTML = '';
+
+      docs.slice(0, 5).forEach(doc => {
+        const item = document.createElement('div');
+        item.className = 'py-3 flex items-center justify-between hover:bg-teal-50/50 px-2 rounded-xl transition';
+        item.innerHTML = `
+          <div class="flex items-center gap-3">
+            <span class="text-[10px] font-bold bg-red-100 text-red-600 px-2 py-0.5 rounded">PDF</span>
+            <div>
+              <a href="./viewer.html?id=${doc.id}" class="text-xs font-bold text-slate-800 hover:text-[#0d5c75] transition">${doc.name}</a>
+              <p class="text-[10px] text-slate-400 mt-0.5">${doc.folderName} • ${doc.date} • ${doc.size}</p>
+            </div>
+          </div>
+          <a href="./viewer.html?id=${doc.id}" class="px-3 py-1 bg-teal-50 hover:bg-[#0d5c75] hover:text-white text-[#0d5c75] text-xs font-semibold rounded-lg transition flex items-center gap-1">
+            <i data-lucide="eye" class="w-3.5 h-3.5"></i> استعراض
+          </a>
+        `;
+        recentList.appendChild(item);
+      });
+
+      lucide.createIcons();
+    }
+
+    initDashboard();
+  </script>
+</body>
+</html>
