@@ -1,1 +1,224 @@
- <!DOCTYPE html> <html lang="ar" dir="rtl"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>إيداع ورفع مستند جديد - ثانوية الكسائي</title> <script src="https://cdn.tailwindcss.com"></script> <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet"> <script src="https://unpkg.com/lucide@latest"></script> <style> body { font-family: 'IBM Plex Sans Arabic', sans-serif; } </style> </head> <body class="bg-[#f8f9ff] text-slate-800 antialiased min-h-screen flex flex-col"> <header class="bg-white border-b border-slate-200 px-6 py-3.5 flex items-center justify-between"> <div class="flex items-center gap-3"> <a href="index.html" class="w-10 h-10 rounded-xl bg-blue-900 flex items-center justify-center text-white"> <i data-lucide="graduation-cap" class="w-6 h-6"></i> </a> <div> <h1 class="font-bold text-lg text-blue-950">إيداع مستند رقمي جديد (PDF)</h1> <p class="text-xs text-slate-500">ربط الملفات بالأرشيف المركزي لثانوية الكسائي</p> </div> </div> <a href="index.html" class="text-xs font-semibold text-slate-600 hover:text-slate-900">العودة للرئيسية</a> </header> <main class="max-w-4xl mx-auto p-6 md:p-8 flex-1 w-full"> <div class="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm"> <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2"> <i data-lucide="file-up" class="w-5 h-5 text-blue-900"></i> بطاقة بيانات الوثيقة وتحديد المجلد </h2> <form class="space-y-6" onsubmit="event.preventDefault(); alert('تم استلام الوثيقة وحفظها بنجاح!');"> <!-- منطقة السحب والإفلات --> <div class="border-2 border-dashed border-blue-200 bg-blue-50/50 rounded-2xl p-8 text-center hover:bg-blue-50 transition cursor-pointer"> <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-900 flex items-center justify-center mx-auto mb-3"> <i data-lucide="cloud-upload" class="w-6 h-6"></i> </div> <h3 class="font-bold text-slate-800 text-sm mb-1">اسحب ملف PDF هنا أو انقر لاختياره من جهازك</h3> <p class="text-xs text-slate-400">يدعم صيغ PDF فقط بحد أقصى يصل إلى 50 ميجابايت للملف الواحد</p> <input type="file" accept=".pdf" class="hidden" id="fileInput"> </div> <div class="grid grid-cols-1 md:grid-cols-2 gap-4"> <div> <label class="block text-xs font-semibold text-slate-700 mb-1.5">اسم الوثيقة / العنوان الرسمي *</label> <input type="text" value="التقرير السنوي الشامل لأداء ثانوية الكسائي 2024" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-blue-900"> </div> <div> <label class="block text-xs font-semibold text-slate-700 mb-1.5">المجلد الوجهة بالأرشيف *</label> <select class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-blue-900"> <option>مجلد التنظيم والتخطيط</option> <option>مجلد الوثائق والتعاميم</option> <option>مجلد الشؤون التعليمية والمتابعة</option> <option>مجلد شؤون الطلاب</option> <option>مجلد الاجتماعات واللجان</option> </select> </div> </div> <div> <label class="block text-xs font-semibold text-slate-700 mb-1.5">ملاحظات أو وصف توثيقي مختصر</label> <textarea rows="3" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-blue-900" placeholder="يتضمن التقرير مخرجات الامتحانات الفصلية ونسب النجاح..."></textarea> </div> <div class="pt-4 border-t border-slate-100 flex items-center justify-end gap-3"> <a href="index.html" class="px-5 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">إلغاء</a> <button type="submit" class="px-6 py-2.5 rounded-xl bg-blue-900 text-white text-xs font-semibold hover:bg-blue-800 transition shadow-sm flex items-center gap-1.5"> <i data-lucide="check" class="w-4 h-4"></i> بدء رفع وحفظ المستند </button> </div> </form> </div> </main> <script> lucide.createIcons(); </script> </body> </html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رفع وتوثيق ملفات PDF - ثانوية الكسائي</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'IBM Plex Sans Arabic', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#f8f9ff] text-slate-800 min-h-screen flex flex-col">
+
+    <!-- الترويسة العلوية -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 px-6 py-3.5 flex items-center justify-between shadow-sm">
+        <div class="flex items-center gap-4">
+            <a href="./index.html" class="w-10 h-10 rounded-xl bg-blue-900 flex items-center justify-center text-white shadow-sm font-bold">
+                <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+            </a>
+            <div>
+                <h1 class="font-bold text-lg text-blue-950">إيداع وأرشفة وثيقة رقمية جديدة</h1>
+                <p class="text-xs text-slate-500">ثانوية الكسائي • الأرشيف المركزي المعتمد</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-3">
+            <a href="./files.html" class="px-4 py-2 bg-slate-100 text-slate-700 rounded-lg text-xs font-semibold hover:bg-slate-200 transition flex items-center gap-1.5">
+                <i data-lucide="folder" class="w-4 h-4"></i> استعراض الملفات والمجلدات
+            </a>
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="flex-1 max-w-6xl mx-auto p-6 md:p-8 w-full">
+        <form id="uploadForm" onsubmit="handleUploadSubmit(event)" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- القسم الأيمن: بيانات الوثيقة (Metadata) -->
+            <div class="lg:col-span-7 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5">
+                <div class="border-b border-slate-100 pb-3">
+                    <h2 class="font-bold text-base text-blue-950 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-blue-900"></span> بطاقة بيانات الوثيقة الرسمية
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">يرجى تعبئة الحقول لتسهيل الفهرسة والبحث الإداري</p>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1.5">عنوان / اسم الوثيقة الرسمي <span class="text-red-500">*</span></label>
+                    <input type="text" id="docTitle" required placeholder="مثال: الخطة التشغيلية لثانوية الكسائي 1446هـ" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-900 focus:bg-white outline-none">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">المجلد الوجهة بالأرشيف <span class="text-red-500">*</span></label>
+                        <select id="docFolder" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700 focus:ring-2 focus:ring-blue-900 outline-none">
+                            <option value="planning">التنظيم والتخطيط</option>
+                            <option value="circulars">الوثائق والتعاميم</option>
+                            <option value="academic">الشؤون التعليمية والمتابعة</option>
+                            <option value="students">شؤون الطلاب</option>
+                            <option value="committees">الاجتماعات واللجان</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">الرمز الإداري / رقم القيد</label>
+                        <input type="text" id="docCode" placeholder="مثال: KIS-2025-01" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-900 focus:bg-white outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1.5">القسم أو المسؤول المعتمد</label>
+                    <input type="text" id="docAuthor" placeholder="مثال: إدارة المدرسة / لجنة التوجيه الطلابي" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-900 focus:bg-white outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1.5">ملاحظات أو وصف توثيقي مختصر</label>
+                    <textarea id="docNotes" rows="3" placeholder="اكتب ملخصاً لما تحتويه الوثيقة..." class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-900 focus:bg-white outline-none"></textarea>
+                </div>
+
+                <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <button type="submit" id="submitBtn" class="px-6 py-2.5 bg-blue-900 hover:bg-blue-800 text-white text-xs font-bold rounded-xl transition flex items-center gap-2 shadow-sm">
+                        <i data-lucide="check-circle" class="w-4 h-4"></i> بدء رفع وحفظ المستند بالأرشيف
+                    </button>
+                    <a href="./files.html" class="text-xs text-slate-500 hover:text-slate-700 font-semibold">إلغاء</a>
+                </div>
+            </div>
+
+            <!-- القسم الأيسر: منطقة سحب واختيار ملف الـ PDF -->
+            <div class="lg:col-span-5 space-y-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center">
+                    <h3 class="font-bold text-sm text-slate-800 mb-1 flex items-center justify-center gap-2">
+                        <i data-lucide="file-up" class="w-4 h-4 text-blue-900"></i> ملف الإدخال (PDF فقط)
+                    </h3>
+                    <p class="text-xs text-slate-400 mb-4">الحد الأقصى لحجم الملف: 50 ميجابايت</p>
+                    
+                    <input type="file" id="realFileInput" accept="application/pdf" class="hidden" onchange="onFileSelected(event)">
+                    
+                    <div id="dropZone" onclick="document.getElementById('realFileInput').click()" class="border-2 border-dashed border-blue-200 hover:border-blue-500 bg-blue-50/40 hover:bg-blue-50/80 rounded-2xl p-6 cursor-pointer transition flex flex-col items-center justify-center space-y-3">
+                        <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-900 flex items-center justify-center shadow-inner">
+                            <i data-lucide="cloud-upload" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-blue-950">اسحب ملف الـ PDF إلى هنا</p>
+                            <p class="text-[11px] text-slate-500 mt-0.5">أو اضغط لاختيار ملف من جهازك</p>
+                        </div>
+                        <button type="button" class="px-4 py-1.5 bg-white border border-slate-200 text-slate-700 rounded-lg text-xs font-semibold shadow-xs pointer-events-none">
+                            تصفح ملفات الجهاز
+                        </button>
+                    </div>
+
+                    <div id="selectedFileInfo" class="mt-4 p-3 bg-slate-50 rounded-xl border border-slate-200 text-right hidden">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2 overflow-hidden">
+                                <span class="text-xs font-bold bg-red-100 text-red-600 px-1.5 py-0.5 rounded">PDF</span>
+                                <span id="pickedFileName" class="text-xs font-bold text-slate-800 truncate"></span>
+                            </div>
+                            <span id="pickedFileSize" class="text-xs font-mono text-slate-500"></span>
+                        </div>
+                        <div class="w-full bg-slate-200 h-1.5 rounded-full mt-2 overflow-hidden">
+                            <div class="bg-emerald-500 h-full w-full"></div>
+                        </div>
+                        <p class="text-[10px] text-emerald-600 mt-1">جاهز للإيداع والأرشفة</p>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50/60 p-4 rounded-xl border border-blue-100 text-xs text-slate-600 space-y-1.5">
+                    <div class="font-bold text-blue-950 flex items-center gap-1.5">
+                        <i data-lucide="shield-check" class="w-4 h-4 text-blue-900"></i> إرشادات الأرشفة المدرسية
+                    </div>
+                    <p class="text-[11px] leading-relaxed">
+                        يتم تخزين الملف فورياً داخل الأرشيف وتحديث عداد الوثائق ومؤشر السعة بشكل فوري في جميع صفحات الموقع.
+                    </p>
+                </div>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        lucide.createIcons();
+        let currentFileObj = null;
+
+        const dropZone = document.getElementById('dropZone');
+        ['dragenter', 'dragover'].forEach(name => {
+            dropZone.addEventListener(name, (e) => {
+                e.preventDefault();
+                dropZone.classList.add('border-blue-600', 'bg-blue-100/50');
+            });
+        });
+
+        ['dragleave', 'drop'].forEach(name => {
+            dropZone.addEventListener(name, (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('border-blue-600', 'bg-blue-100/50');
+            });
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            if (e.dataTransfer.files.length) {
+                processSelectedFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        function onFileSelected(e) {
+            if (e.target.files.length) {
+                processSelectedFile(e.target.files[0]);
+            }
+        }
+
+        function processSelectedFile(file) {
+            currentFileObj = file;
+            document.getElementById('pickedFileName').textContent = file.name;
+            const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
+            document.getElementById('pickedFileSize').textContent = sizeMB + ' MB';
+            document.getElementById('selectedFileInfo').classList.remove('hidden');
+            
+            const titleInput = document.getElementById('docTitle');
+            if (!titleInput.value) {
+                titleInput.value = file.name.replace('.pdf', '');
+            }
+        }
+
+        function handleUploadSubmit(e) {
+            e.preventDefault();
+            const title = document.getElementById('docTitle').value.trim();
+            const folder = document.getElementById('docFolder').value;
+            const code = document.getElementById('docCode').value.trim() || 'KIS-' + Math.floor(1000 + Math.random() * 9000);
+            const author = document.getElementById('docAuthor').value.trim() || 'الإدارة المدرسية';
+            
+            let sizeMB = 3.2;
+            if (currentFileObj) {
+                sizeMB = parseFloat((currentFileObj.size / (1024 * 1024)).toFixed(1)) || 1.5;
+            }
+
+            const newDoc = {
+                id: 'doc_' + Date.now(),
+                title: title,
+                folder: folder,
+                code: code,
+                author: author,
+                size: sizeMB,
+                date: new Intl.DateTimeFormat('ar-SA', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date())
+            };
+
+            let docsList = [];
+            try {
+                docsList = JSON.parse(localStorage.getItem('alkisaee_all_documents')) || [];
+            } catch(err) {
+                docsList = [];
+            }
+            
+            docsList.unshift(newDoc);
+            localStorage.setItem('alkisaee_all_documents', JSON.stringify(docsList));
+
+            const btn = document.getElementById('submitBtn');
+            btn.innerHTML = '<i data-lucide="check" class="w-4 h-4"></i> تم الحفظ بنجاح!';
+            btn.classList.replace('bg-blue-900', 'bg-emerald-600');
+            lucide.createIcons();
+
+            setTimeout(() => {
+                window.location.href = './files.html?folder=' + folder;
+            }, 700);
+        }
+    </script>
+</body>
+</html>
