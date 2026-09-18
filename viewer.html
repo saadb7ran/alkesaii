@@ -1,1 +1,183 @@
-<!DOCTYPE html> <html lang="ar" dir="rtl"> <head <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>مستعرض وقارئ ملفات PDF - ثانوية الكسائي</title> <script src="https://cdn.tailwindcss.com"></script> <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet"> <script src="https://unpkg.com/lucide@latest"></script> <style> body { font-family: 'IBM Plex Sans Arabic', sans-serif; } </style> </head> <body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col"> <!-- شريط التحكم العلوي للمستعرض --> <header class="bg-slate-950 border-b border-slate-800 sticky top-0 z-30 px-4 md:px-6 py-3 flex items-center justify-between shadow-lg"> <div class="flex items-center gap-3"> <!-- زر العودة الذكي --> <a id="backBtn" href="./files.html" class="p-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl transition flex items-center gap-1 font-semibold text-xs"> <i data-lucide="arrow-right" class="w-4 h-4 text-blue-400"></i> <span class="hidden sm:inline" id="backLabel">العودة</span> </a> <div class="h-6 w-[1px] bg-slate-800"></div> <div class="flex items-center gap-2"> <span class="text-xs font-bold bg-red-600 text-white px-2 py-0.5 rounded">PDF</span> <h1 id="viewerDocTitle" class="font-bold text-sm md:text-base text-white truncate max-w-[200px] sm:max-w-md">جاري فتح ملف الـ PDF...</h1> </div> </div> <!-- إجراءات التحميل والطباعة وفتح بنافذة جديدة --> <div class="flex items-center gap-2"> <a id="openNewTabBtn" href="#" target="_blank" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition hidden sm:flex items-center gap-1.5"> <i data-lucide="external-link" class="w-3.5 h-3.5"></i> <span>نافذة كاملة</span> </a> <button onclick="downloadActivePdf()" class="px-4 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-md"> <i data-lucide="download" class="w-4 h-4"></i> <span>تحميل الملف</span> </button> </div> </header> <!-- شريط البيانات المصغر --> <div class="bg-slate-950/80 border-b border-slate-800 px-6 py-2 flex flex-wrap items-center justify-between text-xs text-slate-400 gap-2"> <div class="flex items-center gap-3"> <span class="flex items-center gap-1 text-slate-300"> <i data-lucide="folder" class="w-3.5 h-3.5 text-blue-400"></i> <span id="folderBadge" class="font-semibold text-blue-300">...</span> </span> <span>•</span> <span id="authorText">ثانوية الكسائي</span> <span>•</span> <span id="dateText">معتمد</span> </div> <div class="flex items-center gap-1.5 text-emerald-400 font-medium"> <i data-lucide="shield-check" class="w-4 h-4"></i> <span>نسخة موثقة ومحمية بالأرشيف</span> </div> </div> <!-- مساحة العرض الرئيسية: ملف الـ PDF الحقيقي --> <main class="flex-1 flex flex-col p-2 md:p-4 w-full h-[calc(100vh-105px)]"> <!-- إطار عرض الـ PDF الحقيقي --> <div id="pdfViewerWrapper" class="flex-1 w-full bg-slate-800 rounded-xl overflow-hidden border border-slate-700 shadow-2xl relative"> <iframe id="pdfFrame" src="" class="w-full h-full border-none"></iframe> <!-- شاشة تحميل الـ PDF --> <div id="loadingOverlay" class="absolute inset-0 bg-slate-900 flex flex-col items-center justify-center space-y-3 z-20"> <div class="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div> <p class="text-sm font-semibold text-slate-300">جاري استرجاع وعرض ملف الـ PDF الأصلي...</p> </div> <!-- في حال كان الملف من النماذج التوضيحية الافتراضية الأولية فقط --> <div id="mockDocNotice" class="hidden absolute bottom-4 left-1/2 -translate-x-1/2 bg-blue-950/90 border border-blue-700 px-4 py-2 rounded-xl text-xs text-blue-200 text-center shadow-lg z-10"> 💡 هذا الملف نموذج توضيحي أولي افتراضي للموقع، بينما أي ملف جديد ترفعه من جهازك سيظهر بنسخته الأصلية الكاملة. </div> </div> </main> <script> lucide.createIcons(); // فتح مخزن IndexedDB function openFileDatabase() { return new Promise((resolve, reject) => { const req = indexedDB.open('AlkisaeePdfStorage', 1); req.onupgradeneeded = function(e) { const db = e.target.result; if (!db.objectStoreNames.contains('pdfFiles')) { db.createObjectStore('pdfFiles', { keyPath: 'id' }); } }; req.onsuccess = () => resolve(req.result); req.onerror = () => reject(req.error); }); } async function getPdfBlob(docId) { const db = await openFileDatabase(); return new Promise((resolve) => { const tx = db.transaction('pdfFiles', 'readonly'); const store = tx.objectStore('pdfFiles'); const req = store.get(docId); req.onsuccess = () => resolve(req.result ? req.result.blob : null); req.onerror = () => resolve(null); }); } const folderMap = { 'planning': 'مجلد التنظيم والتخطيط', 'circulars': 'مجلد الوثائق والتعاميم', 'academic': 'مجلد الشؤون التعليمية والمتابعة', 'students': 'مجلد شؤون الطلاب', 'committees': 'مجلد الاجتماعات واللجان' }; // قراءة الرابط والمستند المطلوب const urlParams = new URLSearchParams(window.location.search); const fileParam = urlParams.get('file') || ''; const isVisitor = urlParams.get('role') === 'visitor'; // ضبط زر الرجوع const backBtn = document.getElementById('backBtn'); const backLabel = document.getElementById('backLabel'); if (isVisitor) { backBtn.href = './visitor.html'; backLabel.textContent = 'العودة لبوابة الزوار'; } else { backBtn.href = './files.html'; backLabel.textContent = 'العودة للملفات'; } let activeObjectUrl = null; let activeDocTitle = 'وثيقة_مدرسية'; async function loadPdfViewer() { let docsList = []; try { docsList = JSON.parse(localStorage.getItem('alkisaee_all_documents')) || []; } catch(e) {} // البحث عن الملف const doc = docsList.find(d => d.title === decodeURIComponent(fileParam) || d.id === fileParam); if (doc) { activeDocTitle = doc.title; document.title = doc.title + ' - ثانوية الكسائي'; document.getElementById('viewerDocTitle').textContent = doc.title; document.getElementById('folderBadge').textContent = folderMap[doc.folder] || 'الأرشيف المدرسي'; document.getElementById('authorText').textContent = doc.author || 'ثانوية الكسائي'; document.getElementById('dateText').textContent = doc.date || 'معتمد'; // محاولة جلب ملف الـ PDF الحقيقي من IndexedDB let blob = await getPdfBlob(doc.id); if (blob) { // ملف PDF حقيقي تم رفعه activeObjectUrl = URL.createObjectURL(blob); displayPdfUrl(activeObjectUrl); } else { // في حال عدم توفر Blob، نعرض ملف PDF رسمي مطابق يحتوي على بياناته generateDynamicPdfView(doc); } } else { // ملف افتراضي من الرابط المباشر activeDocTitle = decodeURIComponent(fileParam) || 'وثيقة رسمية'; document.getElementById('viewerDocTitle').textContent = activeDocTitle; generateDynamicPdfView({ title: activeDocTitle, folder: 'planning', author: 'إدارة ثانوية الكسائي', date: 'معتمد' }); } } function displayPdfUrl(url) { const frame = document.getElementById('pdfFrame'); frame.src = url; document.getElementById('openNewTabBtn').href = url; frame.onload = () => { document.getElementById('loadingOverlay').classList.add('hidden'); }; setTimeout(() => { document.getElementById('loadingOverlay').classList.add('hidden'); }, 1000); } function generateDynamicPdfView(doc) { // توليد ملف PDF/HTML تفاعلي رسمي إذا كان الملف أولي بدون Blob document.getElementById('mockDocNotice').classList.remove('hidden'); const htmlContent = ` <!DOCTYPE html> <html lang="ar" dir="rtl"> <head> <meta charset="UTF-8"> <script src="https://cdn.tailwindcss.com"><\/script> <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet"> <style>body { font-family: 'IBM Plex Sans Arabic', sans-serif; background: #525659; padding: 20px; }</style> </head> <body class="flex justify-center"> <div class="bg-white text-slate-800 max-w-3xl w-full p-12 rounded-lg shadow-2xl min-h-[900px] flex flex-col justify-between"> <div> <div class="flex justify-between items-start border-b-2 border-slate-800 pb-6 mb-8"> <div> <h3 class="font-bold text-sm">المملكة العربية السعودية</h3> <p class="text-xs text-slate-600">وزارة التعليم</p> <p class="text-xs font-bold text-blue-900 mt-1">ثانوية الكسائي</p> </div> <div class="text-center font-bold text-blue-950 text-xs bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-200"> الأرشيف المركزي المعتمد </div> <div class="text-left text-xs font-mono text-slate-600 dir-ltr"> <p>التاريخ: ${doc.date || '1446هـ'}</p> <p>الرمز: ${doc.code || 'KIS-2025'}</p> </div> </div> <div class="text-center my-12"> <span class="text-xs bg-blue-100 text-blue-900 px-3 py-1 rounded-full font-semibold">وثيقة رسمية</span> <h1 class="text-2xl font-extrabold text-blue-950 mt-4 mb-2">${doc.title}</h1> <p class="text-xs text-slate-500">${doc.author || 'إدارة المدرسة'}</p> </div> <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 text-xs leading-relaxed text-slate-700 space-y-3"> <h4 class="font-bold text-blue-950 text-sm">بيان الاعتماد والتوثيق:</h4> <p>${doc.notes || 'تم حفظ وأرشفة هذه الوثيقة وفق اللوائح التنظيمية المعتمدة لثانوية الكسائي وتعتبر سارية المفعول ومعتمدة رسمياً.'}</p> </div> </div> <div class="border-t border-slate-200 pt-6 flex justify-between items-center text-xs text-slate-600"> <div> <p class="font-bold">المسؤول: ${doc.author || 'إدارة المدرسة'}</p> </div> <div class="w-20 h-20 rounded-full border-2 border-dashed border-blue-900 flex items-center justify-center text-[10px] text-blue-900 font-bold rotate-[-6deg]"> ختم الاعتماد </div> <div> <p class="font-bold">مدير ثانوية الكسائي</p> <p class="text-[11px] text-slate-400">معتمد إلكترونياً</p> </div> </div> </div> </body> </html> `; const blob = new Blob([htmlContent], { type: 'text/html' }); activeObjectUrl = URL.createObjectURL(blob); displayPdfUrl(activeObjectUrl); } function downloadActivePdf() { if (activeObjectUrl) { const a = document.createElement('a'); a.href = activeObjectUrl; a.download = activeDocTitle + '.pdf'; a.click(); } } loadPdfViewer(); </script> </body> </html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستعرض ملفات PDF - ثانوية الكسائي</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'IBM Plex Sans Arabic', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col m-0 p-0 overflow-hidden">
+
+    <!-- شريط التحكم العلوي النقي -->
+    <header class="bg-slate-950 border-b border-slate-800 px-4 md:px-6 py-2.5 flex items-center justify-between z-20 shadow-md">
+        <div class="flex items-center gap-3">
+            <a id="backBtn" href="./files.html" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg transition flex items-center gap-1 text-xs font-semibold">
+                <i data-lucide="arrow-right" class="w-4 h-4 text-blue-400"></i>
+                <span id="backText">العودة للملفات</span>
+            </a>
+            <div class="h-5 w-[1px] bg-slate-700"></div>
+            <div class="flex items-center gap-2">
+                <span class="text-[11px] font-bold bg-red-600 text-white px-2 py-0.5 rounded">PDF</span>
+                <h1 id="pdfHeaderTitle" class="font-bold text-xs md:text-sm text-white truncate max-w-xs md:max-w-md">جاري فتح الملف...</h1>
+            </div>
+        </div>
+        
+        <!-- أزرار الإجراءات الحقيقية -->
+        <div class="flex items-center gap-2">
+            <button onclick="downloadRealPdf()" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                <span>تحميل الملف الأصلي</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- مساحة العرض الكاملة: ملف الـ PDF الحقيقي فقط -->
+    <main class="flex-1 w-full h-[calc(100vh-53px)] bg-slate-800 relative">
+        <!-- إطار الـ PDF الأصلي -->
+        <iframe id="mainPdfFrame" class="w-full h-full border-none" src=""></iframe>
+
+        <!-- شاشة انتظار بسيطة أثناء تحميل الـ PDF -->
+        <div id="loader" class="absolute inset-0 bg-slate-900 flex flex-col items-center justify-center space-y-3 z-10">
+            <div class="w-9 h-9 border-3 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+            <p class="text-xs text-slate-400 font-medium">جاري فتح ملف الـ PDF الحقيقي...</p>
+        </div>
+
+        <!-- تنبيه عند عدم وجود ملف مرفوع -->
+        <div id="noPdfFound" class="hidden absolute inset-0 bg-slate-900 flex flex-col items-center justify-center space-y-4 p-6 text-center z-20">
+            <div class="w-16 h-16 rounded-2xl bg-red-950/50 border border-red-800 text-red-400 flex items-center justify-center">
+                <i data-lucide="file-x" class="w-8 h-8"></i>
+            </div>
+            <div class="space-y-1 max-w-sm">
+                <h3 class="font-bold text-white text-base">لم يتم العثور على ملف PDF مرفوع</h3>
+                <p class="text-xs text-slate-400">يبدو أن هذا الملف تم إنشاؤه مسبقاً قبل تفعيل خاصية تخزين ملفات الـ PDF الأصلية.</p>
+            </div>
+            <a href="./upload.html" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl transition flex items-center gap-2">
+                <i data-lucide="upload" class="w-4 h-4"></i>
+                رفع ملف PDF جديد الآن
+            </a>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        // 1. إدارة التخزين المستقر للملفات الكبيرة IndexedDB
+        function getDb() {
+            return new Promise((resolve) => {
+                const req = indexedDB.open('AlkisaeeDirectStorage', 2);
+                req.onupgradeneeded = (e) => {
+                    const db = e.target.result;
+                    if (!db.objectStoreNames.contains('rawPdfs')) {
+                        db.createObjectStore('rawPdfs', { keyPath: 'id' });
+                    }
+                };
+                req.onsuccess = () => resolve(req.result);
+                req.onerror = () => resolve(null);
+            });
+        }
+
+        async function loadStoredPdfBlob(id) {
+            const db = await getDb();
+            if (!db) return null;
+            return new Promise((resolve) => {
+                try {
+                    const tx = db.transaction('rawPdfs', 'readonly');
+                    const store = tx.objectStore('rawPdfs');
+                    const req = store.get(id);
+                    req.onsuccess = () => resolve(req.result ? req.result.fileData : null);
+                    req.onerror = () => resolve(null);
+                } catch(e) {
+                    resolve(null);
+                }
+            });
+        }
+
+        // 2. قراءة معرّف أو عنوان الملف المطلوب
+        const urlParams = new URLSearchParams(window.location.search);
+        const fileTitleParam = decodeURIComponent(urlParams.get('file') || '');
+        const isVisitor = urlParams.get('role') === 'visitor';
+
+        const backBtn = document.getElementById('backBtn');
+        const backText = document.getElementById('backText');
+        if (isVisitor) {
+            backBtn.href = './visitor.html';
+            backText.textContent = 'العودة لبوابة الزوار';
+        } else {
+            backBtn.href = './files.html';
+            backText.textContent = 'العودة للملفات';
+        }
+
+        let globalPdfUrl = null;
+        let globalDownloadName = 'document.pdf';
+
+        async function initViewer() {
+            let docs = [];
+            try {
+                docs = JSON.parse(localStorage.getItem('alkisaee_all_documents')) || [];
+            } catch(e) {}
+
+            // البحث عن المستند
+            const doc = docs.find(d => d.title === fileTitleParam || d.id === fileTitleParam);
+
+            if (!doc) {
+                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('noPdfFound').classList.remove('hidden');
+                return;
+            }
+
+            globalDownloadName = doc.title + '.pdf';
+            document.title = doc.title + ' - ثانوية الكسائي';
+            document.getElementById('pdfHeaderTitle').textContent = doc.title;
+
+            // أ) محاولة جلب الملف الفعلي من قاعدة البيانات
+            let rawData = await loadStoredPdfBlob(doc.id);
+
+            // ب) إذا لم يوجد في IndexedDB، نفحص إذا كان مخزناً داخل كائن المستند نفسه
+            if (!rawData && doc.pdfBase64) {
+                rawData = doc.pdfBase64;
+            }
+
+            if (rawData) {
+                if (typeof rawData === 'string') {
+                    // Data URL
+                    globalPdfUrl = rawData;
+                } else if (rawData instanceof Blob || rawData instanceof File) {
+                    globalPdfUrl = URL.createObjectURL(rawData);
+                }
+
+                const iframe = document.getElementById('mainPdfFrame');
+                iframe.src = globalPdfUrl;
+
+                iframe.onload = () => {
+                    document.getElementById('loader').classList.add('hidden');
+                };
+
+                setTimeout(() => {
+                    document.getElementById('loader').classList.add('hidden');
+                }, 800);
+            } else {
+                // لا يوجد ملف PDF حقيقي مخزن لهذا السجل
+                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('noPdfFound').classList.remove('hidden');
+            }
+        }
+
+        function downloadRealPdf() {
+            if (!globalPdfUrl) return;
+            const a = document.createElement('a');
+            a.href = globalPdfUrl;
+            a.download = globalDownloadName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        initViewer();
+    </script>
+</body>
+</html>
