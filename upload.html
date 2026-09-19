@@ -69,91 +69,54 @@
   <!-- المحتوى الرئيسي -->
   <div class="flex-1 flex flex-col min-w-0">
     
-    <!-- شريط الرأس ومسار التنقل -->
+    <!-- الشريط العلوي -->
     <header class="bg-white border-b border-teal-100 px-6 py-3.5 flex items-center justify-between sticky top-0 z-20 shadow-xs">
       <div class="flex items-center gap-2 text-xs font-semibold text-slate-500">
-        <a href="./index.html" class="hover:text-[#0d5c75]">الرئيسية</a>
+        <a href="./files.html" class="hover:text-[#0d5c75]">استعراض الملفات</a>
         <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
-        <span class="text-[#0d5c75] font-bold">إيداع وتوثيق وثيقة أكاديمية جديدة</span>
+        <span class="text-[#0d5c75] font-bold">إيداع ملف PDF في المجلد المختار</span>
       </div>
     </header>
 
     <main class="p-6 md:p-8 space-y-6 max-w-4xl w-full mx-auto">
       
-      <!-- بطاقة العنوان -->
-      <div class="bg-gradient-to-l from-[#0d5c75] to-[#083847] text-white p-6 rounded-2xl shadow-sm flex items-center justify-between">
-        <div>
-          <span class="text-[11px] font-semibold text-emerald-300">منظومة التوثيق السحابي الآمن • ثانوية الكسائي</span>
-          <h1 class="text-xl font-bold mt-1">إيداع وتوثيق وثيقة أكاديمية جديدة (PDF)</h1>
-        </div>
-        <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
-          <i data-lucide="shield-check" class="w-5 h-5 text-emerald-300"></i>
-        </div>
-      </div>
-
-      <!-- منطقة السحب والإفلات -->
+      <!-- منطقة رفع الملف بالسحب والإفلات -->
       <div class="bg-white p-6 rounded-2xl border-2 border-dashed border-teal-200 hover:border-[#0d5c75] transition text-center space-y-3 cursor-pointer" onclick="document.getElementById('fileInput').click()">
         <input type="file" id="fileInput" accept=".pdf" class="hidden" onchange="handleFileSelected(event)">
         <div class="w-14 h-14 bg-teal-50 text-[#0d5c75] rounded-2xl flex items-center justify-center mx-auto">
           <i data-lucide="upload-cloud" class="w-7 h-7"></i>
         </div>
         <div>
-          <h3 class="font-bold text-sm text-[#0d5c75]" id="fileNameDisplay">اسحب وأفلت وثيقة PDF هنا، أو انقر للاستعراض</h3>
-          <p class="text-[11px] text-slate-400 mt-1">يُشترط أن تكون الوثيقة بصيغة PDF وموقعة ومختومة رسمياً</p>
-        </div>
-        <div class="inline-flex items-center gap-2 text-[10px] font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full">
-          <i data-lucide="check" class="w-3 h-3"></i> فحص أمني فوري وتشفير SHA-256
+          <h3 class="font-bold text-sm text-[#0d5c75]" id="fileNameDisplay">اسحب وأفلت وثيقة PDF هنا، أو انقر للاختيار</h3>
+          <p class="text-[11px] text-slate-400 mt-1">يُشترط أن تكون الوثيقة بصيغة PDF</p>
         </div>
       </div>
 
-      <!-- نموذج البيانات -->
-      <form id="uploadForm" onsubmit="saveDocument(event)" class="bg-white p-6 rounded-2xl border border-teal-100 shadow-xs space-y-5">
+      <!-- استمارة حفظ الوثيقة واختيار مسار المجلد الشجري -->
+      <form onsubmit="saveDocument(event)" class="bg-white p-6 rounded-2xl border border-teal-100 shadow-xs space-y-5">
         <h3 class="font-bold text-sm text-[#0d5c75] border-b border-teal-50 pb-2 flex items-center gap-2">
-          <i data-lucide="file-check" class="w-4 h-4 text-emerald-600"></i> بيانات التوثيق وقيد الأرشفة
+          <i data-lucide="folder-tree" class="w-4 h-4 text-emerald-600"></i>
+          <span>تحديد المجلد الوجهة وتفاصيل الملف</span>
         </h3>
 
         <div class="space-y-4">
           <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1.5">اسم الوثيقة الرسمي / عنوان المعاملة *</label>
-            <input type="text" id="docTitle" required placeholder="مثال: الخطة التشغيلية لثانوية الكسائي 1446هـ" class="w-full px-4 py-2.5 bg-slate-50 border border-teal-100 rounded-xl text-xs focus:ring-2 focus:ring-[#0d5c75] outline-none">
+            <label class="block text-xs font-bold text-slate-700 mb-1.5">عنوان الوثيقة أو اسم الملف *</label>
+            <input type="text" id="docTitle" required placeholder="أدخل اسم الملف..." class="w-full px-4 py-2.5 bg-slate-50 border border-teal-100 rounded-xl text-xs focus:ring-2 focus:ring-[#0d5c75] outline-none">
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <!-- المجلد الرئيسي -->
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1.5">المجلد الرئيسي المعتمد *</label>
-              <select id="docFolder" onchange="updateSubfolderSelect()" required class="w-full px-4 py-2.5 bg-slate-50 border border-teal-100 rounded-xl text-xs focus:ring-2 focus:ring-[#0d5c75] outline-none">
-                <option value="planning">التنظيم والتخطيط</option>
-                <option value="circulars">الوثائق والتعاميم</option>
-                <option value="academic">الشؤون التعليمية والمتابعة</option>
-                <option value="students">شؤون الطلاب</option>
-                <option value="committees">الاجتماعات واللجان</option>
-              </select>
+          <!-- اختيار المجلد من الشجرة الهيكلية الكاملة -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="block text-xs font-bold text-slate-700">المجلد الوجهة (مسار الحفظ) *</label>
+              <button type="button" onclick="quickNewFolderPrompt()" class="text-[11px] font-bold text-emerald-700 hover:underline flex items-center gap-0.5">
+                <i data-lucide="plus" class="w-3 h-3"></i>
+                <span>إنشاء مجلد جديد الآن</span>
+              </button>
             </div>
-
-            <!-- المجلد الداخلي (الفرعي) المتاح -->
-            <div>
-              <div class="flex items-center justify-between mb-1.5">
-                <label class="block text-xs font-bold text-slate-700">المجلد الداخلي (الفرعي)</label>
-                <button type="button" onclick="quickCreateSubfolder()" class="text-[11px] font-bold text-emerald-700 hover:underline flex items-center gap-0.5">
-                  <i data-lucide="plus" class="w-3 h-3"></i> مجلد فرعي جديد
-                </button>
-              </div>
-              <select id="docSubfolder" class="w-full px-4 py-2.5 bg-slate-50 border border-teal-100 rounded-xl text-xs focus:ring-2 focus:ring-[#0d5c75] outline-none">
-                <option value="">-- بدون مجلد داخلي (في الجذر الرئيسي) --</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1.5">رقم القيد الأكاديمي أو التعميم</label>
-              <input type="text" id="docRef" placeholder="قيد/46/1029-ش" class="w-full px-4 py-2.5 bg-slate-50 border border-teal-100 rounded-xl text-xs focus:ring-2 focus:ring-[#0d5c75] outline-none">
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1.5">وصف موجز لمحتوى الوثيقة</label>
-              <input type="text" id="docDesc" placeholder="تتضمن هذه الوثيقة المعتمدة..." class="w-full px-4 py-2.5 bg-slate-50 border border-teal-100 rounded-xl text-xs focus:ring-2 focus:ring-[#0d5c75] outline-none">
-            </div>
+            <select id="docFolderSelect" required class="w-full px-4 py-2.5 bg-slate-50 border border-teal-100 rounded-xl text-xs focus:ring-2 focus:ring-[#0d5c75] outline-none font-mono">
+              <!-- يتم ملؤها شجرياً برمجياً -->
+            </select>
           </div>
         </div>
 
@@ -161,7 +124,7 @@
           <a href="./files.html" class="px-5 py-2.5 bg-slate-100 text-slate-600 rounded-xl text-xs font-bold hover:bg-slate-200 transition">إلغاء</a>
           <button type="submit" class="px-6 py-2.5 bg-[#0d5c75] hover:bg-[#094254] text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow">
             <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
-            <span>حفظ وتوثيق في الأرشيف المعتمد</span>
+            <span>حفظ وتوثيق في المجلد المختار</span>
           </button>
         </div>
       </form>
@@ -177,14 +140,11 @@
   <!-- JavaScript Scripting -->
   <script>
     lucide.createIcons();
-
     let selectedPdfBase64 = null;
-    let selectedFileName = '';
 
     function handleFileSelected(event) {
       const file = event.target.files[0];
       if (file) {
-        selectedFileName = file.name;
         document.getElementById('fileNameDisplay').textContent = 'تم اختيار: ' + file.name + ' (' + (file.size / 1024 / 1024).toFixed(2) + ' MB)';
         
         if (!document.getElementById('docTitle').value) {
@@ -199,88 +159,67 @@
       }
     }
 
-    function getStoredSubfolders() {
+    function getFoldersTree() {
       try {
-        return JSON.parse(localStorage.getItem('alkisaee_subfolders')) || [];
+        return JSON.parse(localStorage.getItem('alkisaee_folders_tree')) || [];
       } catch(e) {
         return [];
       }
     }
 
-    function updateSubfolderSelect() {
-      const folderKey = document.getElementById('docFolder').value;
-      const subSelect = document.getElementById('docSubfolder');
-      const allSubs = getStoredSubfolders().filter(s => s.parentFolder === folderKey);
+    // بناء قائمة منسدلة هرمية توضح تداخل المجلدات (مثل: 📁 التنظيم والتخطيط / └── 📁 الخطة التشغيلية)
+    function populateFolderSelect(selectedId) {
+      const folders = getFoldersTree();
+      const select = document.getElementById('docFolderSelect');
+      select.innerHTML = '<option value="root">📁 [الرئيسية - المجلد العام]</option>';
 
-      subSelect.innerHTML = '<option value="">-- بدون مجلد داخلي (في الجذر الرئيسي) --</option>';
+      function buildOptions(parentId, prefix) {
+        const children = folders.filter(f => f.parentId === parentId);
+        children.forEach(c => {
+          const opt = document.createElement('option');
+          opt.value = c.id;
+          opt.textContent = prefix + '📁 ' + c.name;
+          select.appendChild(opt);
+          buildOptions(c.id, prefix + '─── ');
+        });
+      }
 
-      allSubs.forEach(s => {
-        const opt = document.createElement('option');
-        opt.value = s.id;
-        opt.textContent = s.name;
-        subSelect.appendChild(opt);
-      });
+      buildOptions('root', '└── ');
+
+      if (selectedId) {
+        select.value = selectedId;
+      }
     }
 
-    function quickCreateSubfolder() {
-      const folderKey = document.getElementById('docFolder').value;
-      const folderNames = {
-        'planning': 'التنظيم والتخطيط',
-        'circulars': 'الوثائق والتعاميم',
-        'academic': 'الشؤون التعليمية والمتابعة',
-        'students': 'شؤون الطلاب',
-        'committees': 'الاجتماعات واللجان'
-      };
-
-      const newName = prompt(`أدخل اسم المجلد الداخلي الجديد داخل قسم «${folderNames[folderKey]}»:`);
-      if (newName && newName.trim()) {
-        let subs = getStoredSubfolders();
-        const newSub = {
-          id: 'sub_' + Date.now(),
-          parentFolder: folderKey,
-          name: newName.trim(),
+    function quickNewFolderPrompt() {
+      const parentId = document.getElementById('docFolderSelect').value;
+      const name = prompt('أدخل اسم المجلد الجديد:');
+      
+      if (name && name.trim()) {
+        let folders = getFoldersTree();
+        const newFolder = {
+          id: 'folder_' + Date.now(),
+          name: name.trim(),
+          parentId: parentId,
           createdAt: new Date().toLocaleDateString('ar-SA')
         };
 
-        subs.push(newSub);
-        localStorage.setItem('alkisaee_subfolders', JSON.stringify(subs));
-
-        updateSubfolderSelect();
-        document.getElementById('docSubfolder').value = newSub.id;
-
-        alert(`تم إنشاء المجلد الداخلي: "${newName.trim()}" بنجاح واختياره تلقائياً!`);
+        folders.push(newFolder);
+        localStorage.setItem('alkisaee_folders_tree', JSON.stringify(folders));
+        populateFolderSelect(newFolder.id);
+        alert('تم إنشاء المجلد واختياره بنجاح!');
       }
     }
 
     function saveDocument(e) {
       e.preventDefault();
-
       const title = document.getElementById('docTitle').value.trim();
-      const folderKey = document.getElementById('docFolder').value;
-      const subfolderId = document.getElementById('docSubfolder').value;
-      let subfolderName = null;
-
-      if (subfolderId) {
-        const subs = getStoredSubfolders();
-        const found = subs.find(s => s.id === subfolderId);
-        if (found) subfolderName = found.name;
-      }
-
-      const folderNames = {
-        'planning': 'التنظيم والتخطيط',
-        'circulars': 'الوثائق والتعاميم',
-        'academic': 'الشؤون التعليمية والمتابعة',
-        'students': 'شؤون الطلاب',
-        'committees': 'الاجتماعات واللجان'
-      };
+      const folderId = document.getElementById('docFolderSelect').value;
 
       const newDoc = {
         id: 'doc_' + Date.now(),
         name: title.endsWith('.pdf') ? title : title + '.pdf',
-        folder: folderKey,
-        folderName: folderNames[folderKey],
-        subfolderId: subfolderId || null,
-        subfolderName: subfolderName,
+        folderId: folderId,
         date: 'اليوم، ' + new Date().toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' }),
         size: selectedPdfBase64 ? 'مرفوع محلياً' : '2.1 MB',
         pdfData: selectedPdfBase64 || null
@@ -294,12 +233,14 @@
       docs.unshift(newDoc);
       localStorage.setItem('alkisaee_all_documents', JSON.stringify(docs));
 
-      alert('تم إيداع وتوثيق الوثيقة بنجاح في أرشيف ثانوية الكسائي!');
-      window.location.href = './files.html?folder=' + folderKey;
+      alert('تم حفظ الوثيقة بنجاح!');
+      window.location.href = './files.html?folderId=' + folderId;
     }
 
-    // تهيئة القائمة
-    updateSubfolderSelect();
+    // التهيئة التلقائية للمسار المختار عند فتح الصفحة
+    const urlParams = new URLSearchParams(window.location.search);
+    const targetFolder = urlParams.get('folderId') || 'root';
+    populateFolderSelect(targetFolder);
   </script>
 </body>
 </html>
