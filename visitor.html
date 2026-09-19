@@ -36,7 +36,7 @@
       <div class="flex items-center gap-2">
         <span class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-xl">
           <i data-lucide="lock" class="w-3.5 h-3.5 text-emerald-600"></i>
-          <span>وضع الاطلاع والقراءة فقط</span>
+          وضع الاطلاع والقراءة فقط
         </span>
       </div>
     </div>
@@ -44,7 +44,7 @@
 
   <!-- محتوى بوابة الزوار -->
   <main class="flex-1 max-w-6xl w-full mx-auto p-6 md:p-8 space-y-8">
-    
+
     <!-- البانر الترحيبي -->
     <div class="bg-gradient-to-l from-[#0d5c75] to-[#083847] text-white p-6 sm:p-8 rounded-3xl shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
       <div class="space-y-2 text-center md:text-right">
@@ -70,13 +70,13 @@
       <div class="md:col-span-2 space-y-3">
         <h3 class="font-bold text-base text-[#0d5c75] flex items-center gap-2">
           <i data-lucide="qr-code" class="w-5 h-5 text-emerald-600"></i>
-          <span>رمز الوصول السريع (QR Code)</span>
+          رمز الوصول السريع (QR Code)
         </h3>
         <p class="text-xs text-slate-500 leading-relaxed">
           امسح هذا الرمز بكاميرا جوالك لفتح البوابة أو شارك الرابط مع الزوار والمشرفين التربويين.
         </p>
         <div class="flex items-center gap-3 pt-2">
-          <button onclick="navigator.clipboard.writeText(window.location.href); alert('تم نسخ الرابط!');" class="px-4 py-2 bg-[#0d5c75] hover:bg-[#094254] text-white rounded-xl text-xs font-bold transition flex items-center gap-2">
+          <button onclick="navigator.clipboard.writeText(window.location.href); alert('تم نسخ الرابط بنجاح!');" class="px-4 py-2 bg-[#0d5c75] hover:bg-[#094254] text-white rounded-xl text-xs font-bold transition flex items-center gap-2">
             <i data-lucide="copy" class="w-3.5 h-3.5"></i>
             <span>نسخ الرابط</span>
           </button>
@@ -93,7 +93,7 @@
         </div>
       </div>
 
-      <!-- مسار التنقل التفاعلي للزائر وزر الرجوع للأعلى -->
+      <!-- مسار التنقل التفاعلي وزر الرجوع للأعلى -->
       <div class="bg-white p-3.5 rounded-2xl border border-teal-100 flex items-center gap-2 shadow-xs">
         <button id="vBtnUp" onclick="visitorNavigateUp()" class="p-2 bg-slate-50 hover:bg-teal-50 text-slate-600 rounded-xl border border-teal-100 transition disabled:opacity-40">
           <i data-lucide="arrow-up" class="w-4 h-4"></i>
@@ -101,13 +101,13 @@
         <div id="vBreadcrumbs" class="flex items-center gap-1.5 text-xs font-semibold overflow-x-auto py-1"></div>
       </div>
 
-      <!-- شبكة المجلدات المتفرعة للزوار -->
+      <!-- شبكة المجلدات الفرعية -->
       <div class="space-y-2">
         <h4 class="text-xs font-bold text-slate-600">المجلدات الفرعية:</h4>
         <div id="vFoldersGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"></div>
       </div>
 
-      <!-- شبكة الوثائق المتاحة في هذا المجلد -->
+      <!-- شبكة الوثائق المتاحة -->
       <div class="space-y-2 pt-4">
         <h4 class="text-xs font-bold text-slate-600">وثائق الـ PDF المودعة في هذا المجلد:</h4>
         <div id="vFilesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
@@ -122,18 +122,18 @@
     <footer class="pt-8 border-t border-teal-100 text-center text-xs text-slate-500 space-y-1">
       <p class="font-semibold text-teal-900 flex items-center justify-center gap-1">
         <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i>
-        <span>تصميم وتطوير: أ. سعد القرني</span>
+        تصميم وتطوير: أ. سعد القرني
       </p>
       <p>كافة الحقوق محفوظة لثانوية الكسائي — الإدارة العامة للتعليم بالمنطقة الشرقية © 1446هـ - 2025م</p>
     </footer>
   </main>
 
-  <!-- JavaScript Scripting -->
+  <!-- JavaScript البرمجي -->
   <script>
     lucide.createIcons();
     let vCurrentFolder = 'root';
 
-    // توليد رمز الـ QR تلقائياً
+    // توليد QR Code للبوابة
     new QRCode(document.getElementById("qrcode"), {
       text: window.location.href,
       width: 128,
@@ -146,7 +146,7 @@
     function getFolders() {
       try {
         return JSON.parse(localStorage.getItem('alkisaee_folders_tree')) || [];
-      } catch(e) {
+      } catch (e) {
         return [];
       }
     }
@@ -154,7 +154,7 @@
     function getFiles() {
       try {
         return JSON.parse(localStorage.getItem('alkisaee_all_documents')) || [];
-      } catch(e) {
+      } catch (e) {
         return [];
       }
     }
@@ -180,7 +180,6 @@
 
       let path = [];
       let curr = vCurrentFolder;
-      
       while (curr && curr !== 'root') {
         const found = folders.find(f => f.id === curr);
         if (found) {
@@ -219,7 +218,7 @@
       const childFolders = folders.filter(f => f.parentId === vCurrentFolder);
       const childFiles = files.filter(f => (f.folderId === vCurrentFolder) || (vCurrentFolder === 'root' && !f.folderId));
 
-      // 1. رسم المجلدات الفرعية
+      // عرض المجلدات
       const gridF = document.getElementById('vFoldersGrid');
       gridF.innerHTML = '';
 
@@ -238,7 +237,7 @@
         });
       }
 
-      // 2. رسم الملفات
+      // عرض الملفات
       const gridFiles = document.getElementById('vFilesGrid');
       const empty = document.getElementById('vEmptyState');
       gridFiles.innerHTML = '';
@@ -258,7 +257,7 @@
               </div>
               <h4 class="font-bold text-xs text-slate-800 leading-snug line-clamp-2">${doc.name}</h4>
             </div>
-            <a href="./viewer.html?id=${doc.id}" class="w-full py-2 bg-teal-50 hover:bg-[#0d5c75] hover:text-white text-[#0d5c75] text-xs font-bold rounded-xl transition text-center flex items-center justify-center gap-1.5">
+            <a href="./viewer.html?id=${doc.id}&from=visitor" class="w-full py-2 bg-teal-50 hover:bg-[#0d5c75] hover:text-white text-[#0d5c75] text-xs font-bold rounded-xl transition text-center flex items-center justify-center gap-1.5">
               <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
               <span>قراءة المستند</span>
             </a>
@@ -270,7 +269,7 @@
       lucide.createIcons();
     }
 
-    // التهيئة البدائية عند التحميل
+    // التشغيل الأولي
     renderVisitorView();
   </script>
 </body>

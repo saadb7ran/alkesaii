@@ -9,7 +9,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Icons -->
+  <!-- Icons Library -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
@@ -23,17 +23,21 @@
   <!-- شريط التحكم العلوي -->
   <header class="bg-[#0d5c75] text-white px-4 sm:px-6 py-3 flex items-center justify-between shadow-md z-30">
     <div class="flex items-center gap-3">
-      <a href="./files.html" class="p-2 bg-white/10 hover:bg-white/20 rounded-xl transition flex items-center gap-1 text-xs font-bold">
+      <!-- زر الرجوع الذكي -->
+      <button id="btnSmartBack" onclick="handleSmartBack()" class="p-2 bg-white/10 hover:bg-white/20 rounded-xl transition flex items-center gap-1 text-xs font-bold">
         <i data-lucide="arrow-right" class="w-4 h-4"></i>
-        <span>العودة للملفات</span>
-      </a>
+        <span id="backButtonText">العودة للملفات</span>
+      </button>
+
       <div class="h-6 w-[1px] bg-white/20"></div>
+
       <div>
         <h1 id="viewerDocTitle" class="font-bold text-sm line-clamp-1">مستعرض الوثائق الرسمية المعتمدة</h1>
         <p class="text-[10px] text-teal-200">الإدارة العامة للتعليم بالمنطقة الشرقية • ثانوية الكسائي</p>
       </div>
     </div>
 
+    <!-- أدوات المستند -->
     <div class="flex items-center gap-2">
       <button onclick="window.print()" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition">
         <i data-lucide="printer" class="w-3.5 h-3.5"></i>
@@ -49,27 +53,21 @@
   <!-- مساحة العرض الكاملة Edge-to-Edge -->
   <main class="flex-1 flex flex-col p-4 md:p-6 max-w-6xl w-full mx-auto">
     <div id="pdfContainer" class="flex-1 bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden flex flex-col min-h-[750px] relative">
-      
-      <!-- إطار المستند المرفوع الحقيقي (يعرض ملف الـ PDF كاملاً) -->
+      <!-- إطار المستند المرفوع (يعرض ملف الـ PDF كاملاً) -->
       <iframe id="pdfFrame" class="w-full flex-1 border-0 hidden" src=""></iframe>
 
-      <!-- بطاقة فارغة أنيقة ونظيفة في حال عدم اختيار ملف بعد -->
+      <!-- بطاقة فارغة أنيقة في حال عدم توفر مستند -->
       <div id="emptyView" class="p-12 space-y-4 flex-1 flex flex-col items-center justify-center text-center">
         <div class="w-16 h-16 rounded-2xl bg-teal-50 text-[#0d5c75] flex items-center justify-center">
           <i data-lucide="file-search" class="w-8 h-8 text-[#0d5c75]"></i>
         </div>
         <h3 id="docEmptyTitle" class="text-base font-bold text-slate-800">لم يتم اختيار وثيقة للقراءة</h3>
-        <p class="text-xs text-slate-500 max-w-sm">يرجى الذهاب إلى صفحة استعراض الملفات والنقر على «استعراض» بجانب أي ملف تم رفعه.</p>
-        
+        <p class="text-xs text-slate-500 max-w-sm">يرجى الرجوع والنقر على «قراءة المستند» بجانب أي ملف معتمد.</p>
         <div class="flex items-center gap-3 pt-2">
-          <a href="./files.html" class="px-5 py-2.5 bg-[#0d5c75] hover:bg-[#094254] text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-xs">
-            <i data-lucide="layout-grid" class="w-4 h-4"></i>
-            <span>استعراض الملفات</span>
-          </a>
-          <a href="./upload.html" class="px-5 py-2.5 bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100 rounded-xl text-xs font-bold transition flex items-center gap-2">
-            <i data-lucide="file-plus" class="w-4 h-4 text-emerald-600"></i>
-            <span>رفع وثيقة جديدة</span>
-          </a>
+          <button onclick="handleSmartBack()" class="px-5 py-2.5 bg-[#0d5c75] hover:bg-[#094254] text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-xs">
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            <span id="emptyBackText">العودة</span>
+          </button>
         </div>
       </div>
     </div>
@@ -81,13 +79,41 @@
     </footer>
   </main>
 
-  <!-- JavaScript Scripting -->
+  <!-- JavaScript البرمجي -->
   <script>
     lucide.createIcons();
     let currentDoc = null;
+    const urlParams = new URLSearchParams(window.location.search);
+    const isFromVisitor = urlParams.get('from') === 'visitor';
+
+    // ضبط نصوص وأهداف زر الرجوع حسب المصدر
+    function setupBackButton() {
+      const backText = document.getElementById('backButtonText');
+      const emptyBackText = document.getElementById('emptyBackText');
+
+      if (isFromVisitor) {
+        backText.textContent = 'العودة لبوابة الزوار';
+        emptyBackText.textContent = 'العودة لبوابة الزوار';
+      } else {
+        backText.textContent = 'العودة للملفات';
+        emptyBackText.textContent = 'العودة للملفات';
+      }
+    }
+
+    function handleSmartBack() {
+      if (isFromVisitor) {
+        window.location.href = './visitor.html';
+      } else {
+        if (window.history.length > 1) {
+          window.history.back();
+        } else {
+          window.location.href = './files.html';
+        }
+      }
+    }
 
     function initViewer() {
-      const urlParams = new URLSearchParams(window.location.search);
+      setupBackButton();
       const docId = urlParams.get('id');
       let docs = [];
 
@@ -97,7 +123,7 @@
 
       if (docId) {
         currentDoc = docs.find(d => String(d.id) === String(docId));
-      } else if (docs.length > 0) {
+      } else if (docs.length > 0 && !isFromVisitor) {
         currentDoc = docs[0];
       }
 
