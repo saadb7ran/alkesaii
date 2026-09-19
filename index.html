@@ -4,23 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>لوحة القيادة والمجلدات - ثانوية الكسائي</title>
-
-  <!-- Tailwind CSS & Google Fonts & Lucide Icons -->
-  <script src="https://cdn.tailwindcss.com"></script> <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- CSS & Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-
+  
   <style>
     body {
       font-family: 'IBM Plex Sans Arabic', sans-serif;
     }
   </style>
 </head>
-
 <body class="bg-[#f7faf9] text-slate-800 min-h-screen flex antialiased">
 
   <!-- القائمة الجانبية (Sidebar) -->
   <aside class="w-64 bg-white border-l border-teal-100 min-h-screen p-5 flex flex-col justify-between hidden md:flex flex-shrink-0 sticky top-0 h-screen overflow-y-auto">
     <div class="space-y-6">
+      
+      <!-- الهوية والترويسة الجانبية -->
       <div class="pb-4 border-b border-teal-50">
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-xl bg-[#0d5c75] text-white flex items-center justify-center font-bold shadow-sm">
@@ -33,11 +37,13 @@
         </div>
       </div>
 
+      <!-- زر الإضافة -->
       <a href="./upload.html" class="w-full py-2.5 px-4 bg-[#0d5c75] hover:bg-[#094254] text-white text-xs font-bold rounded-xl transition flex items-center justify-center gap-2 shadow-sm">
         <i data-lucide="file-plus-2" class="w-4 h-4 text-emerald-400"></i>
         <span>رفع وثيقة جديدة</span>
       </a>
 
+      <!-- روابط التنقل -->
       <nav class="space-y-1.5 text-xs font-semibold">
         <a href="./index.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-teal-50 text-[#0d5c75] font-bold transition">
           <i data-lucide="folder" class="w-4 h-4 text-[#0d5c75]"></i>
@@ -70,7 +76,7 @@
         <div class="w-full bg-teal-100 h-2 rounded-full overflow-hidden">
           <div id="storageBar" class="bg-gradient-to-l from-[#0d5c75] to-emerald-500 h-full rounded-full transition-all duration-500" style="width: 0%;"></div>
         </div>
-        <p id="storageText" class="text-[10px] text-slate-400 mt-1 font-mono">0 جيجابايت من 50 جيجابايت</p>
+        <p id="storageText" class="text-[10px] text-slate-400 mt-1 font-mono">0.0 جيجابايت مستخدمة من 50 جيجابايت</p>
       </div>
 
       <div class="p-2.5 bg-teal-50/70 rounded-xl text-center border border-teal-100/50">
@@ -83,6 +89,8 @@
 
   <!-- المحتوى الرئيسي -->
   <div class="flex-1 flex flex-col min-w-0">
+    
+    <!-- الشريط العلوي (Header) -->
     <header class="bg-white border-b border-teal-100 px-6 py-3.5 flex items-center justify-between sticky top-0 z-20 shadow-xs">
       <div class="flex items-center gap-3 flex-1 max-w-lg">
         <div class="relative w-full">
@@ -90,7 +98,6 @@
           <input type="text" id="quickSearch" onkeydown="if(event.key==='Enter') window.location.href='./files.html?q='+encodeURIComponent(this.value)" placeholder="البحث السريع عن وثيقة أو ملف (اضغط Enter)..." class="w-full pr-10 pl-4 py-2 bg-slate-50 border border-teal-100 rounded-xl text-xs focus:ring-2 focus:ring-[#0d5c75] outline-none">
         </div>
       </div>
-
       <div class="flex items-center gap-3">
         <div class="text-left hidden sm:block">
           <p class="text-xs font-bold text-slate-800">إدارة الأرشيف المدرسي</p>
@@ -103,6 +110,7 @@
     </header>
 
     <main class="p-6 md:p-8 space-y-8 max-w-7xl w-full mx-auto">
+      
       <!-- البانر القيادي بالهوية الرسمية -->
       <div class="bg-gradient-to-l from-[#0d5c75] to-[#083847] text-white p-6 sm:p-7 rounded-2xl shadow-sm relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div class="space-y-2 z-10">
@@ -120,7 +128,7 @@
         </div>
       </div>
 
-      <!-- الإحصائيات المحدثة -->
+      <!-- الإحصائيات (تتحدث حقيقياً بناءً على ما ترفعه فقط) -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="bg-white p-5 rounded-2xl border border-teal-100 shadow-xs flex items-center justify-between">
           <div>
@@ -137,7 +145,7 @@
 
         <div class="bg-white p-5 rounded-2xl border border-teal-100 shadow-xs flex items-center justify-between">
           <div>
-            <span class="text-[11px] font-semibold text-slate-400">الأقسام والمجلدات</span>
+            <span class="text-[11px] font-semibold text-slate-400">الأقسام والمجلدات الرئيسية</span>
             <h3 class="text-2xl font-bold text-[#0d5c75] mt-1 font-mono">5</h3>
             <p class="text-[10px] text-teal-600 mt-1 font-semibold">تصنيف هيكلي معتمد</p>
           </div>
@@ -148,12 +156,12 @@
 
         <div class="bg-white p-5 rounded-2xl border border-teal-100 shadow-xs flex items-center justify-between">
           <div>
-            <span class="text-[11px] font-semibold text-slate-400">ملفات أضيفت هذا الشهر</span>
-            <h3 id="statMonthDocs" class="text-2xl font-bold text-[#0d5c75] mt-1 font-mono">0</h3>
-            <p class="text-[10px] text-slate-500 mt-1">معدل نشط للأرشفة</p>
+            <span class="text-[11px] font-semibold text-slate-400">المجلدات الداخلية الفرعية</span>
+            <h3 id="statSubfolders" class="text-2xl font-bold text-[#0d5c75] mt-1 font-mono">0</h3>
+            <p class="text-[10px] text-slate-500 mt-1">مجلدات تنظيمية مخصصة</p>
           </div>
           <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
-            <i data-lucide="cloud-upload" class="w-6 h-6"></i>
+            <i data-lucide="folder-tree" class="w-6 h-6"></i>
           </div>
         </div>
 
@@ -182,6 +190,7 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <!-- مجلد: التنظيم والتخطيط -->
           <a href="./files.html?folder=planning" class="bg-white p-5 rounded-2xl border border-teal-100 hover:border-emerald-400 hover:shadow-md transition group block">
             <div class="flex items-start justify-between mb-4">
               <div class="w-11 h-11 rounded-xl bg-teal-50 text-[#0d5c75] flex items-center justify-center group-hover:scale-105 transition">
@@ -193,6 +202,7 @@
             <p class="text-xs text-slate-500 mt-1 leading-relaxed">الخطة التشغيلية للمدرسة، توزيع المسؤوليات، الهيكل التنظيمي واللجان والفرق المدرسية.</p>
           </a>
 
+          <!-- مجلد: الوثائق والتعاميم -->
           <a href="./files.html?folder=circulars" class="bg-white p-5 rounded-2xl border border-teal-100 hover:border-emerald-400 hover:shadow-md transition group block">
             <div class="flex items-start justify-between mb-4">
               <div class="w-11 h-11 rounded-xl bg-teal-50 text-[#0d5c75] flex items-center justify-center group-hover:scale-105 transition">
@@ -204,6 +214,7 @@
             <p class="text-xs text-slate-500 mt-1 leading-relaxed">سجل اطلاع منسوبي المدرسة على التعاميم، القرارات الوزارية، واللوائح التنظيمية.</p>
           </a>
 
+          <!-- مجلد: الشؤون التعليمية والمتابعة -->
           <a href="./files.html?folder=academic" class="bg-white p-5 rounded-2xl border border-teal-100 hover:border-emerald-400 hover:shadow-md transition group block">
             <div class="flex items-start justify-between mb-4">
               <div class="w-11 h-11 rounded-xl bg-teal-50 text-[#0d5c75] flex items-center justify-center group-hover:scale-105 transition">
@@ -215,6 +226,7 @@
             <p class="text-xs text-slate-500 mt-1 leading-relaxed">خطة الزيارات الصفية، سجل متابعة المعلمين وأثر الزيارات، والمناوبة والاختبارات.</p>
           </a>
 
+          <!-- مجلد: شؤون الطلاب -->
           <a href="./files.html?folder=students" class="bg-white p-5 rounded-2xl border border-teal-100 hover:border-emerald-400 hover:shadow-md transition group block">
             <div class="flex items-start justify-between mb-4">
               <div class="w-11 h-11 rounded-xl bg-teal-50 text-[#0d5c75] flex items-center justify-center group-hover:scale-105 transition">
@@ -226,6 +238,7 @@
             <p class="text-xs text-slate-500 mt-1 leading-relaxed">سجلات الانضباط المدرسي، قواعد السلوك والمواظبة، ومتابعة غياب وتأخر الطلاب.</p>
           </a>
 
+          <!-- مجلد: الاجتماعات واللجان -->
           <a href="./files.html?folder=committees" class="bg-white p-5 rounded-2xl border border-teal-100 hover:border-emerald-400 hover:shadow-md transition group block">
             <div class="flex items-start justify-between mb-4">
               <div class="w-11 h-11 rounded-xl bg-teal-50 text-[#0d5c75] flex items-center justify-center group-hover:scale-105 transition">
@@ -239,7 +252,7 @@
         </div>
       </section>
 
-      <!-- أحدث وثائق PDF المودعة -->
+      <!-- أحدث وثائق PDF المودعة في الأرشيف -->
       <section class="bg-white p-6 rounded-2xl border border-teal-100 shadow-xs space-y-4">
         <div class="flex items-center justify-between border-b border-teal-50 pb-3">
           <h2 class="text-sm font-bold text-[#0d5c75] flex items-center gap-2">
@@ -247,11 +260,11 @@
           </h2>
           <a href="./files.html" class="text-xs text-[#0d5c75] font-bold hover:underline">عرض الأرشيف الكامل</a>
         </div>
-
+        
         <div id="recentDocsList" class="divide-y divide-teal-50"></div>
       </section>
 
-      <!-- التذييل الرسمي -->
+      <!-- التذييل الرسمي الموحد -->
       <footer class="pt-6 border-t border-teal-100 text-center text-xs text-slate-500 space-y-1">
         <p class="font-semibold text-teal-900">تصميم وتطوير: أ. سعد القرني</p>
         <p>كافة الحقوق محفوظة لثانوية الكسائي — الإدارة العامة للتعليم بالمنطقة الشرقية © 1446هـ - 2025م</p>
@@ -259,9 +272,23 @@
     </main>
   </div>
 
-  <!-- JavaScript -->
+  <!-- JavaScript Scripting -->
   <script>
     lucide.createIcons();
+
+    // فحص أمان لتنظيف أي بقايا تجريبية سابقة لمرة واحدة تلقائياً
+    (function sanitizeStorage() {
+      try {
+        const stored = localStorage.getItem('alkisaee_all_documents');
+        if (stored) {
+          const list = JSON.parse(stored);
+          // إذا كانت القائمة تحتوي على أي ملفات تجريبية قديمة برقم آيدي نصي 1-5 يتم تفريغها فورياً
+          if (Array.isArray(list) && list.some(item => ['1', '2', '3', '4', '5'].includes(String(item.id)))) {
+            localStorage.setItem('alkisaee_all_documents', JSON.stringify([]));
+          }
+        }
+      } catch (e) {}
+    })();
 
     function getAllDocs() {
       try {
@@ -269,29 +296,40 @@
         if (stored !== null) {
           return JSON.parse(stored);
         }
-      } catch(e) {}
-      
-      // يبدأ فارغاً ولا يتم حقن أي ملفات وهمية إطلاقاً
+      } catch (e) {}
+      // يبدأ دائماً فارغاً ونظيفاً بنسبة 100%
       localStorage.setItem('alkisaee_all_documents', JSON.stringify([]));
       return [];
     }
 
+    function getSubfolders() {
+      try {
+        return JSON.parse(localStorage.getItem('alkisaee_subfolders')) || [];
+      } catch (e) {
+        return [];
+      }
+    }
+
     function refreshDashboard() {
       const docs = getAllDocs();
+      const subfolders = getSubfolders();
       const totalCount = docs.length;
 
+      // 1. تحديث المؤشرات بالأرقام الحقيقية فقط
       document.getElementById('statTotalDocs').textContent = totalCount.toLocaleString('ar-SA');
-      document.getElementById('statMonthDocs').textContent = totalCount.toLocaleString('ar-SA');
+      document.getElementById('statSubfolders').textContent = subfolders.length.toLocaleString('ar-SA');
 
+      // 2. تحديث شريط المساحة الحقيقية
       const usedGB = (totalCount * 0.05).toFixed(2);
       const percent = Math.min(Math.round((usedGB / 50) * 100), 100);
       const freeGB = (50 - usedGB).toFixed(1);
 
       document.getElementById('storagePercent').textContent = percent + '%';
       document.getElementById('storageBar').style.width = percent + '%';
-      document.getElementById('storageText').textContent = usedGB + ' جيجابايت من 50 جيجابايت';
+      document.getElementById('storageText').textContent = usedGB + ' جيجابايت مستخدمة من 50 جيجابايت';
       document.getElementById('statFreeSpace').innerHTML = freeGB + ' <span class="text-xs font-normal">GB</span>';
 
+      // 3. تحديث عدادات المجلدات الخمسة
       const folders = ['planning', 'circulars', 'academic', 'students', 'committees'];
       folders.forEach(f => {
         const count = docs.filter(d => d.folder === f).length;
@@ -299,14 +337,15 @@
         if (el) el.textContent = count + ' ملف';
       });
 
+      // 4. عرض القائمة النظيفة لأحدث الوثائق
       const recentList = document.getElementById('recentDocsList');
       recentList.innerHTML = '';
 
       if (docs.length === 0) {
         recentList.innerHTML = `
-          <div class="py-8 text-center text-xs text-slate-400 flex flex-col items-center gap-2">
+          <div class="py-8 text-center text-xs text-slate-400 flex flex-col items-center justify-center gap-2">
             <i data-lucide="folder-open" class="w-8 h-8 text-teal-200"></i>
-            <span>الأرشيف نظيف حالياً. لم يتم رفع أي وثائق بعد.</span>
+            <span>الأرشيف نظيف وخالٍ حالياً. انقر على «رفع ملف PDF جديد» لإيداع أول وثيقة.</span>
           </div>
         `;
       } else {
@@ -318,7 +357,7 @@
               <span class="text-[10px] font-bold bg-red-100 text-red-600 px-2 py-0.5 rounded">PDF</span>
               <div>
                 <a href="./viewer.html?id=${doc.id}" class="text-xs font-bold text-slate-800 hover:text-[#0d5c75] transition">${doc.name}</a>
-                <p class="text-[10px] text-slate-400 mt-0.5">${doc.folderName} • ${doc.date} • ${doc.size || 'معتمد'}</p>
+                <p class="text-[10px] text-slate-400 mt-0.5">${doc.folderName} ${doc.subfolderName ? '• ' + doc.subfolderName : ''} • ${doc.date}</p>
               </div>
             </div>
             <a href="./viewer.html?id=${doc.id}" class="px-3 py-1 bg-teal-50 hover:bg-[#0d5c75] hover:text-white text-[#0d5c75] text-xs font-semibold rounded-lg transition flex items-center gap-1">
@@ -332,6 +371,7 @@
       lucide.createIcons();
     }
 
+    // تشغيل التحديث فور تحكم الصفحة
     refreshDashboard();
   </script>
 </body>

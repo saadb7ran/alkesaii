@@ -5,9 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>قارئ ومستعرض الوثائق الرسمية - ثانوية الكسائي</title>
 
-  <!-- Tailwind CSS & Google Fonts & Lucide Icons -->
+  <!-- CSS & Fonts -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
@@ -16,7 +18,6 @@
     }
   </style>
 </head>
-
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col antialiased">
 
   <!-- شريط التحكم العلوي -->
@@ -33,38 +34,44 @@
       </div>
     </div>
 
-    <div class="flex items-center gap-2" id="actionButtons">
+    <div class="flex items-center gap-2">
       <button onclick="window.print()" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition">
         <i data-lucide="printer" class="w-3.5 h-3.5"></i>
         <span class="hidden sm:inline">طباعة</span>
       </button>
-      <button onclick="downloadCurrentPdf()" class="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 rounded-xl text-xs font-bold flex items-center gap-1.5 transition shadow-sm">
+      <button id="btnDownload" onclick="downloadCurrentPdf()" class="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 rounded-xl text-xs font-bold flex items-center gap-1.5 transition shadow-sm hidden">
         <i data-lucide="download" class="w-3.5 h-3.5"></i>
-        <span>تحميل</span>
+        <span>تحميل الملف</span>
       </button>
     </div>
   </header>
 
-  <!-- مساحة العرض الكاملة -->
+  <!-- مساحة العرض الكاملة Edge-to-Edge -->
   <main class="flex-1 flex flex-col p-4 md:p-6 max-w-6xl w-full mx-auto">
     <div id="pdfContainer" class="flex-1 bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden flex flex-col min-h-[750px] relative">
       
-      <!-- إطار المستند المرفوع الحقيقي -->
+      <!-- إطار المستند المرفوع الحقيقي (يعرض ملف الـ PDF كاملاً) -->
       <iframe id="pdfFrame" class="w-full flex-1 border-0 hidden" src=""></iframe>
 
-      <!-- بطاقة في حال كانت الوثيقة لا تحتوي على ملف مرفق بعد أو لا توجد وثيقة مختارة -->
+      <!-- بطاقة فارغة أنيقة ونظيفة في حال عدم اختيار ملف بعد -->
       <div id="emptyView" class="p-12 space-y-4 flex-1 flex flex-col items-center justify-center text-center">
         <div class="w-16 h-16 rounded-2xl bg-teal-50 text-[#0d5c75] flex items-center justify-center">
-          <i data-lucide="file-text" class="w-8 h-8 text-[#0d5c75]"></i>
+          <i data-lucide="file-search" class="w-8 h-8 text-[#0d5c75]"></i>
         </div>
-        <h3 id="docEmptyTitle" class="text-base font-bold text-slate-800">لم يتم تحديد وثيقة للاستعراض</h3>
-        <p class="text-xs text-slate-500 max-w-sm">يرجى الذهاب إلى صفحة استعراض الملفات واختيار الوثيقة التي ترغب بقراءتها.</p>
-        <a href="./files.html" class="px-5 py-2.5 bg-[#0d5c75] hover:bg-[#094254] text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-xs">
-          <i data-lucide="layout-grid" class="w-4 h-4"></i>
-          <span>الذهاب لاستعراض الملفات</span>
-        </a>
+        <h3 id="docEmptyTitle" class="text-base font-bold text-slate-800">لم يتم اختيار وثيقة للقراءة</h3>
+        <p class="text-xs text-slate-500 max-w-sm">يرجى الذهاب إلى صفحة استعراض الملفات والنقر على «استعراض» بجانب أي ملف تم رفعه.</p>
+        
+        <div class="flex items-center gap-3 pt-2">
+          <a href="./files.html" class="px-5 py-2.5 bg-[#0d5c75] hover:bg-[#094254] text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-xs">
+            <i data-lucide="layout-grid" class="w-4 h-4"></i>
+            <span>استعراض الملفات</span>
+          </a>
+          <a href="./upload.html" class="px-5 py-2.5 bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100 rounded-xl text-xs font-bold transition flex items-center gap-2">
+            <i data-lucide="file-plus" class="w-4 h-4 text-emerald-600"></i>
+            <span>رفع وثيقة جديدة</span>
+          </a>
+        </div>
       </div>
-
     </div>
 
     <!-- التذييل الرسمي الموحد -->
@@ -74,7 +81,7 @@
     </footer>
   </main>
 
-  <!-- JavaScript -->
+  <!-- JavaScript Scripting -->
   <script>
     lucide.createIcons();
     let currentDoc = null;
@@ -96,24 +103,24 @@
 
       const frame = document.getElementById('pdfFrame');
       const emptyView = document.getElementById('emptyView');
+      const btnDownload = document.getElementById('btnDownload');
 
-      if (currentDoc) {
+      if (currentDoc && currentDoc.pdfData) {
         document.getElementById('viewerDocTitle').textContent = currentDoc.name;
-
-        // إذا كان ملف PDF حقيقي مرفوع (Base64)
-        if (currentDoc.pdfData) {
-          frame.src = currentDoc.pdfData;
-          frame.classList.remove('hidden');
-          emptyView.classList.add('hidden');
-        } else {
-          // ملف مسجل بدون بيانات خام
-          frame.classList.add('hidden');
-          emptyView.classList.remove('hidden');
-          document.getElementById('docEmptyTitle').textContent = currentDoc.name;
-        }
+        frame.src = currentDoc.pdfData;
+        frame.classList.remove('hidden');
+        emptyView.classList.add('hidden');
+        btnDownload.classList.remove('hidden');
+      } else if (currentDoc) {
+        document.getElementById('viewerDocTitle').textContent = currentDoc.name;
+        document.getElementById('docEmptyTitle').textContent = 'الوثيقة: ' + currentDoc.name;
+        frame.classList.add('hidden');
+        emptyView.classList.remove('hidden');
+        btnDownload.classList.add('hidden');
       } else {
         frame.classList.add('hidden');
         emptyView.classList.remove('hidden');
+        btnDownload.classList.add('hidden');
       }
 
       lucide.createIcons();

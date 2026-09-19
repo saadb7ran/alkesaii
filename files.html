@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>استعراض ملفات المجلد والبحث - ثانوية الكسائي</title>
+  <title>استعراض ملفات ومجلدات الأرشيف - ثانوية الكسائي</title>
 
-  <!-- Tailwind CSS & Google Fonts & Lucide Icons -->
+  <!-- CSS & Fonts -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
@@ -16,13 +18,13 @@
     }
   </style>
 </head>
-
 <body class="bg-[#f7faf9] text-slate-800 min-h-screen flex antialiased">
 
   <!-- القائمة الجانبية (Sidebar) -->
   <aside class="w-64 bg-white border-l border-teal-100 min-h-screen p-5 flex flex-col justify-between hidden md:flex flex-shrink-0 sticky top-0 h-screen overflow-y-auto">
     <div class="space-y-6">
-      <!-- شعار المدرسة والجهة -->
+      
+      <!-- الهوية والترويسة الجانبية -->
       <div class="pb-4 border-b border-teal-50 flex items-center gap-3">
         <div class="w-10 h-10 rounded-xl bg-[#0d5c75] text-white flex items-center justify-center font-bold shadow-sm">
           <i data-lucide="graduation-cap" class="w-6 h-6 text-emerald-300"></i>
@@ -33,7 +35,7 @@
         </div>
       </div>
 
-      <!-- زر رفع وثيقة جديدة -->
+      <!-- زر الإضافة -->
       <a href="./upload.html" class="w-full py-2.5 px-4 bg-[#0d5c75] hover:bg-[#094254] text-white text-xs font-bold rounded-xl transition flex items-center justify-center gap-2 shadow-sm">
         <i data-lucide="file-plus-2" class="w-4 h-4 text-emerald-400"></i>
         <span>رفع وثيقة جديدة</span>
@@ -60,7 +62,7 @@
       </nav>
     </div>
 
-    <!-- ويدجت الحقوق والتطوير -->
+    <!-- الحقوق السفلية -->
     <div class="pt-4 border-t border-teal-50 space-y-3">
       <div class="p-2.5 bg-teal-50/70 rounded-xl text-center border border-teal-100/50">
         <p class="text-[10px] text-teal-900 font-bold flex items-center justify-center gap-1">
@@ -72,78 +74,87 @@
 
   <!-- المحتوى الرئيسي -->
   <div class="flex-1 flex flex-col min-w-0">
-
-    <!-- الترويسة العليا -->
+    
+    <!-- شريط الرأس ومسار التنقل (Breadcrumbs) -->
     <header class="bg-white border-b border-teal-100 px-6 py-3.5 flex items-center justify-between sticky top-0 z-20 shadow-xs">
-      <div class="flex items-center gap-2 text-xs font-semibold text-slate-500">
+      <div id="breadcrumbsContainer" class="flex items-center gap-2 text-xs font-semibold text-slate-500">
         <a href="./index.html" class="hover:text-[#0d5c75]">الرئيسية</a>
-        <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
-        <span class="text-[#0d5c75] font-bold">استعراض ملفات المجلد والأرشيف</span>
+        <i data-lucide="chevron-left" class="w-3.5 h-3.5 text-slate-400"></i>
+        <span id="breadcrumbFolder" class="text-[#0d5c75] font-bold">كافة المجلدات والملفات</span>
+        <span id="breadcrumbSubfolderWrap" class="hidden flex items-center gap-2">
+          <i data-lucide="chevron-left" class="w-3.5 h-3.5 text-slate-400"></i>
+          <span id="breadcrumbSubfolder" class="text-emerald-700 font-bold"></span>
+        </span>
       </div>
-      <a href="./upload.html" class="px-3.5 py-2 bg-[#0d5c75] text-white rounded-xl text-xs font-bold hover:bg-[#094254] transition flex items-center gap-1.5">
-        <i data-lucide="file-plus" class="w-4 h-4 text-emerald-300"></i>
-        <span>رفع ملف في هذا المجلد</span>
-      </a>
+
+      <div class="flex items-center gap-2">
+        <button onclick="openNewSubfolderModal()" class="px-3.5 py-2 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-xl text-xs font-bold hover:bg-emerald-100 transition flex items-center gap-1.5">
+          <i data-lucide="folder-plus" class="w-4 h-4 text-emerald-600"></i>
+          <span>+ مجلد داخلي جديد</span>
+        </button>
+        <a href="./upload.html" class="px-3.5 py-2 bg-[#0d5c75] text-white rounded-xl text-xs font-bold hover:bg-[#094254] transition flex items-center gap-1.5">
+          <i data-lucide="file-plus" class="w-4 h-4 text-emerald-300"></i>
+          <span>رفع وثيقة جديدة</span>
+        </a>
+      </div>
     </header>
 
-    <!-- منطقة المحتوى الرئيسية -->
     <main class="p-6 md:p-8 space-y-6 max-w-7xl w-full mx-auto">
-
-      <!-- أزرار تصفية المجلدات الخمسة -->
+      
+      <!-- أزرار المجلدات الخمسة الرئيسية -->
       <div class="flex items-center gap-2 overflow-x-auto pb-2">
-        <button onclick="filterFolder('all')" id="btn-all" class="px-4 py-2 rounded-xl text-xs font-bold bg-[#0d5c75] text-white shadow-sm transition whitespace-nowrap">
-          كافة المجلدات
-        </button>
-        <button onclick="filterFolder('planning')" id="btn-planning" class="px-4 py-2 rounded-xl text-xs font-bold bg-white border border-teal-100 text-slate-600 hover:border-[#0d5c75] transition whitespace-nowrap">
-          التنظيم والتخطيط
-        </button>
-        <button onclick="filterFolder('circulars')" id="btn-circulars" class="px-4 py-2 rounded-xl text-xs font-bold bg-white border border-teal-100 text-slate-600 hover:border-[#0d5c75] transition whitespace-nowrap">
-          الوثائق والتعاميم
-        </button>
-        <button onclick="filterFolder('academic')" id="btn-academic" class="px-4 py-2 rounded-xl text-xs font-bold bg-white border border-teal-100 text-slate-600 hover:border-[#0d5c75] transition whitespace-nowrap">
-          الشؤون التعليمية والمتابعة
-        </button>
-        <button onclick="filterFolder('students')" id="btn-students" class="px-4 py-2 rounded-xl text-xs font-bold bg-white border border-teal-100 text-slate-600 hover:border-[#0d5c75] transition whitespace-nowrap">
-          شؤون الطلاب
-        </button>
-        <button onclick="filterFolder('committees')" id="btn-committees" class="px-4 py-2 rounded-xl text-xs font-bold bg-white border border-teal-100 text-slate-600 hover:border-[#0d5c75] transition whitespace-nowrap">
-          الاجتماعات واللجان
-        </button>
+        <button onclick="filterFolder('all')" id="btn-all" class="px-4 py-2 rounded-xl text-xs font-bold bg-[#0d5c75] text-white shadow-sm transition whitespace-nowrap">كافة المجلدات</button>
+        <button onclick="filterFolder('planning')" id="btn-planning" class="px-4 py-2 rounded-xl text-xs font-bold bg-white border border-teal-100 text-slate-600 hover:border-[#0d5c75] transition whitespace-nowrap">التنظيم والتخطيط</button>
+        <button onclick="filterFolder('circulars')" id="btn-circulars" class="px-4 py-2 rounded-xl text-xs font-bold bg-white border border-teal-100 text-slate-600 hover:border-[#0d5c75] transition whitespace-nowrap">الوثائق والتعاميم</button>
+        <button onclick="filterFolder('academic')" id="btn-academic" class="px-4 py-2 rounded-xl text-xs font-bold bg-white border border-teal-100 text-slate-600 hover:border-[#0d5c75] transition whitespace-nowrap">الشؤون التعليمية والمتابعة</button>
+        <button onclick="filterFolder('students')" id="btn-students" class="px-4 py-2 rounded-xl text-xs font-bold bg-white border border-teal-100 text-slate-600 hover:border-[#0d5c75] transition whitespace-nowrap">شؤون الطلاب</button>
+        <button onclick="filterFolder('committees')" id="btn-committees" class="px-4 py-2 rounded-xl text-xs font-bold bg-white border border-teal-100 text-slate-600 hover:border-[#0d5c75] transition whitespace-nowrap">الاجتماعات واللجان</button>
       </div>
+
+      <!-- قسم المجلدات الداخلية (الفرعية) -->
+      <section id="subfoldersSection" class="space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xs font-bold text-[#0d5c75] flex items-center gap-1.5">
+            <i data-lucide="folder-tree" class="w-4 h-4 text-emerald-600"></i>
+            <span>المجلدات الداخلية (الفرعية)</span>
+          </h3>
+          <span id="subfolderCountBadge" class="text-[11px] text-slate-400 font-mono">0 مجلد</span>
+        </div>
+        <div id="subfoldersGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3"></div>
+      </section>
 
       <!-- شريط البحث والفلترة -->
       <div class="bg-white p-4 rounded-2xl border border-teal-100 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-xs">
         <div class="relative w-full sm:max-w-md">
           <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2"></i>
-          <input type="text" id="searchInput" oninput="renderTable()" placeholder="ابحث باسم الملف أو رقم القيد..." class="w-full pr-10 pl-4 py-2 bg-slate-50 border border-teal-100 rounded-xl text-xs focus:ring-2 focus:ring-[#0d5c75] outline-none">
+          <input type="text" id="searchInput" oninput="renderTable()" placeholder="ابحث باسم الوثيقة أو المجلد..." class="w-full pr-10 pl-4 py-2 bg-slate-50 border border-teal-100 rounded-xl text-xs focus:ring-2 focus:ring-[#0d5c75] outline-none">
         </div>
-        <div class="text-xs text-slate-500 font-semibold">
-          عدد الملفات المطابقة: <span id="filesCount" class="font-bold text-[#0d5c75]">0</span>
+        <div class="text-xs text-slate-500 font-semibold flex items-center gap-2">
+          <span>عدد الملفات:</span>
+          <span id="filesCount" class="font-bold text-[#0d5c75] font-mono">0</span>
         </div>
       </div>
 
-      <!-- جدول الملفات -->
+      <!-- جدول استعراض الملفات -->
       <div class="bg-white rounded-2xl border border-teal-100 overflow-hidden shadow-xs">
         <div class="overflow-x-auto">
           <table class="w-full text-right text-xs">
             <thead class="bg-teal-50/70 border-b border-teal-100 text-teal-950 font-bold">
               <tr>
                 <th class="p-4">اسم الوثيقة والمستند</th>
-                <th class="p-4">المجلد التابع له</th>
+                <th class="p-4">المجلد الرئيسي</th>
+                <th class="p-4">المجلد الداخلي</th>
                 <th class="p-4">تاريخ الإيداع</th>
                 <th class="p-4">الحجم</th>
-                <th class="p-4">حالة الاعتماد</th>
                 <th class="p-4 text-center">الإجراءات</th>
               </tr>
             </thead>
             <tbody id="filesTableBody" class="divide-y divide-teal-50"></tbody>
           </table>
         </div>
-
-        <!-- الحالة الفارغة (عند عدم وجود نتائج) -->
         <div id="emptyState" class="hidden p-12 text-center text-slate-400 space-y-2">
           <i data-lucide="folder-open" class="w-10 h-10 mx-auto text-teal-200"></i>
-          <p class="font-semibold text-xs">لا توجد ملفات مطابقة في هذا المجلد حالياً.</p>
+          <p class="font-semibold text-xs">لا توجد وثائق في هذا المجلد حالياً.</p>
         </div>
       </div>
 
@@ -152,17 +163,65 @@
         <p class="font-semibold text-teal-900">تصميم وتطوير: أ. سعد القرني</p>
         <p>كافة الحقوق محفوظة لثانوية الكسائي — الإدارة العامة للتعليم بالمنطقة الشرقية © 1446هـ</p>
       </footer>
-
     </main>
   </div>
 
-  <!-- JavaScript -->
+  <!-- نافذة منبثقة (Modal) لإنشاء مجلد داخلي جديد -->
+  <div id="subfolderModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-md rounded-2xl shadow-xl border border-teal-100 overflow-hidden space-y-4 p-6">
+      <div class="flex items-center justify-between border-b border-teal-50 pb-3">
+        <h3 class="font-bold text-sm text-[#0d5c75] flex items-center gap-2">
+          <i data-lucide="folder-plus" class="w-4 h-4 text-emerald-600"></i>
+          <span>إنشاء مجلد داخلي (فرعي) جديد</span>
+        </h3>
+        <button onclick="closeNewSubfolderModal()" class="text-slate-400 hover:text-slate-600">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">المجلد الرئيسي الحاضن *</label>
+          <select id="modalParentFolder" class="w-full px-3 py-2 bg-slate-50 border border-teal-100 rounded-xl outline-none focus:ring-2 focus:ring-[#0d5c75]">
+            <option value="planning">التنظيم والتخطيط</option>
+            <option value="circulars">الوثائق والتعاميم</option>
+            <option value="academic">الشؤون التعليمية والمتابعة</option>
+            <option value="students">شؤون الطلاب</option>
+            <option value="committees">الاجتماعات واللجان</option>
+          </select>
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">اسم المجلد الداخلي الجديد *</label>
+          <input type="text" id="modalSubfolderName" placeholder="مثال: الخطة التشغيلية 1446هـ أو سجل الغياب" class="w-full px-3 py-2 bg-slate-50 border border-teal-100 rounded-xl outline-none focus:ring-2 focus:ring-[#0d5c75]">
+        </div>
+      </div>
+
+      <div class="pt-3 border-t border-teal-50 flex items-center justify-end gap-2">
+        <button onclick="closeNewSubfolderModal()" class="px-4 py-2 bg-slate-100 text-slate-600 text-xs font-bold rounded-xl hover:bg-slate-200 transition">إلغاء</button>
+        <button onclick="saveNewSubfolder()" class="px-4 py-2 bg-[#0d5c75] hover:bg-[#094254] text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5 shadow-xs">
+          <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i>
+          <span>حفظ المجلد</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Scripting -->
   <script>
     lucide.createIcons();
 
     let currentFolder = 'all';
+    let currentSubfolder = null;
 
-    function getFiles() {
+    const folderMap = {
+      'planning': 'التنظيم والتخطيط',
+      'circulars': 'الوثائق والتعاميم',
+      'academic': 'الشؤون التعليمية والمتابعة',
+      'students': 'شؤون الطلاب',
+      'committees': 'الاجتماعات واللجان'
+    };
+
+    function getStoredFiles() {
       try {
         return JSON.parse(localStorage.getItem('alkisaee_all_documents')) || [];
       } catch(e) {
@@ -170,8 +229,165 @@
       }
     }
 
+    function getStoredSubfolders() {
+      try {
+        return JSON.parse(localStorage.getItem('alkisaee_subfolders')) || [];
+      } catch(e) {
+        return [];
+      }
+    }
+
+    function openNewSubfolderModal() {
+      if (currentFolder !== 'all') {
+        document.getElementById('modalParentFolder').value = currentFolder;
+      }
+      document.getElementById('modalSubfolderName').value = '';
+      document.getElementById('subfolderModal').classList.remove('hidden');
+      document.getElementById('modalSubfolderName').focus();
+    }
+
+    function closeNewSubfolderModal() {
+      document.getElementById('subfolderModal').classList.add('hidden');
+    }
+
+    function saveNewSubfolder() {
+      const parent = document.getElementById('modalParentFolder').value;
+      const name = document.getElementById('modalSubfolderName').value.trim();
+
+      if (!name) {
+        alert('يرجى إدخال اسم للمجلد الداخلي');
+        return;
+      }
+
+      let subfolders = getStoredSubfolders();
+      const newSub = {
+        id: 'sub_' + Date.now(),
+        parentFolder: parent,
+        name: name,
+        createdAt: new Date().toLocaleDateString('ar-SA')
+      };
+
+      subfolders.push(newSub);
+      localStorage.setItem('alkisaee_subfolders', JSON.stringify(subfolders));
+
+      closeNewSubfolderModal();
+
+      if (currentFolder === 'all') {
+        filterFolder(parent);
+      } else {
+        renderSubfolders();
+      }
+
+      alert('تم إنشاء المجلد الداخلي: "' + name + '" بنجاح!');
+    }
+
+    function deleteSubfolder(id, name, event) {
+      event.stopPropagation();
+      if (confirm(`هل ترغب بحذف المجلد الداخلي: "${name}"؟\nملاحظة: لن يتم حذف الملفات بل ستعود للمجلد الرئيسي مباشرة.`)) {
+        let subfolders = getStoredSubfolders();
+        subfolders = subfolders.filter(s => s.id !== id);
+        localStorage.setItem('alkisaee_subfolders', JSON.stringify(subfolders));
+
+        // تحديث الملفات التي كانت تنتمي له لتصبح في المجلد الرئيسي
+        let files = getStoredFiles();
+        files.forEach(f => {
+          if (f.subfolderId === id) {
+            f.subfolderId = null;
+            f.subfolderName = null;
+          }
+        });
+        localStorage.setItem('alkisaee_all_documents', JSON.stringify(files));
+
+        if (currentSubfolder === id) {
+          currentSubfolder = null;
+        }
+
+        renderSubfolders();
+        renderTable();
+      }
+    }
+
+    function selectSubfolder(subId, subName) {
+      if (currentSubfolder === subId) {
+        currentSubfolder = null; // إلغاء الاختيار
+      } else {
+        currentSubfolder = subId;
+      }
+      renderSubfolders();
+      renderTable();
+      updateBreadcrumbs();
+    }
+
+    function renderSubfolders() {
+      const allSubs = getStoredSubfolders();
+      let filteredSubs = allSubs;
+
+      if (currentFolder !== 'all') {
+        filteredSubs = allSubs.filter(s => s.parentFolder === currentFolder);
+      }
+
+      const grid = document.getElementById('subfoldersGrid');
+      const countBadge = document.getElementById('subfolderCountBadge');
+
+      countBadge.textContent = filteredSubs.length + ' مجلد';
+      grid.innerHTML = '';
+
+      if (filteredSubs.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-4 px-4 bg-white rounded-xl border border-dashed border-teal-200 text-center text-xs text-slate-400">
+            لا توجد مجلدات داخلية منشأة في هذا القسم حالياً. انقر على «+ مجلد داخلي جديد» لإنشاء أول مجلد.
+          </div>
+        `;
+        return;
+      }
+
+      filteredSubs.forEach(sub => {
+        const isSelected = currentSubfolder === sub.id;
+        const card = document.createElement('div');
+        card.onclick = () => selectSubfolder(sub.id, sub.name);
+        card.className = `p-3 rounded-xl border transition cursor-pointer flex items-center justify-between gap-2 group ${
+          isSelected ? 'bg-teal-50 border-[#0d5c75] shadow-xs' : 'bg-white border-teal-100 hover:border-emerald-400'
+        }`;
+        card.innerHTML = `
+          <div class="flex items-center gap-2 min-w-0">
+            <i data-lucide="${isSelected ? 'folder-open' : 'folder'}" class="w-4 h-4 flex-shrink-0 ${isSelected ? 'text-[#0d5c75]' : 'text-emerald-600'}"></i>
+            <span class="text-xs font-bold text-slate-800 truncate group-hover:text-[#0d5c75]">${sub.name}</span>
+          </div>
+          <button onclick="deleteSubfolder('${sub.id}', '${sub.name}', event)" title="حذف المجلد" class="text-slate-300 hover:text-red-600 p-1 transition opacity-0 group-hover:opacity-100">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+          </button>
+        `;
+        grid.appendChild(card);
+      });
+
+      lucide.createIcons();
+    }
+
+    function updateBreadcrumbs() {
+      const folderEl = document.getElementById('breadcrumbFolder');
+      const subWrap = document.getElementById('breadcrumbSubfolderWrap');
+      const subEl = document.getElementById('breadcrumbSubfolder');
+
+      folderEl.textContent = currentFolder === 'all' ? 'كافة المجلدات والملفات' : folderMap[currentFolder];
+
+      if (currentSubfolder) {
+        const allSubs = getStoredSubfolders();
+        const found = allSubs.find(s => s.id === currentSubfolder);
+        if (found) {
+          subWrap.classList.remove('hidden');
+          subEl.textContent = found.name;
+        } else {
+          subWrap.classList.add('hidden');
+        }
+      } else {
+        subWrap.classList.add('hidden');
+      }
+    }
+
     function filterFolder(folder) {
       currentFolder = folder;
+      currentSubfolder = null; // إعادة ضبط المجلد الداخلي
+
       document.querySelectorAll('[id^="btn-"]').forEach(b => {
         b.className = 'px-4 py-2 rounded-xl text-xs font-bold bg-white border border-teal-100 text-slate-600 hover:border-[#0d5c75] transition whitespace-nowrap';
       });
@@ -180,13 +396,16 @@
       if (activeBtn) {
         activeBtn.className = 'px-4 py-2 rounded-xl text-xs font-bold bg-[#0d5c75] text-white shadow-sm transition whitespace-nowrap';
       }
+
+      renderSubfolders();
       renderTable();
+      updateBreadcrumbs();
     }
 
     function deleteFile(id, name) {
-      if (confirm(`هل أنت متأكد من حذف الوثيقة: "${name}" من الأرشيف نهائياً؟`)) {
-        let files = getFiles();
-        files = files.filter(f => f.id !== id);
+      if (confirm(`هل أنت متأكد من حذف الوثيقة: "${name}" من الأرشيف نهائياً؟\nسيتم تحديث كافة المؤشرات وعدادات المجلدات تلقائياً.`)) {
+        let files = getStoredFiles();
+        files = files.filter(f => String(f.id) !== String(id));
         localStorage.setItem('alkisaee_all_documents', JSON.stringify(files));
         renderTable();
       }
@@ -194,23 +413,28 @@
 
     function renderTable() {
       const q = document.getElementById('searchInput').value.trim().toLowerCase();
-      let files = getFiles();
+      let files = getStoredFiles();
 
       if (currentFolder !== 'all') {
         files = files.filter(f => f.folder === currentFolder);
       }
 
+      if (currentSubfolder) {
+        files = files.filter(f => f.subfolderId === currentSubfolder);
+      }
+
       if (q) {
         files = files.filter(f => 
           f.name.toLowerCase().includes(q) || 
-          (f.folderName && f.folderName.toLowerCase().includes(q))
+          (f.folderName && f.folderName.toLowerCase().includes(q)) || 
+          (f.subfolderName && f.subfolderName.toLowerCase().includes(q))
         );
       }
 
       document.getElementById('filesCount').textContent = files.length;
-
       const tbody = document.getElementById('filesTableBody');
       const empty = document.getElementById('emptyState');
+
       tbody.innerHTML = '';
 
       if (files.length === 0) {
@@ -226,19 +450,20 @@
               <a href="./viewer.html?id=${f.id}" class="hover:text-[#0d5c75] transition">${f.name}</a>
             </td>
             <td class="p-4 text-slate-500 font-medium">${f.folderName || 'عام'}</td>
-            <td class="p-4 text-slate-400">${f.date || 'اليوم'}</td>
-            <td class="p-4 text-slate-500 font-mono">${f.size || '2.5 ميجابايت'}</td>
             <td class="p-4">
-              <span class="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full">
-                <i data-lucide="check-check" class="w-3 h-3"></i> معتمد رسمياً
+              <span class="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md">
+                <i data-lucide="folder" class="w-3 h-3 text-emerald-600"></i>
+                ${f.subfolderName || 'الرئيسي مباشرة'}
               </span>
             </td>
+            <td class="p-4 text-slate-400 font-mono">${f.date || 'اليوم'}</td>
+            <td class="p-4 text-slate-500 font-mono">${f.size || '2.5 MB'}</td>
             <td class="p-4">
               <div class="flex items-center justify-center gap-2">
-                <a href="./viewer.html?id=${f.id}" title="استعراض" class="p-1.5 bg-teal-50 text-[#0d5c75] hover:bg-[#0d5c75] hover:text-white rounded-lg transition">
+                <a href="./viewer.html?id=${f.id}" title="استعراض الوثيقة" class="p-1.5 bg-teal-50 text-[#0d5c75] hover:bg-[#0d5c75] hover:text-white rounded-lg transition">
                   <i data-lucide="eye" class="w-4 h-4"></i>
                 </a>
-                <button onclick="deleteFile('${f.id}', '${f.name}')" title="حذف" class="p-1.5 bg-red-50 text-red-600 hover:bg-red-600 hover:text-white rounded-lg transition">
+                <button onclick="deleteFile('${f.id}', '${f.name}')" title="حذف نهائي وتحديث المؤشر" class="p-1.5 bg-red-50 text-red-600 hover:bg-red-600 hover:text-white rounded-lg transition">
                   <i data-lucide="trash-2" class="w-4 h-4"></i>
                 </button>
               </div>
@@ -251,13 +476,21 @@
       lucide.createIcons();
     }
 
-    // قراءة المجلد من الرابط إذا وجد
+    // التهيئة المبدئية عند التحميل
     const urlParams = new URLSearchParams(window.location.search);
     const initialFolder = urlParams.get('folder');
+    const searchQuery = urlParams.get('q');
+
+    if (searchQuery) {
+      document.getElementById('searchInput').value = searchQuery;
+    }
+
     if (initialFolder) {
       filterFolder(initialFolder);
     } else {
+      renderSubfolders();
       renderTable();
+      updateBreadcrumbs();
     }
   </script>
 </body>

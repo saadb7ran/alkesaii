@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>بوابة الزوار والاطلاع الرقمي - ثانوية الكسائي</title>
 
-  <!-- Tailwind CSS & Google Fonts & Lucide Icons -->
+  <!-- CSS & Fonts -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- مكتبة توليد رمز QR ديناميكياً للرابط الحالي -->
+  <!-- Icons & QRCode Libraries -->
+  <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <style>
@@ -19,10 +19,9 @@
     }
   </style>
 </head>
-
 <body class="bg-[#f7faf9] text-slate-800 min-h-screen flex flex-col antialiased">
 
-  <!-- الترويسة العلوية الرسمية الخاصة بالزوار (بدون شريط جانبي) -->
+  <!-- الترويسة العلوية الخاصة بالزوار -->
   <header class="bg-white border-b border-teal-100 px-6 py-4 sticky top-0 z-30 shadow-xs">
     <div class="max-w-6xl mx-auto flex items-center justify-between">
       <div class="flex items-center gap-3">
@@ -45,21 +44,21 @@
 
   <!-- محتوى بوابة الزوار -->
   <main class="flex-1 max-w-6xl w-full mx-auto p-6 md:p-8 space-y-8">
-
+    
     <!-- البانر الترحيبي -->
     <div class="bg-gradient-to-l from-[#0d5c75] to-[#083847] text-white p-6 sm:p-8 rounded-3xl shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
       <div class="space-y-2 text-center md:text-right">
         <span class="text-xs font-semibold text-emerald-300">منظومة الشفافية والحوكمة المدرسية</span>
         <h1 class="text-2xl sm:text-3xl font-bold">بوابة الزوار والاطلاع الرقمي</h1>
         <p class="text-xs text-teal-100 max-w-xl leading-relaxed">
-          أهلاً بكم في البوابة الرسمية المخصصة للمشرفين التربويين وأولياء الأمور والزوار للاطلاع المباشر على اللوائح والخطط والتقارير المعتمدة لثانوية الكسائي.
+          أهلاً بكم في البوابة الرسمية لثانوية الكسائي. يمكنكم تصفح المجلدات المدرسية المعتمدة والمجلدات الداخلية وقراءة الوثائق المصرحة بأعلى درجات الدقة.
         </p>
       </div>
 
       <div class="bg-white/10 backdrop-blur-xs p-4 rounded-2xl border border-white/20 text-center">
-        <i data-lucide="eye" class="w-8 h-8 text-emerald-300 mx-auto mb-1"></i>
-        <span class="text-xs font-bold text-white block">وثائق موثقة ومحمية</span>
-        <span class="text-[10px] text-teal-200">ضد التعديل أو الحذف</span>
+        <i data-lucide="shield-check" class="w-8 h-8 text-emerald-300 mx-auto mb-1"></i>
+        <span class="text-xs font-bold text-white block">وثائق رسمية موثقة</span>
+        <span class="text-[10px] text-teal-200">محمية ضد التعديل أو الحذف</span>
       </div>
     </div>
 
@@ -90,17 +89,42 @@
       </div>
     </div>
 
-    <!-- قائمة الوثائق المصرحة للاطلاع -->
+    <!-- تصفح المجلدات الرئيسية للزوار -->
     <section class="space-y-4">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-2">
           <span class="w-1.5 h-4 bg-[#0d5c75] rounded-full"></span>
-          <h2 class="text-base font-bold text-[#0d5c75]">سجلات وملفات الوثائق المصرحة للاطلاع</h2>
+          <h2 class="text-base font-bold text-[#0d5c75]">تصفح الأقسام والمجلدات</h2>
         </div>
         <span id="visitorDocsCount" class="text-xs font-bold text-teal-800 bg-teal-50 px-3 py-1 rounded-full">0 وثيقة متوفرة</span>
       </div>
 
+      <!-- أزرار المجلدات الرئيسية -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-2">
+        <button onclick="visitorFilterFolder('all')" id="vbtn-all" class="px-4 py-2 rounded-xl text-xs font-bold bg-[#0d5c75] text-white shadow-sm transition whitespace-nowrap">كافة المجلدات</button>
+        <button onclick="visitorFilterFolder('planning')" id="vbtn-planning" class="px-4 py-2 rounded-xl text-xs font-bold bg-white border border-teal-100 text-slate-600 hover:border-[#0d5c75] transition whitespace-nowrap">التنظيم والتخطيط</button>
+        <button onclick="visitorFilterFolder('circulars')" id="vbtn-circulars" class="px-4 py-2 rounded-xl text-xs font-bold bg-white border border-teal-100 text-slate-600 hover:border-[#0d5c75] transition whitespace-nowrap">الوثائق والتعاميم</button>
+        <button onclick="visitorFilterFolder('academic')" id="vbtn-academic" class="px-4 py-2 rounded-xl text-xs font-bold bg-white border border-teal-100 text-slate-600 hover:border-[#0d5c75] transition whitespace-nowrap">الشؤون التعليمية والمتابعة</button>
+        <button onclick="visitorFilterFolder('students')" id="vbtn-students" class="px-4 py-2 rounded-xl text-xs font-bold bg-white border border-teal-100 text-slate-600 hover:border-[#0d5c75] transition whitespace-nowrap">شؤون الطلاب</button>
+        <button onclick="visitorFilterFolder('committees')" id="vbtn-committees" class="px-4 py-2 rounded-xl text-xs font-bold bg-white border border-teal-100 text-slate-600 hover:border-[#0d5c75] transition whitespace-nowrap">الاجتماعات واللجان</button>
+      </div>
+
+      <!-- المجلدات الداخلية المصرحة للزوار -->
+      <div id="visitorSubfoldersSection" class="p-4 bg-white rounded-2xl border border-teal-100 space-y-2">
+        <h4 class="text-xs font-bold text-[#0d5c75] flex items-center gap-1.5">
+          <i data-lucide="folder-tree" class="w-4 h-4 text-emerald-600"></i>
+          <span>المجلدات الداخلية المتاحة</span>
+        </h4>
+        <div id="visitorSubfoldersList" class="flex flex-wrap gap-2"></div>
+      </div>
+
+      <!-- شبكة بطاقات الوثائق للزوار -->
       <div id="visitorFilesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+
+      <div id="visitorEmpty" class="hidden p-12 text-center text-slate-400 bg-white rounded-2xl border border-teal-100 space-y-2">
+        <i data-lucide="folder-open" class="w-10 h-10 mx-auto text-teal-200"></i>
+        <p class="font-semibold text-xs">لا توجد وثائق متاحة للاطلاع في هذا القسم حالياً.</p>
+      </div>
     </section>
 
     <!-- التذييل الرسمي الموحد -->
@@ -110,14 +134,15 @@
       </p>
       <p>كافة الحقوق محفوظة لثانوية الكسائي — الإدارة العامة للتعليم بالمنطقة الشرقية © 1446هـ - 2025م</p>
     </footer>
-
   </main>
 
-  <!-- JavaScript -->
+  <!-- JavaScript Scripting -->
   <script>
     lucide.createIcons();
 
-    // توليد رمز QR التفاعلي بناءً على رابط الصفحة الحالي
+    let visitorFolder = 'all';
+    let visitorSubfolder = null;
+
     new QRCode(document.getElementById("qrcode"), {
       text: window.location.href,
       width: 128,
@@ -133,41 +158,131 @@
       });
     }
 
-    function loadVisitorFiles() {
-      let docs = [];
+    function getDocs() {
       try {
-        docs = JSON.parse(localStorage.getItem('alkisaee_all_documents')) || [];
-      } catch(e) {}
+        return JSON.parse(localStorage.getItem('alkisaee_all_documents')) || [];
+      } catch(e) {
+        return [];
+      }
+    }
 
-      document.getElementById('visitorDocsCount').textContent = docs.length + ' وثيقة معتمدة';
+    function getSubfolders() {
+      try {
+        return JSON.parse(localStorage.getItem('alkisaee_subfolders')) || [];
+      } catch(e) {
+        return [];
+      }
+    }
 
-      const grid = document.getElementById('visitorFilesGrid');
-      grid.innerHTML = '';
+    function visitorFilterFolder(folder) {
+      visitorFolder = folder;
+      visitorSubfolder = null;
 
-      docs.forEach(doc => {
-        const card = document.createElement('div');
-        card.className = 'bg-white p-5 rounded-2xl border border-teal-100 hover:shadow-md transition space-y-3 flex flex-col justify-between';
-        card.innerHTML = `
-          <div>
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-[10px] font-bold bg-red-100 text-red-600 px-2 py-0.5 rounded">PDF</span>
-              <span class="text-[11px] text-teal-800 bg-teal-50 px-2 py-0.5 rounded font-semibold">${doc.folderName || 'أرشيف عام'}</span>
-            </div>
-            <h4 class="font-bold text-xs text-slate-800 leading-snug line-clamp-2">${doc.name}</h4>
-            <p class="text-[10px] text-slate-400 mt-1">${doc.date || 'معتمد'}</p>
-          </div>
-          <a href="./viewer.html?id=${doc.id}" class="w-full py-2 bg-teal-50 hover:bg-[#0d5c75] hover:text-white text-[#0d5c75] text-xs font-bold rounded-xl transition text-center flex items-center justify-center gap-1.5">
-            <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
-            <span>قراءة المستند</span>
-          </a>
-        `;
-        grid.appendChild(card);
+      document.querySelectorAll('[id^="vbtn-"]').forEach(b => {
+        b.className = 'px-4 py-2 rounded-xl text-xs font-bold bg-white border border-teal-100 text-slate-600 hover:border-[#0d5c75] transition whitespace-nowrap';
+      });
+
+      const active = document.getElementById('vbtn-' + folder);
+      if (active) {
+        active.className = 'px-4 py-2 rounded-xl text-xs font-bold bg-[#0d5c75] text-white shadow-sm transition whitespace-nowrap';
+      }
+
+      renderVisitorSubfolders();
+      renderVisitorFiles();
+    }
+
+    function visitorSelectSubfolder(subId) {
+      visitorSubfolder = visitorSubfolder === subId ? null : subId;
+      renderVisitorSubfolders();
+      renderVisitorFiles();
+    }
+
+    function renderVisitorSubfolders() {
+      const subs = getSubfolders();
+      let filtered = subs;
+
+      if (visitorFolder !== 'all') {
+        filtered = subs.filter(s => s.parentFolder === visitorFolder);
+      }
+
+      const list = document.getElementById('visitorSubfoldersList');
+      const sec = document.getElementById('visitorSubfoldersSection');
+
+      list.innerHTML = '';
+
+      if (filtered.length === 0) {
+        sec.classList.add('hidden');
+        return;
+      }
+
+      sec.classList.remove('hidden');
+
+      filtered.forEach(s => {
+        const isSel = visitorSubfolder === s.id;
+        const btn = document.createElement('button');
+        btn.onclick = () => visitorSelectSubfolder(s.id);
+        btn.className = `px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+          isSel ? 'bg-[#0d5c75] text-white shadow-xs' : 'bg-teal-50 text-[#0d5c75] hover:bg-teal-100'
+        }`;
+        btn.innerHTML = `<i data-lucide="${isSel ? 'folder-open' : 'folder'}" class="w-3.5 h-3.5"></i> ${s.name}`;
+        list.appendChild(btn);
       });
 
       lucide.createIcons();
     }
 
-    loadVisitorFiles();
+    function renderVisitorFiles() {
+      let docs = getDocs();
+
+      if (visitorFolder !== 'all') {
+        docs = docs.filter(d => d.folder === visitorFolder);
+      }
+
+      if (visitorSubfolder) {
+        docs = docs.filter(d => d.subfolderId === visitorSubfolder);
+      }
+
+      document.getElementById('visitorDocsCount').textContent = docs.length + ' وثيقة معتمدة';
+      const grid = document.getElementById('visitorFilesGrid');
+      const empty = document.getElementById('visitorEmpty');
+
+      grid.innerHTML = '';
+
+      if (docs.length === 0) {
+        empty.classList.remove('hidden');
+      } else {
+        empty.classList.add('hidden');
+        docs.forEach(doc => {
+          const card = document.createElement('div');
+          card.className = 'bg-white p-5 rounded-2xl border border-teal-100 hover:shadow-md transition space-y-3 flex flex-col justify-between';
+          card.innerHTML = `
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-[10px] font-bold bg-red-100 text-red-600 px-2 py-0.5 rounded">PDF</span>
+                <span class="text-[11px] text-teal-800 bg-teal-50 px-2 py-0.5 rounded font-semibold">${doc.folderName || 'أرشيف عام'}</span>
+              </div>
+              <h4 class="font-bold text-xs text-slate-800 leading-snug line-clamp-2">${doc.name}</h4>
+              <div class="flex items-center gap-1 text-[10px] text-emerald-700 font-medium mt-1">
+                <i data-lucide="folder" class="w-3 h-3 text-emerald-600"></i>
+                <span>${doc.subfolderName ? 'المجلد: ' + doc.subfolderName : 'المجلد الرئيسي'}</span>
+              </div>
+              <p class="text-[10px] text-slate-400 mt-1">${doc.date || 'معتمد'}</p>
+            </div>
+            <a href="./viewer.html?id=${doc.id}" class="w-full py-2 bg-teal-50 hover:bg-[#0d5c75] hover:text-white text-[#0d5c75] text-xs font-bold rounded-xl transition text-center flex items-center justify-center gap-1.5">
+              <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+              <span>قراءة المستند</span>
+            </a>
+          `;
+          grid.appendChild(card);
+        });
+      }
+
+      lucide.createIcons();
+    }
+
+    // التهيئة المبدئية عند التحميل
+    renderVisitorSubfolders();
+    renderVisitorFiles();
   </script>
 </body>
 </html>
