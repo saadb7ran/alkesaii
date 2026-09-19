@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>لوحة القيادة والمجلدات - ثانوية الكسائي</title>
-  
-  <!-- CSS & Fonts -->
+
+  <!-- Tailwind CSS & Fonts -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Icons -->
+  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  
+
   <style>
     body {
       font-family: 'IBM Plex Sans Arabic', sans-serif;
@@ -21,10 +21,9 @@
 <body class="bg-[#f7faf9] text-slate-800 min-h-screen flex antialiased">
 
   <!-- القائمة الجانبية (Sidebar) -->
-  <aside class="w-64 bg-white border-l border-teal-100 min-h-screen p-5 flex flex-col justify-between hidden md:flex flex-shrink-0 sticky top-0 h-screen overflow-y-auto">
+  <aside class="w-64 bg-white border-l border-teal-100 min-h-screen p-5 flex-col justify-between hidden md:flex flex-shrink-0 sticky top-0 h-screen overflow-y-auto">
     <div class="space-y-6">
-      
-      <!-- الهوية والترويسة الجانبية -->
+      <!-- الشعار والترويسة -->
       <div class="pb-4 border-b border-teal-50">
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-xl bg-[#0d5c75] text-white flex items-center justify-center font-bold shadow-sm">
@@ -69,7 +68,8 @@
       <div>
         <div class="flex items-center justify-between text-xs mb-1.5">
           <span class="text-slate-500 font-medium flex items-center gap-1.5">
-            <i data-lucide="cloud" class="w-3.5 h-3.5 text-[#0d5c75]"></i> المساحة السحابية
+            <i data-lucide="cloud" class="w-3.5 h-3.5 text-[#0d5c75]"></i>
+            المساحة السحابية
           </span>
           <span id="storagePercent" class="font-bold text-[#0d5c75]">0%</span>
         </div>
@@ -78,10 +78,10 @@
         </div>
         <p id="storageText" class="text-[10px] text-slate-400 mt-1 font-mono">0.0 جيجابايت مستخدمة من 50 جيجابايت</p>
       </div>
-
       <div class="p-2.5 bg-teal-50/70 rounded-xl text-center border border-teal-100/50">
         <p class="text-[10px] text-teal-900 font-bold flex items-center justify-center gap-1">
-          <i data-lucide="shield-check" class="w-3 h-3 text-emerald-600"></i> تصميم وتطوير: أ. سعد القرني
+          <i data-lucide="shield-check" class="w-3 h-3 text-emerald-600"></i>
+          تصميم وتطوير: أ. سعد القرني
         </p>
       </div>
     </div>
@@ -89,8 +89,7 @@
 
   <!-- المحتوى الرئيسي -->
   <div class="flex-1 flex flex-col min-w-0">
-    
-    <!-- الشريط العلوي (Header) -->
+    <!-- الشريط العلوي -->
     <header class="bg-white border-b border-teal-100 px-6 py-3.5 flex items-center justify-between sticky top-0 z-20 shadow-xs">
       <div class="flex items-center gap-3 flex-1 max-w-lg">
         <div class="relative w-full">
@@ -110,12 +109,13 @@
     </header>
 
     <main class="p-6 md:p-8 space-y-8 max-w-7xl w-full mx-auto">
-      
       <!-- البانر القيادي بالهوية الرسمية -->
       <div class="bg-gradient-to-l from-[#0d5c75] to-[#083847] text-white p-6 sm:p-7 rounded-2xl shadow-sm relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div class="space-y-2 z-10">
           <div class="flex items-center gap-2 text-xs font-semibold text-emerald-300">
-            <span>المملكة العربية السعودية</span> • <span>وزارة التعليم</span> • <span>الإدارة العامة للتعليم بالمنطقة الشرقية</span>
+            <span>المملكة العربية السعودية</span> • 
+            <span>وزارة التعليم</span> • 
+            <span>الإدارة العامة للتعليم بالمنطقة الشرقية</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-bold">لوحة القيادة والمستودع الرقمي - ثانوية الكسائي</h1>
           <p class="text-xs text-teal-100">إدارة وأرشفة السجلات المدرسية الرسمية وملفات PDF المؤرشفة سحابياً</p>
@@ -128,8 +128,9 @@
         </div>
       </div>
 
-      <!-- الإحصائيات (تتحدث حقيقياً بناءً على ما ترفعه فقط) -->
+      <!-- الإحصائيات الشاملة -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- كارت 1 -->
         <div class="bg-white p-5 rounded-2xl border border-teal-100 shadow-xs flex items-center justify-between">
           <div>
             <span class="text-[11px] font-semibold text-slate-400">إجمالي الوثائق بالأرشيف</span>
@@ -143,6 +144,7 @@
           </div>
         </div>
 
+        <!-- كارت 2 -->
         <div class="bg-white p-5 rounded-2xl border border-teal-100 shadow-xs flex items-center justify-between">
           <div>
             <span class="text-[11px] font-semibold text-slate-400">الأقسام والمجلدات الرئيسية</span>
@@ -154,17 +156,19 @@
           </div>
         </div>
 
+        <!-- كارت 3 -->
         <div class="bg-white p-5 rounded-2xl border border-teal-100 shadow-xs flex items-center justify-between">
           <div>
-            <span class="text-[11px] font-semibold text-slate-400">المجلدات الداخلية الفرعية</span>
+            <span class="text-[11px] font-semibold text-slate-400">المجلدات الفرعية المنشأة</span>
             <h3 id="statSubfolders" class="text-2xl font-bold text-[#0d5c75] mt-1 font-mono">0</h3>
-            <p class="text-[10px] text-slate-500 mt-1">مجلدات تنظيمية مخصصة</p>
+            <p class="text-[10px] text-slate-500 mt-1">مجلدات تنظيمية متفرعة</p>
           </div>
           <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
             <i data-lucide="folder-tree" class="w-6 h-6"></i>
           </div>
         </div>
 
+        <!-- كارت 4 -->
         <div class="bg-white p-5 rounded-2xl border border-teal-100 shadow-xs flex items-center justify-between">
           <div>
             <span class="text-[11px] font-semibold text-slate-400">المساحة المتاحة</span>
@@ -177,7 +181,7 @@
         </div>
       </div>
 
-      <!-- المجلدات المدرسية المعتمدة -->
+      <!-- المجلدات المدرسية المعتمدة الخمسة -->
       <section class="space-y-4">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
@@ -185,13 +189,14 @@
             <h2 class="text-base font-bold text-[#0d5c75]">المجلدات المدرسية المعتمدة</h2>
           </div>
           <a href="./files.html" class="text-xs text-[#0d5c75] font-bold hover:underline flex items-center gap-1">
-            عرض كافة الملفات <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+            عرض كافة الملفات
+            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
           </a>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          <!-- مجلد: التنظيم والتخطيط -->
-          <a href="./files.html?folder=planning" class="bg-white p-5 rounded-2xl border border-teal-100 hover:border-emerald-400 hover:shadow-md transition group block">
+          <!-- مجلد 1 -->
+          <a href="./files.html?folderId=planning" class="bg-white p-5 rounded-2xl border border-teal-100 hover:border-emerald-400 hover:shadow-md transition group block">
             <div class="flex items-start justify-between mb-4">
               <div class="w-11 h-11 rounded-xl bg-teal-50 text-[#0d5c75] flex items-center justify-center group-hover:scale-105 transition">
                 <i data-lucide="calendar" class="w-5 h-5"></i>
@@ -202,8 +207,8 @@
             <p class="text-xs text-slate-500 mt-1 leading-relaxed">الخطة التشغيلية للمدرسة، توزيع المسؤوليات، الهيكل التنظيمي واللجان والفرق المدرسية.</p>
           </a>
 
-          <!-- مجلد: الوثائق والتعاميم -->
-          <a href="./files.html?folder=circulars" class="bg-white p-5 rounded-2xl border border-teal-100 hover:border-emerald-400 hover:shadow-md transition group block">
+          <!-- مجلد 2 -->
+          <a href="./files.html?folderId=circulars" class="bg-white p-5 rounded-2xl border border-teal-100 hover:border-emerald-400 hover:shadow-md transition group block">
             <div class="flex items-start justify-between mb-4">
               <div class="w-11 h-11 rounded-xl bg-teal-50 text-[#0d5c75] flex items-center justify-center group-hover:scale-105 transition">
                 <i data-lucide="mail" class="w-5 h-5"></i>
@@ -214,8 +219,8 @@
             <p class="text-xs text-slate-500 mt-1 leading-relaxed">سجل اطلاع منسوبي المدرسة على التعاميم، القرارات الوزارية، واللوائح التنظيمية.</p>
           </a>
 
-          <!-- مجلد: الشؤون التعليمية والمتابعة -->
-          <a href="./files.html?folder=academic" class="bg-white p-5 rounded-2xl border border-teal-100 hover:border-emerald-400 hover:shadow-md transition group block">
+          <!-- مجلد 3 -->
+          <a href="./files.html?folderId=academic" class="bg-white p-5 rounded-2xl border border-teal-100 hover:border-emerald-400 hover:shadow-md transition group block">
             <div class="flex items-start justify-between mb-4">
               <div class="w-11 h-11 rounded-xl bg-teal-50 text-[#0d5c75] flex items-center justify-center group-hover:scale-105 transition">
                 <i data-lucide="clipboard-check" class="w-5 h-5"></i>
@@ -226,8 +231,8 @@
             <p class="text-xs text-slate-500 mt-1 leading-relaxed">خطة الزيارات الصفية، سجل متابعة المعلمين وأثر الزيارات، والمناوبة والاختبارات.</p>
           </a>
 
-          <!-- مجلد: شؤون الطلاب -->
-          <a href="./files.html?folder=students" class="bg-white p-5 rounded-2xl border border-teal-100 hover:border-emerald-400 hover:shadow-md transition group block">
+          <!-- مجلد 4 -->
+          <a href="./files.html?folderId=students" class="bg-white p-5 rounded-2xl border border-teal-100 hover:border-emerald-400 hover:shadow-md transition group block">
             <div class="flex items-start justify-between mb-4">
               <div class="w-11 h-11 rounded-xl bg-teal-50 text-[#0d5c75] flex items-center justify-center group-hover:scale-105 transition">
                 <i data-lucide="users" class="w-5 h-5"></i>
@@ -238,8 +243,8 @@
             <p class="text-xs text-slate-500 mt-1 leading-relaxed">سجلات الانضباط المدرسي، قواعد السلوك والمواظبة، ومتابعة غياب وتأخر الطلاب.</p>
           </a>
 
-          <!-- مجلد: الاجتماعات واللجان -->
-          <a href="./files.html?folder=committees" class="bg-white p-5 rounded-2xl border border-teal-100 hover:border-emerald-400 hover:shadow-md transition group block">
+          <!-- مجلد 5 -->
+          <a href="./files.html?folderId=committees" class="bg-white p-5 rounded-2xl border border-teal-100 hover:border-emerald-400 hover:shadow-md transition group block">
             <div class="flex items-start justify-between mb-4">
               <div class="w-11 h-11 rounded-xl bg-teal-50 text-[#0d5c75] flex items-center justify-center group-hover:scale-105 transition">
                 <i data-lucide="messages-square" class="w-5 h-5"></i>
@@ -256,11 +261,12 @@
       <section class="bg-white p-6 rounded-2xl border border-teal-100 shadow-xs space-y-4">
         <div class="flex items-center justify-between border-b border-teal-50 pb-3">
           <h2 class="text-sm font-bold text-[#0d5c75] flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-emerald-500"></span> أحدث وثائق PDF المودعة في الأرشيف
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            أحدث وثائق PDF المودعة في الأرشيف
           </h2>
           <a href="./files.html" class="text-xs text-[#0d5c75] font-bold hover:underline">عرض الأرشيف الكامل</a>
         </div>
-        
+
         <div id="recentDocsList" class="divide-y divide-teal-50"></div>
       </section>
 
@@ -272,54 +278,64 @@
     </main>
   </div>
 
-  <!-- JavaScript Scripting -->
+  <!-- JavaScript البرمجي -->
   <script>
     lucide.createIcons();
-
-    // فحص أمان لتنظيف أي بقايا تجريبية سابقة لمرة واحدة تلقائياً
-    (function sanitizeStorage() {
-      try {
-        const stored = localStorage.getItem('alkisaee_all_documents');
-        if (stored) {
-          const list = JSON.parse(stored);
-          // إذا كانت القائمة تحتوي على أي ملفات تجريبية قديمة برقم آيدي نصي 1-5 يتم تفريغها فورياً
-          if (Array.isArray(list) && list.some(item => ['1', '2', '3', '4', '5'].includes(String(item.id)))) {
-            localStorage.setItem('alkisaee_all_documents', JSON.stringify([]));
-          }
-        }
-      } catch (e) {}
-    })();
+    const ROOT_FOLDER_KEYS = ['planning', 'circulars', 'academic', 'students', 'committees'];
 
     function getAllDocs() {
       try {
-        const stored = localStorage.getItem('alkisaee_all_documents');
-        if (stored !== null) {
-          return JSON.parse(stored);
-        }
-      } catch (e) {}
-      // يبدأ دائماً فارغاً ونظيفاً بنسبة 100%
-      localStorage.setItem('alkisaee_all_documents', JSON.stringify([]));
-      return [];
-    }
-
-    function getSubfolders() {
-      try {
-        return JSON.parse(localStorage.getItem('alkisaee_subfolders')) || [];
-      } catch (e) {
+        return JSON.parse(localStorage.getItem('alkisaee_all_documents')) || [];
+      } catch(e) {
         return [];
       }
     }
 
+    function getFoldersTree() {
+      try {
+        return JSON.parse(localStorage.getItem('alkisaee_folders_tree')) || [];
+      } catch(e) {
+        return [];
+      }
+    }
+
+    // دالة تتبع الجذر الرئيسي: تأخذ أي folderId وتبحث في الأباء حتى تصل إلى المجلد الرئيسي المعتمد
+    function findRootCategory(folderId, tree) {
+      if (!folderId || folderId === 'root') return 'root';
+      if (ROOT_FOLDER_KEYS.includes(folderId)) return folderId;
+
+      let curr = folderId;
+      let depth = 0;
+
+      while (curr && curr !== 'root' && depth < 20) {
+        if (ROOT_FOLDER_KEYS.includes(curr)) {
+          return curr;
+        }
+        const found = tree.find(f => f.id === curr);
+        if (found) {
+          curr = found.parentId;
+        } else {
+          break;
+        }
+        depth++;
+      }
+
+      return 'root';
+    }
+
     function refreshDashboard() {
       const docs = getAllDocs();
-      const subfolders = getSubfolders();
+      const tree = getFoldersTree();
       const totalCount = docs.length;
 
-      // 1. تحديث المؤشرات بالأرقام الحقيقية فقط
-      document.getElementById('statTotalDocs').textContent = totalCount.toLocaleString('ar-SA');
-      document.getElementById('statSubfolders').textContent = subfolders.length.toLocaleString('ar-SA');
+      // حساب المجلدات الفرعية (كل المجلدات التي ليست من المجلدات الـ5 الرئيسية)
+      const customSubfolders = tree.filter(f => !ROOT_FOLDER_KEYS.includes(f.id));
 
-      // 2. تحديث شريط المساحة الحقيقية
+      // 1. تحديث المؤشرات الكلية بالأرقام الحقيقية
+      document.getElementById('statTotalDocs').textContent = totalCount.toLocaleString('ar-SA');
+      document.getElementById('statSubfolders').textContent = customSubfolders.length.toLocaleString('ar-SA');
+
+      // 2. تحديث شريط المساحة السحابية التراكمية
       const usedGB = (totalCount * 0.05).toFixed(2);
       const percent = Math.min(Math.round((usedGB / 50) * 100), 100);
       const freeGB = (50 - usedGB).toFixed(1);
@@ -329,15 +345,19 @@
       document.getElementById('storageText').textContent = usedGB + ' جيجابايت مستخدمة من 50 جيجابايت';
       document.getElementById('statFreeSpace').innerHTML = freeGB + ' <span class="text-xs font-normal">GB</span>';
 
-      // 3. تحديث عدادات المجلدات الخمسة
-      const folders = ['planning', 'circulars', 'academic', 'students', 'committees'];
-      folders.forEach(f => {
-        const count = docs.filter(d => d.folder === f).length;
-        const el = document.getElementById('count-' + f);
+      // 3. تحديث عدادات المجلدات الرئيسية الخمسة بدقة (مع تتبع كافة الفروع الداخلية)
+      ROOT_FOLDER_KEYS.forEach(rootKey => {
+        const count = docs.filter(doc => {
+          if (doc.folder === rootKey) return true;
+          const assignedRoot = findRootCategory(doc.folderId, tree);
+          return assignedRoot === rootKey;
+        }).length;
+
+        const el = document.getElementById('count-' + rootKey);
         if (el) el.textContent = count + ' ملف';
       });
 
-      // 4. عرض القائمة النظيفة لأحدث الوثائق
+      // 4. عرض القائمة لأحدث الوثائق
       const recentList = document.getElementById('recentDocsList');
       recentList.innerHTML = '';
 
@@ -345,11 +365,20 @@
         recentList.innerHTML = `
           <div class="py-8 text-center text-xs text-slate-400 flex flex-col items-center justify-center gap-2">
             <i data-lucide="folder-open" class="w-8 h-8 text-teal-200"></i>
-            <span>الأرشيف نظيف وخالٍ حالياً. انقر على «رفع ملف PDF جديد» لإيداع أول وثيقة.</span>
+            <span>الأرشيف خالٍ حالياً. انقر على «رفع ملف PDF جديد» لإيداع أول وثيقة.</span>
           </div>
         `;
       } else {
         docs.slice(0, 5).forEach(doc => {
+          let folderDisplayName = 'الأرشيف العام';
+
+          if (doc.folderId && doc.folderId !== 'root') {
+            const fItem = tree.find(t => t.id === doc.folderId);
+            if (fItem) folderDisplayName = fItem.name;
+          } else if (doc.folderName) {
+            folderDisplayName = doc.folderName;
+          }
+
           const item = document.createElement('div');
           item.className = 'py-3 flex items-center justify-between hover:bg-teal-50/50 px-2 rounded-xl transition';
           item.innerHTML = `
@@ -357,11 +386,12 @@
               <span class="text-[10px] font-bold bg-red-100 text-red-600 px-2 py-0.5 rounded">PDF</span>
               <div>
                 <a href="./viewer.html?id=${doc.id}" class="text-xs font-bold text-slate-800 hover:text-[#0d5c75] transition">${doc.name}</a>
-                <p class="text-[10px] text-slate-400 mt-0.5">${doc.folderName} ${doc.subfolderName ? '• ' + doc.subfolderName : ''} • ${doc.date}</p>
+                <p class="text-[10px] text-slate-400 mt-0.5">📁 ${folderDisplayName} • ${doc.date || 'اليوم'}</p>
               </div>
             </div>
             <a href="./viewer.html?id=${doc.id}" class="px-3 py-1 bg-teal-50 hover:bg-[#0d5c75] hover:text-white text-[#0d5c75] text-xs font-semibold rounded-lg transition flex items-center gap-1">
-              <i data-lucide="eye" class="w-3.5 h-3.5"></i> استعراض
+              <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+              استعراض
             </a>
           `;
           recentList.appendChild(item);
@@ -371,7 +401,6 @@
       lucide.createIcons();
     }
 
-    // تشغيل التحديث فور تحكم الصفحة
     refreshDashboard();
   </script>
 </body>
