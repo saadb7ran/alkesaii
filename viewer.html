@@ -4,12 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>قارئ ومستعرض الوثائق الرسمية - ثانوية الكسائي</title>
-
+  
   <!-- CSS & Fonts -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- Icons Library -->
+  <script src="https://cdn.tailwindcss.com"></script> <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
@@ -20,24 +19,20 @@
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col antialiased">
 
-  <!-- شريط التحكم العلوي -->
-  <header class="bg-[#0d5c75] text-white px-4 sm:px-6 py-3 flex items-center justify-between shadow-md z-30">
+  <!-- Header Section -->
+  <header class="bg-[#0d5c75] text-white px-4 sm:px-6 py-3.5 flex items-center justify-between shadow-md z-30">
     <div class="flex items-center gap-3">
-      <!-- زر الرجوع الذكي -->
-      <button id="btnSmartBack" onclick="handleSmartBack()" class="p-2 bg-white/10 hover:bg-white/20 rounded-xl transition flex items-center gap-1 text-xs font-bold">
+      <button id="btnSmartBack" onclick="handleSmartBack()" class="p-2 bg-white/10 hover:bg-white/20 rounded-xl transition flex items-center gap-1.5 text-xs font-bold">
         <i data-lucide="arrow-right" class="w-4 h-4"></i>
-        <span id="backButtonText">العودة للملفات</span>
+        <span id="backButtonText">العودة</span>
       </button>
-
       <div class="h-6 w-[1px] bg-white/20"></div>
-
       <div>
-        <h1 id="viewerDocTitle" class="font-bold text-sm line-clamp-1">مستعرض الوثائق الرسمية المعتمدة</h1>
+        <h1 id="viewerDocTitle" class="font-bold text-xs sm:text-sm line-clamp-1">مستعرض الوثائق الرسمية</h1>
         <p class="text-[10px] text-teal-200">الإدارة العامة للتعليم بالمنطقة الشرقية • ثانوية الكسائي</p>
       </div>
     </div>
 
-    <!-- أدوات المستند -->
     <div class="flex items-center gap-2">
       <button onclick="window.print()" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition">
         <i data-lucide="printer" class="w-3.5 h-3.5"></i>
@@ -45,73 +40,66 @@
       </button>
       <button id="btnDownload" onclick="downloadCurrentPdf()" class="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 rounded-xl text-xs font-bold flex items-center gap-1.5 transition shadow-sm hidden">
         <i data-lucide="download" class="w-3.5 h-3.5"></i>
-        <span>تحميل الملف</span>
+        <span>تحميل</span>
       </button>
     </div>
   </header>
 
-  <!-- مساحة العرض الكاملة Edge-to-Edge -->
-  <main class="flex-1 flex flex-col p-4 md:p-6 max-w-6xl w-full mx-auto">
-    <div id="pdfContainer" class="flex-1 bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden flex flex-col min-h-[750px] relative">
-      <!-- إطار المستند المرفوع (يعرض ملف الـ PDF كاملاً) -->
+  <!-- Main Viewport Section -->
+  <main class="flex-1 flex flex-col p-2 sm:p-4 max-w-7xl w-full mx-auto">
+    <div id="pdfContainer" class="flex-1 bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden flex flex-col min-h-[850px] relative">
+      
+      <!-- PDF Viewer Frame -->
       <iframe id="pdfFrame" class="w-full flex-1 border-0 hidden" src=""></iframe>
 
-      <!-- بطاقة فارغة أنيقة في حال عدم توفر مستند -->
+      <!-- Empty State View -->
       <div id="emptyView" class="p-12 space-y-4 flex-1 flex flex-col items-center justify-center text-center">
         <div class="w-16 h-16 rounded-2xl bg-teal-50 text-[#0d5c75] flex items-center justify-center">
           <i data-lucide="file-search" class="w-8 h-8 text-[#0d5c75]"></i>
         </div>
         <h3 id="docEmptyTitle" class="text-base font-bold text-slate-800">لم يتم اختيار وثيقة للقراءة</h3>
-        <p class="text-xs text-slate-500 max-w-sm">يرجى الرجوع والنقر على «قراءة المستند» بجانب أي ملف معتمد.</p>
-        <div class="flex items-center gap-3 pt-2">
-          <button onclick="handleSmartBack()" class="px-5 py-2.5 bg-[#0d5c75] hover:bg-[#094254] text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-xs">
-            <i data-lucide="arrow-right" class="w-4 h-4"></i>
-            <span id="emptyBackText">العودة</span>
-          </button>
-        </div>
+        <p class="text-xs text-slate-500 max-w-sm">يرجى النقر على «قراءة المستند» من قائمة الوثائق المعتمدة.</p>
+        <button onclick="handleSmartBack()" class="px-5 py-2 bg-[#0d5c75] hover:bg-[#094254] text-white rounded-xl text-xs font-bold transition flex items-center gap-2">
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          <span>العودة للقائمة</span>
+        </button>
       </div>
+
     </div>
 
-    <!-- التذييل الرسمي الموحد -->
-    <footer class="pt-4 text-center text-xs text-slate-500 space-y-1">
-      <p class="font-semibold text-[#0d5c75]">تصميم وتطوير: أ. سعد القرني</p>
-      <p>كافة الحقوق محفوظة لثانوية الكسائي — الإدارة العامة للتعليم بالمنطقة الشرقية © 1446هـ</p>
+    <!-- Footer -->
+    <footer class="pt-3 text-center text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <span class="font-semibold text-[#0d5c75] text-[11px]">تصميم وتطوير: أ. سعد القرني</span>
+      <p class="text-[10px] text-slate-400">ثانوية الكسائي — الإدارة العامة للتعليم بالمنطقة الشرقية © 1446هـ</p>
     </footer>
   </main>
 
-  <!-- JavaScript البرمجي -->
+  <!-- JavaScript Logic -->
   <script>
-    lucide.createIcons();
     let currentDoc = null;
     const urlParams = new URLSearchParams(window.location.search);
     const isFromVisitor = urlParams.get('from') === 'visitor';
 
-    // ضبط نصوص وأهداف زر الرجوع حسب المصدر
+    // ضبط نص زر العودة حسب المصدر
     function setupBackButton() {
       const backText = document.getElementById('backButtonText');
-      const emptyBackText = document.getElementById('emptyBackText');
-
       if (isFromVisitor) {
         backText.textContent = 'العودة لبوابة الزوار';
-        emptyBackText.textContent = 'العودة لبوابة الزوار';
       } else {
         backText.textContent = 'العودة للملفات';
-        emptyBackText.textContent = 'العودة للملفات';
       }
     }
 
+    // التنقل الذكي: يعود للزوار أو لإدارة الملفات مباشرة
     function handleSmartBack() {
       if (isFromVisitor) {
         window.location.href = './visitor.html';
       } else {
-        if (window.history.length > 1) {
-          window.history.back();
-        } else {
-          window.location.href = './files.html';
-        }
+        window.location.href = './files.html';
       }
     }
 
+    // تهيئة واستعراض المستندات
     function initViewer() {
       setupBackButton();
       const docId = urlParams.get('id');
@@ -119,7 +107,13 @@
 
       try {
         docs = JSON.parse(localStorage.getItem('alkisaee_all_documents')) || [];
-      } catch(e) {}
+      } catch (e) {
+        console.error('خطأ في جلب الملفات من localStorage:', e);
+      }
+
+      if (window.ALKISAEE_DEFAULT_DATA && window.ALKISAEE_DEFAULT_DATA.files) {
+        docs = docs.concat(window.ALKISAEE_DEFAULT_DATA.files);
+      }
 
       if (docId) {
         currentDoc = docs.find(d => String(d.id) === String(docId));
@@ -139,7 +133,7 @@
         btnDownload.classList.remove('hidden');
       } else if (currentDoc) {
         document.getElementById('viewerDocTitle').textContent = currentDoc.name;
-        document.getElementById('docEmptyTitle').textContent = 'الوثيقة: ' + currentDoc.name;
+        document.getElementById('docEmptyTitle').textContent = currentDoc.name;
         frame.classList.add('hidden');
         emptyView.classList.remove('hidden');
         btnDownload.classList.add('hidden');
@@ -152,18 +146,22 @@
       lucide.createIcons();
     }
 
+    // تنزيل ملف PDF
     function downloadCurrentPdf() {
       if (currentDoc && currentDoc.pdfData) {
         const a = document.createElement('a');
         a.href = currentDoc.pdfData;
-        a.download = currentDoc.name;
+        a.download = (currentDoc.name || 'document') + '.pdf';
         a.click();
       } else {
         window.print();
       }
     }
 
-    initViewer();
+    // تشغيل الصفحة عند التحميل
+    document.addEventListener('DOMContentLoaded', () => {
+      initViewer();
+    });
   </script>
 </body>
 </html>
