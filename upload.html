@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>رفع وتوثيق ملفات PDF - ثانوية الكسائي</title>
-  
+
   <!-- Tailwind CSS & Fonts & Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
+
   <style>
     body {
       font-family: 'IBM Plex Sans Arabic', sans-serif;
@@ -18,29 +18,38 @@
   </style>
 </head>
 
-<body class="text-slate-800 min-h-screen flex">
+<body class="text-slate-800 min-h-screen flex bg-[#f7faf9]">
 
-  <!-- القائمة الجانبية -->
-  <aside class="w-64 bg-white border-l border-slate-200 flex flex-col justify-between hidden md:flex shrink-0">
+  <!-- القائمة الجانبية الرسمية -->
+  <aside class="w-64 bg-white border-l border-slate-200 flex flex-col justify-between hidden lg:flex shrink-0">
     <div>
-      <div class="p-6 border-b border-slate-100 flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-teal-600/10 text-teal-700 flex items-center justify-center font-bold text-xl">
-          <i class="fa-solid fa-school"></i>
+      <div class="p-6 border-b border-slate-100">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-10 h-10 rounded-xl bg-teal-800 text-white flex items-center justify-center font-bold text-lg shadow-sm">
+            <i class="fa-solid fa-school"></i>
+          </div>
+          <div>
+            <h1 class="font-bold text-slate-800 text-sm">ثانوية الكسائي</h1>
+            <p class="text-[11px] text-teal-800 font-semibold">الإدارة العامة للتعليم بالمنطقة الشرقية</p>
+          </div>
         </div>
-        <div>
-          <h1 class="font-bold text-slate-800 text-sm">ثانوية الكسائي</h1>
-          <p class="text-xs text-teal-700 font-medium">تعليم الشرقية</p>
+        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 text-[10px] font-semibold border border-emerald-200">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> منظومة الأرشفة المعتمدة
         </div>
       </div>
 
       <nav class="p-4 space-y-1">
         <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 transition">
           <i class="fa-solid fa-table-cells-large w-5 text-slate-400"></i>
-          <span class="text-sm font-medium">الرئيسية والمجلدات</span>
+          <span class="text-sm font-medium">لوحة المجلدات الرئيسية</span>
         </a>
-        <a href="upload.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-teal-50 text-teal-800 font-semibold">
-          <i class="fa-solid fa-cloud-arrow-up w-5 text-teal-700"></i>
-          <span class="text-sm">رفع وثيقة جديدة</span>
+        <a href="files.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 transition">
+          <i class="fa-solid fa-magnifying-glass w-5 text-slate-400"></i>
+          <span class="text-sm font-medium">استعراض وبحث الملفات</span>
+        </a>
+        <a href="upload.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-teal-800 text-white font-semibold shadow-sm">
+          <i class="fa-solid fa-cloud-arrow-up w-5 text-teal-200"></i>
+          <span class="text-sm">رفع وتوثيق ملف جديد</span>
         </a>
         <a href="visitor.html" target="_blank" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 transition">
           <i class="fa-solid fa-qrcode w-5 text-slate-400"></i>
@@ -49,78 +58,154 @@
       </nav>
     </div>
 
-    <div class="p-4 border-t border-slate-100 text-xs text-slate-400 text-center">
+    <div class="p-4 border-t border-slate-100 text-[11px] text-slate-400 text-center">
       حقوق التصميم للأستاذ: سعد القرني
     </div>
   </aside>
 
-  <!-- المحتوى الرئيسي -->
+  <!-- مساحة العمل الرئيسية -->
   <main class="flex-1 flex flex-col min-w-0">
+    
+    <!-- الشريط العلوي -->
     <header class="h-16 bg-white border-b border-slate-200 px-6 flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <span class="text-sm font-semibold text-teal-800">إدارة الأرشفة السحابية</span>
-        <span class="text-slate-300">/</span>
-        <span class="text-sm text-slate-500">رفع وتوثيق مستند PDF</span>
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-slate-500 hover:text-teal-800 text-xs font-semibold flex items-center gap-1">
+          <i class="fa-solid fa-arrow-right"></i> العودة للرئيسية
+        </a>
+        <span class="text-slate-300">|</span>
+        <span class="text-xs text-slate-500">لوحة التحكم • إيداع وأرشفة الوثائق</span>
       </div>
-      <a href="index.html" class="text-xs text-slate-500 hover:text-teal-700 flex items-center gap-1">
-        <i class="fa-solid fa-arrow-left"></i> العودة للرئيسية
-      </a>
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-teal-50 text-teal-800 border border-teal-200">
+          <i class="fa-solid fa-shield-halved"></i> سحابة Firebase الآمنة
+        </span>
+      </div>
     </header>
 
-    <div class="p-6 md:p-10 max-w-4xl mx-auto w-full">
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 md:p-8">
-        <h2 class="text-xl font-bold text-slate-800 mb-2">إيداع ملف PDF في السحابة</h2>
-        <p class="text-sm text-slate-500 mb-6">سيتم رفع الملف وتخزينه سحابياً في Firebase ليظهر فوراً في لوحة التحكم وبوابة الزوار.</p>
+    <div class="p-6 md:p-8 max-w-7xl mx-auto w-full space-y-6">
+      
+      <!-- بانر الترويسة الرسمي -->
+      <div class="bg-gradient-to-r from-[#0d5c52] to-[#083e37] rounded-2xl p-6 text-white shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+        <div>
+          <span class="px-3 py-1 rounded-full bg-white/10 text-emerald-300 text-xs font-semibold mb-2 inline-block">
+            منصة التوثيق السحابي الآمن • المعيار الوزاري للأرشفة الرقمية
+          </span>
+          <h2 class="text-2xl font-bold">إيداع وثيقة أكاديمية جديدة</h2>
+          <p class="text-xs text-teal-100 mt-1">ثانوية الكسائي — الإدارة العامة للتعليم بالمنطقة الشرقية</p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-2 rounded-xl text-center">
+          <span class="text-[10px] text-teal-200 block">بروتوكول الأمان الرقمي</span>
+          <span class="text-xs font-mono font-bold text-white tracking-wider">KSA-ED-2025-ARCH</span>
+        </div>
+      </div>
+
+      <!-- محتوى الرفع ونموذج التوثيق -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
-        <form id="uploadForm" class="space-y-6">
-          
-          <!-- منطقة اختيار ورصد الملف -->
-          <div>
-            <label class="block text-sm font-medium text-slate-700 mb-2">مستند الـ PDF</label>
-            <div id="dropZone" class="border-2 border-dashed border-slate-300 hover:border-teal-500 rounded-2xl p-8 text-center cursor-pointer transition bg-slate-50/50">
-              <i class="fa-solid fa-file-pdf text-4xl text-rose-500 mb-3 block"></i>
-              <p class="text-sm font-semibold text-slate-700" id="fileNameDisplay">اسحب وأفلت ملف الـ PDF هنا أو اضغط للاختيار</p>
-              <p class="text-xs text-slate-400 mt-1">يقبل ملفات PDF فقط</p>
-              <input type="file" id="pdfFileInput" accept="application/pdf" class="hidden">
+        <!-- العمود الأيمن: نموذج الرفع والإيداع -->
+        <div class="lg:col-span-2 space-y-6">
+          <div class="bg-white rounded-2xl border border-slate-200 p-6 md:p-8 shadow-sm">
+            <h3 class="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
+              <i class="fa-solid fa-cloud-arrow-up text-teal-700"></i> منطقة تحميل الوثيقة الرقمية
+            </h3>
+
+            <form id="uploadForm" class="space-y-6">
+              <!-- منطقة الإفلات -->
+              <div id="dropZone" class="border-2 border-dashed border-teal-600/30 hover:border-teal-700 rounded-2xl p-8 text-center cursor-pointer transition bg-slate-50/70">
+                <div class="w-14 h-14 rounded-2xl bg-teal-50 text-teal-700 flex items-center justify-center text-2xl mx-auto mb-3 shadow-inner">
+                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                </div>
+                <p class="text-sm font-bold text-slate-700" id="fileNameDisplay">اسحب وأفلت وثيقة PDF هنا، أو انقر للاستعراض</p>
+                <p class="text-xs text-slate-400 mt-1">يُشترط أن تكون الوثائق واضحة وموقعة أو مختومة رسمياً • يقبل صيغة PDF فقط</p>
+                <input type="file" id="pdfFileInput" accept="application/pdf" class="hidden">
+              </div>
+
+              <!-- بطاقة تفاصيل الوثيقة -->
+              <div class="space-y-4 pt-2">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">اسم الوثيقة الرسمي / عنوان المعاملة <span class="text-rose-500">*</span></label>
+                  <input type="text" id="docNameInput" required placeholder="مثال: الخطة التشغيلية السنوية لثانوية الكسائي 1447هـ" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-700 bg-slate-50/50">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">المجلد الرئيسي المعتمد <span class="text-rose-500">*</span></label>
+                    <select id="folderSelect" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-700 bg-white">
+                      <option value="planning" data-name="التنظيم والتخطيط">التنظيم والتخطيط</option>
+                      <option value="circulars" data-name="الوثائق والتعاميم">الوثائق والتعاميم</option>
+                      <option value="academic" data-name="الشؤون التعليمية والمتابعة">الشؤون التعليمية والمتابعة</option>
+                      <option value="students" data-name="شؤون الطلاب">شؤون الطلاب</option>
+                      <option value="committees" data-name="الاجتماعات واللجان">الاجتماعات واللجان</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">تاريخ التوثيق (الهجري)</label>
+                    <input type="text" id="docDateInput" readonly class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm bg-slate-100 text-slate-500">
+                  </div>
+                </div>
+              </div>
+
+              <!-- صندوق حالة الرفع والرسائل -->
+              <div id="statusBox" class="hidden p-4 rounded-xl text-sm font-medium"></div>
+
+              <!-- شريط التقدم اللحظي -->
+              <div id="progressContainer" class="hidden space-y-1.5">
+                <div class="flex justify-between text-xs font-bold text-teal-900">
+                  <span id="progressText">جاري الرفع...</span>
+                  <span id="progressPercent">0%</span>
+                </div>
+                <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div id="progressBar" class="h-full bg-teal-700 transition-all duration-200 w-0"></div>
+                </div>
+              </div>
+
+              <!-- أزرار الإجراء -->
+              <div class="pt-4 border-t border-slate-100 flex items-center justify-end gap-3">
+                <a href="index.html" class="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-sm hover:bg-slate-50 transition">إلغاء المعاملة</a>
+                <button type="submit" id="submitBtn" class="px-6 py-2.5 rounded-xl bg-teal-800 hover:bg-teal-900 text-white font-bold text-sm transition shadow-sm flex items-center gap-2">
+                  <i class="fa-solid fa-shield-halved"></i> <span>حفظ وتوثيق في الأرشيف المعتمد</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- العمود الأيسر: بطاقات الحوكمة والمعايير والمؤشرات -->
+        <div class="space-y-6">
+          <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+            <h4 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+              <i class="fa-solid fa-circle-check text-teal-700"></i> معايير الحوكمة والامتثال
+            </h4>
+            <div class="space-y-3 text-xs text-slate-600">
+              <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 flex gap-2">
+                <i class="fa-solid fa-check text-teal-700 mt-0.5"></i>
+                <p><span class="font-bold text-slate-700">حجية الأرشيف الإلكتروني:</span> الوثائق تخضع للائحة المركز الوطني للوثائق والمحفوظات وتعتبر نسخاً رسمية.</p>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 flex gap-2">
+                <i class="fa-solid fa-check text-teal-700 mt-0.5"></i>
+                <p><span class="font-bold text-slate-700">السرية وحماية البيانات:</span> تُشفر المستندات ولا تتاح إلا لذوي الصلاحيات الإدارية والمشرفين.</p>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 flex gap-2">
+                <i class="fa-solid fa-check text-teal-700 mt-0.5"></i>
+                <p><span class="font-bold text-slate-700">النسخ الاحتياطي الفوري:</span> تودع الملفات في خوادم Google Firebase السحابية لضمان الاستدامة.</p>
+              </div>
             </div>
           </div>
 
-          <!-- تفاصيل الوثيقة والمجلد -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">اسم الوثيقة / السجل</label>
-              <input type="text" id="docNameInput" required placeholder="مثال: الخطة التشغيلية للفصل الثاني" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-600">
+          <div class="bg-gradient-to-br from-teal-50 to-emerald-50 rounded-2xl border border-teal-100 p-5 text-center">
+            <div class="w-10 h-10 rounded-xl bg-teal-800 text-white flex items-center justify-center mx-auto mb-2 text-sm shadow-sm">
+              <i class="fa-solid fa-graduation-cap"></i>
             </div>
-            <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">المجلد المستهدف</label>
-              <select id="folderSelect" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-600 bg-white">
-                <option value="planning" data-name="التنظيم والتخطيط">التنظيم والتخطيط</option>
-                <option value="circulars" data-name="الوثائق والتعاميم">الوثائق والتعاميم</option>
-                <option value="academic" data-name="الشؤون التعليمية والمتابعة">الشؤون التعليمية والمتابعة</option>
-                <option value="students" data-name="شؤون الطلاب">شؤون الطلاب</option>
-                <option value="committees" data-name="الاجتماعات واللجان">الاجتماعات واللجان</option>
-              </select>
-            </div>
+            <h5 class="font-bold text-teal-900 text-sm">نظام الأرشفة المدرسية الذكية</h5>
+            <p class="text-[11px] text-teal-700 mt-1">تصميم وتطوير: أ. سعد القرني</p>
           </div>
+        </div>
 
-          <!-- شريط حالة الرفع والرسائل -->
-          <div id="statusBox" class="hidden p-4 rounded-xl text-sm font-medium"></div>
-
-          <!-- أزرار الإجراء -->
-          <div class="pt-4 border-t border-slate-100 flex items-center justify-end gap-3">
-            <a href="index.html" class="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-sm hover:bg-slate-50 transition">إلغاء</a>
-            <button type="submit" id="submitBtn" class="px-6 py-2.5 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-semibold text-sm transition shadow-sm flex items-center gap-2">
-              <i class="fa-solid fa-cloud-arrow-up"></i> 
-              <span>رفع المستند إلى السحابة</span>
-            </button>
-          </div>
-
-        </form>
       </div>
     </div>
   </main>
 
-  <!-- نص البرمجة الربط مع Firebase -->
+  <!-- نص البرمجة والربط مع Firebase -->
   <script type="module">
     import { uploadCloudDocument, getCloudFolders } from './firebase-db.js';
 
@@ -131,41 +216,37 @@
     const submitBtn = document.getElementById('submitBtn');
     const statusBox = document.getElementById('statusBox');
     const folderSelect = document.getElementById('folderSelect');
-    
+    const docDateInput = document.getElementById('docDateInput');
+    const progressContainer = document.getElementById('progressContainer');
+    const progressBar = document.getElementById('progressBar');
+    const progressPercent = document.getElementById('progressPercent');
+
+    // التاريخ الهجري تلقائياً
+    try {
+      docDateInput.value = new Intl.DateTimeFormat('ar-SA-u-ca-islamic', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date());
+    } catch(e) {
+      docDateInput.value = new Date().toLocaleDateString('ar-SA');
+    }
+
     let selectedFile = null;
 
-    // تهيئة قائمة المجلدات المتاحة
-    async function initFolders() {
-      try {
-        const folders = await getCloudFolders();
-        folderSelect.innerHTML = '';
-        folders.forEach(f => {
-          const opt = document.createElement('option');
-          opt.value = f.id;
-          opt.dataset.name = f.name;
-          opt.textContent = f.name;
-          folderSelect.appendChild(opt);
-        });
-      } catch (e) {
-        console.warn(e);
-      }
-    }
-    initFolders();
-
-    // أحداث السحب والإفلات وتحديد الملف
     dropZone.addEventListener('click', () => fileInput.click());
+
     dropZone.addEventListener('dragover', (e) => {
       e.preventDefault();
-      dropZone.classList.add('border-teal-500', 'bg-teal-50/20');
+      dropZone.classList.add('border-teal-700', 'bg-teal-50/40');
     });
+
     dropZone.addEventListener('dragleave', () => {
-      dropZone.classList.remove('border-teal-500', 'bg-teal-50/20');
+      dropZone.classList.remove('border-teal-700', 'bg-teal-50/40');
     });
+
     dropZone.addEventListener('drop', (e) => {
       e.preventDefault();
-      dropZone.classList.remove('border-teal-500', 'bg-teal-50/20');
+      dropZone.classList.remove('border-teal-700', 'bg-teal-50/40');
       if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
     });
+
     fileInput.addEventListener('change', (e) => {
       if (e.target.files.length > 0) handleFile(e.target.files[0]);
     });
@@ -176,17 +257,15 @@
         return;
       }
       selectedFile = file;
-      fileNameDisplay.textContent = `تم اختيار: ${file.name} (${(file.size / (1024 * 1024)).toFixed(2)} MB)`;
+      fileNameDisplay.innerHTML = `<span class="text-teal-800 font-bold"><i class="fa-solid fa-file-circle-check text-emerald-600"></i> تم اختيار: ${file.name}</span> <span class="text-xs text-slate-500 font-normal">(${(file.size / (1024*1024)).toFixed(2)} MB)</span>`;
       
       if (!document.getElementById('docNameInput').value) {
         document.getElementById('docNameInput').value = file.name.replace(/\.[^/.]+$/, "");
       }
     }
 
-    // إرسال النموذج والرفع السحابي
     uploadForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      
       if (!selectedFile) {
         alert('يرجى اختيار ملف PDF أولاً');
         return;
@@ -200,25 +279,46 @@
       };
 
       submitBtn.disabled = true;
-      submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> جاري الرفع السحابي...';
-      statusBox.className = 'p-4 rounded-xl text-sm font-medium bg-blue-50 text-blue-700 block';
-      statusBox.textContent = 'جاري رفع الملف إلى سحابة Firebase وحفظ البيانات...';
+      submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> جاري الإيداع السحابي...';
+      
+      progressContainer.classList.remove('hidden');
+      progressBar.style.width = '30%';
+      progressPercent.textContent = '30%';
+
+      statusBox.className = 'p-4 rounded-xl text-xs font-semibold bg-blue-50 text-blue-800 block border border-blue-200';
+      statusBox.innerHTML = '<i class="fa-solid fa-spinner fa-spin ml-1"></i> يتم الآن رفع الملف وتشفيره في سحابة Firebase...';
+
+      // وضع مهلة زمنية للتنبيه في حال وجود خطأ في قواعد Storage
+      const timeoutId = setTimeout(() => {
+        statusBox.className = 'p-4 rounded-xl text-xs font-semibold bg-amber-50 text-amber-800 block border border-amber-200';
+        statusBox.innerHTML = '⚠️ الرفع استغرق وقتاً غير معتاد! يرجى التأكد من تفعيل قواعد (Storage Rules) في منصة Firebase كما هو مشروح.';
+      }, 7000);
 
       try {
+        progressBar.style.width = '70%';
+        progressPercent.textContent = '70%';
+
         await uploadCloudDocument(selectedFile, docMeta);
-        statusBox.className = 'p-4 rounded-xl text-sm font-medium bg-emerald-50 text-emerald-800 block';
-        statusBox.textContent = '✅ تم رفع المستند وحفظه في السحابة بنجاح! جاري الانتقال للرئيسية...';
-        
+
+        clearTimeout(timeoutId);
+        progressBar.style.width = '100%';
+        progressPercent.textContent = '100%';
+
+        statusBox.className = 'p-4 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-800 block border border-emerald-200';
+        statusBox.innerHTML = '✅ تم إيداع المستند وتوثيقه سحابياً بنجاح! جاري تحويلك للرئيسية...';
+
         setTimeout(() => {
           window.location.href = 'index.html';
-        }, 1500);
+        }, 1200);
 
       } catch (error) {
+        clearTimeout(timeoutId);
         console.error(error);
-        statusBox.className = 'p-4 rounded-xl text-sm font-medium bg-rose-50 text-rose-700 block';
-        statusBox.textContent = 'حدث خطأ أثناء الرفع: ' + error.message + ' (تأكد من إعداد Rules في Firebase كما هو موضح)';
+        statusBox.className = 'p-4 rounded-xl text-xs font-bold bg-rose-50 text-rose-800 block border border-rose-200';
+        statusBox.innerHTML = `❌ تعذر الرفع: ${error.message}<br><span class="font-normal text-[11px] mt-1 block">تأكد من فتح قواعد Storage Rules في Firebase Console بالضغط على Publish.</span>`;
+        
         submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> إعادة المحاولة';
+        submitBtn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> إعادة المحاولة';
       }
     });
   </script>
