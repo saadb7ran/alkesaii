@@ -3,165 +3,73 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>قارئ ومستعرض الوثائق الرسمية - ثانوية الكسائي</title>
-  
-  <!-- CSS & Fonts -->
-  <script src="https://cdn.tailwindcss.com"></script> <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <title>مستعرض وثائق PDF - ثانوية الكسائي</title>
+
+  <!-- Tailwind CSS & Fonts & Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     body {
       font-family: 'IBM Plex Sans Arabic', sans-serif;
+      background-color: #0f172a;
     }
   </style>
 </head>
-<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col antialiased">
 
-  <!-- Header Section -->
-  <header class="bg-[#0d5c75] text-white px-4 sm:px-6 py-3.5 flex items-center justify-between shadow-md z-30">
+<body class="h-screen flex flex-col overflow-hidden text-slate-200">
+
+  <!-- الشريط العلوي -->
+  <header class="h-16 bg-slate-900 border-b border-slate-800 px-4 md:px-6 flex items-center justify-between shrink-0">
     <div class="flex items-center gap-3">
-      <button id="btnSmartBack" onclick="handleSmartBack()" class="p-2 bg-white/10 hover:bg-white/20 rounded-xl transition flex items-center gap-1.5 text-xs font-bold">
-        <i data-lucide="arrow-right" class="w-4 h-4"></i>
-        <span id="backButtonText">العودة</span>
+      <button id="backBtn" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold flex items-center gap-1.5 transition">
+        <i class="fa-solid fa-arrow-right"></i> عودة
       </button>
-      <div class="h-6 w-[1px] bg-white/20"></div>
+      <div class="h-4 w-px bg-slate-700"></div>
       <div>
-        <h1 id="viewerDocTitle" class="font-bold text-xs sm:text-sm line-clamp-1">مستعرض الوثائق الرسمية</h1>
-        <p class="text-[10px] text-teal-200">الإدارة العامة للتعليم بالمنطقة الشرقية • ثانوية الكسائي</p>
+        <h1 class="font-bold text-sm text-white truncate max-w-xs md:max-w-md" id="docTitle">مستعرض الوثائق المدرسية</h1>
+        <p class="text-[10px] text-teal-400">ثانوية الكسائي • تعليم الشرقية</p>
       </div>
     </div>
 
-    <div class="flex items-center gap-2">
-      <button onclick="window.print()" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition">
-        <i data-lucide="printer" class="w-3.5 h-3.5"></i>
-        <span class="hidden sm:inline">طباعة</span>
-      </button>
-      <button id="btnDownload" onclick="downloadCurrentPdf()" class="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 rounded-xl text-xs font-bold flex items-center gap-1.5 transition shadow-sm hidden">
-        <i data-lucide="download" class="w-3.5 h-3.5"></i>
-        <span>تحميل</span>
-      </button>
+    <div>
+      <a id="downloadBtn" href="#" target="_blank" download class="px-3 py-1.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-semibold flex items-center gap-1.5 transition">
+        <i class="fa-solid fa-download"></i> تحميل المستند
+      </a>
     </div>
   </header>
 
-  <!-- Main Viewport Section -->
-  <main class="flex-1 flex flex-col p-2 sm:p-4 max-w-7xl w-full mx-auto">
-    <div id="pdfContainer" class="flex-1 bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden flex flex-col min-h-[850px] relative">
-      
-      <!-- PDF Viewer Frame -->
-      <iframe id="pdfFrame" class="w-full flex-1 border-0 hidden" src=""></iframe>
-
-      <!-- Empty State View -->
-      <div id="emptyView" class="p-12 space-y-4 flex-1 flex flex-col items-center justify-center text-center">
-        <div class="w-16 h-16 rounded-2xl bg-teal-50 text-[#0d5c75] flex items-center justify-center">
-          <i data-lucide="file-search" class="w-8 h-8 text-[#0d5c75]"></i>
-        </div>
-        <h3 id="docEmptyTitle" class="text-base font-bold text-slate-800">لم يتم اختيار وثيقة للقراءة</h3>
-        <p class="text-xs text-slate-500 max-w-sm">يرجى النقر على «قراءة المستند» من قائمة الوثائق المعتمدة.</p>
-        <button onclick="handleSmartBack()" class="px-5 py-2 bg-[#0d5c75] hover:bg-[#094254] text-white rounded-xl text-xs font-bold transition flex items-center gap-2">
-          <i data-lucide="arrow-right" class="w-4 h-4"></i>
-          <span>العودة للقائمة</span>
-        </button>
-      </div>
-
-    </div>
-
-    <!-- Footer -->
-    <footer class="pt-3 text-center text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
-      <span class="font-semibold text-[#0d5c75] text-[11px]">تصميم وتطوير: أ. سعد القرني</span>
-      <p class="text-[10px] text-slate-400">ثانوية الكسائي — الإدارة العامة للتعليم بالمنطقة الشرقية © 1446هـ</p>
-    </footer>
+  <!-- عارض المستند -->
+  <main class="flex-1 bg-slate-950 w-full h-full relative">
+    <iframe id="pdfFrame" class="w-full h-full border-0" src="about:blank"></iframe>
   </main>
 
-  <!-- JavaScript Logic -->
+  <!-- البرمجة الخاصة بقراءة المتغيرات وتوجيه العودة -->
   <script>
-    let currentDoc = null;
-    const urlParams = new URLSearchParams(window.location.search);
-    const isFromVisitor = urlParams.get('from') === 'visitor';
+    const params = new URLSearchParams(window.location.search);
+    const fileUrl = params.get('file');
+    const title = params.get('title');
+    const mode = params.get('mode');
 
-    // ضبط نص زر العودة حسب المصدر
-    function setupBackButton() {
-      const backText = document.getElementById('backButtonText');
-      if (isFromVisitor) {
-        backText.textContent = 'العودة لبوابة الزوار';
-      } else {
-        backText.textContent = 'العودة للملفات';
-      }
+    if (title) {
+      document.getElementById('docTitle').textContent = decodeURIComponent(title);
     }
 
-    // التنقل الذكي: يعود للزوار أو لإدارة الملفات مباشرة
-    function handleSmartBack() {
-      if (isFromVisitor) {
-        window.location.href = './visitor.html';
-      } else {
-        window.location.href = './files.html';
-      }
+    if (fileUrl) {
+      const decodedUrl = decodeURIComponent(fileUrl);
+      document.getElementById('pdfFrame').src = decodedUrl;
+      document.getElementById('downloadBtn').href = decodedUrl;
     }
 
-    // تهيئة واستعراض المستندات
-    function initViewer() {
-      setupBackButton();
-      const docId = urlParams.get('id');
-      let docs = [];
-
-      try {
-        docs = JSON.parse(localStorage.getItem('alkisaee_all_documents')) || [];
-      } catch (e) {
-        console.error('خطأ في جلب الملفات من localStorage:', e);
-      }
-
-      if (window.ALKISAEE_DEFAULT_DATA && window.ALKISAEE_DEFAULT_DATA.files) {
-        docs = docs.concat(window.ALKISAEE_DEFAULT_DATA.files);
-      }
-
-      if (docId) {
-        currentDoc = docs.find(d => String(d.id) === String(docId));
-      } else if (docs.length > 0 && !isFromVisitor) {
-        currentDoc = docs[0];
-      }
-
-      const frame = document.getElementById('pdfFrame');
-      const emptyView = document.getElementById('emptyView');
-      const btnDownload = document.getElementById('btnDownload');
-
-      if (currentDoc && currentDoc.pdfData) {
-        document.getElementById('viewerDocTitle').textContent = currentDoc.name;
-        frame.src = currentDoc.pdfData;
-        frame.classList.remove('hidden');
-        emptyView.classList.add('hidden');
-        btnDownload.classList.remove('hidden');
-      } else if (currentDoc) {
-        document.getElementById('viewerDocTitle').textContent = currentDoc.name;
-        document.getElementById('docEmptyTitle').textContent = currentDoc.name;
-        frame.classList.add('hidden');
-        emptyView.classList.remove('hidden');
-        btnDownload.classList.add('hidden');
+    document.getElementById('backBtn').addEventListener('click', () => {
+      if (mode === 'visitor') {
+        window.location.href = 'visitor.html';
       } else {
-        frame.classList.add('hidden');
-        emptyView.classList.remove('hidden');
-        btnDownload.classList.add('hidden');
+        window.history.length > 1 ? window.history.back() : window.location.href = 'index.html';
       }
-
-      lucide.createIcons();
-    }
-
-    // تنزيل ملف PDF
-    function downloadCurrentPdf() {
-      if (currentDoc && currentDoc.pdfData) {
-        const a = document.createElement('a');
-        a.href = currentDoc.pdfData;
-        a.download = (currentDoc.name || 'document') + '.pdf';
-        a.click();
-      } else {
-        window.print();
-      }
-    }
-
-    // تشغيل الصفحة عند التحميل
-    document.addEventListener('DOMContentLoaded', () => {
-      initViewer();
     });
   </script>
+
 </body>
 </html>

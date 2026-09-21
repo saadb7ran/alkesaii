@@ -1,482 +1,165 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>بوابة الزوار والاطلاع الرقمي - ثانوية الكسائي - وزارة التعليم</title>
-    
-    <!-- المكتبات الخارجية -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بوابة الزوار والاطلاع الرقمي - ثانوية الكسائي</title>
 
-    <!-- منع الكاش لضمان تحديث جوالات الزوار لحظياً -->
-    <script>
-        document.write('<script src="./archive-data.js?v=' + Date.now() + '"><\/script>');
-    </script>
+  <!-- Tailwind CSS & Fonts & Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <style>
-        body {
-            font-family: 'IBM Plex Sans Arabic', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-    </style>
+  <style>
+    body {
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      background-color: #f7faf9;
+    }
+  </style>
 </head>
 
-<body class="bg-[#f7faf9] text-slate-800 min-h-screen flex flex-col antialiased">
+<body class="min-h-screen text-slate-800 flex flex-col justify-between">
 
-    <!-- الشريط العلوي الرئاسي الرسمي للوزارة -->
-    <div class="bg-[#083847] text-white text-[11px] py-1.5 px-4 sm:px-8 flex items-center justify-between border-b border-teal-900/50">
-        <div class="flex items-center gap-2 font-medium text-slate-300">
-            <span>المملكة العربية السعودية</span>
-            <span>•</span>
-            <span>وزارة التعليم</span>
-            <span>•</span>
-            <span class="text-emerald-300">الإدارة العامة للتعليم بالمنطقة الشرقية</span>
-            <span>•</span>
-            <span>ثانوية الكسائي</span>
+  <!-- الترويسة الرسمية -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-2xl bg-teal-600/10 text-teal-700 flex items-center justify-center font-bold text-xl">
+          <i class="fa-solid fa-graduation-cap"></i>
         </div>
-        <div class="hidden sm:flex items-center gap-1.5 text-emerald-400 font-semibold">
-            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
-            <span>منصة الوثائق المعتمدة رسمياً — 1446هـ</span>
+        <div>
+          <h1 class="font-bold text-slate-800 text-sm md:text-base">وزارة التعليم • تعليم الشرقية</h1>
+          <p class="text-xs text-teal-700 font-semibold">ثانوية الكسائي — بوابة الزوار والمستفيدين</p>
         </div>
+      </div>
+
+      <div class="bg-emerald-50 text-emerald-800 border border-emerald-200 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5">
+        <i class="fa-solid fa-lock"></i> <span>وضع الاطلاع والقراءة فقط</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- محتوى شجرة المجلدات والوثائق -->
+  <main class="max-w-4xl mx-auto px-4 py-6 w-full flex-1 space-y-6">
+    
+    <div class="bg-gradient-to-l from-teal-800 to-teal-900 rounded-3xl p-6 text-white shadow-md">
+      <h2 class="text-lg font-bold mb-1">أهلاً بكم في السجل التوثيقي الرقمي لثانوية الكسائي</h2>
+      <p class="text-xs text-teal-100 leading-relaxed">
+        تتيح هذه البوابة للمشرفين التربويين والزوار الكرام الاطلاع المباشر وقراءة الوثائق والسجلات المعتمدة وفق تنظيم الإدارة المدرسية.
+      </p>
     </div>
 
-    <!-- الترويسة الرئيسية بهوية الوزارة والمدرسة -->
-    <header class="bg-white border-b border-teal-100 px-4 sm:px-8 py-3.5 sticky top-0 z-30 shadow-xs">
-        <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
-            <!-- شعار الوزارة الرسمي SVG الدقيق واسم المدرسة -->
-            <div class="flex items-center gap-3 min-w-0">
-                <svg class="w-14 h-11 flex-shrink-0" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g fill="#0d5c75">
-                        <circle cx="30" cy="35" r="7"/><circle cx="50" cy="38" r="7"/><circle cx="70" cy="45" r="6"/><circle cx="90" cy="56" r="5"/>
-                        <circle cx="30" cy="55" r="6"/><circle cx="50" cy="58" r="6"/><circle cx="70" cy="65" r="5"/><circle cx="90" cy="74" r="4"/>
-                        <circle cx="30" cy="73" r="5"/><circle cx="50" cy="75" r="5"/><circle cx="70" cy="80" r="4.5"/><circle cx="88" cy="87" r="3.5"/>
-                    </g>
-                    <g fill="#10b981">
-                        <circle cx="170" cy="35" r="7"/><circle cx="150" cy="38" r="7"/><circle cx="130" cy="45" r="6"/><circle cx="110" cy="56" r="5"/>
-                        <circle cx="170" cy="55" r="6"/><circle cx="150" cy="58" r="6"/><circle cx="130" cy="65" r="5"/><circle cx="110" cy="74" r="4"/>
-                        <circle cx="170" cy="73" r="5"/><circle cx="150" cy="75" r="5"/><circle cx="130" cy="80" r="4.5"/><circle cx="112" cy="87" r="3.5"/>
-                    </g>
-                </svg>
-                <div class="border-r border-slate-200 pr-3 mr-1 min-w-0">
-                    <div class="flex items-center gap-2">
-                        <h1 class="text-sm sm:text-base font-bold text-[#0d5c75] truncate">بوابة الزوار والاطلاع الرقمي</h1>
-                        <span class="px-2 py-0.5 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-full text-[10px] font-bold">جلسة مصرحة</span>
-                    </div>
-                    <p class="text-[11px] text-slate-500 truncate">استعراض السجلات والخطط والتقارير المعتمدة عبر الباركود والروابط المباشرة</p>
-                </div>
-            </div>
+    <div>
+      <h3 class="font-bold text-slate-800 text-sm mb-3 flex items-center gap-2">
+        <i class="fa-solid fa-folder-tree text-teal-700"></i> تصفح شجرة المجلدات والوثائق
+      </h3>
+      <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-none" id="folderTabs">
+        <button data-folder="all" class="folder-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-teal-700 text-white shadow-sm shrink-0">
+          جميع الوثائق
+        </button>
+      </div>
+    </div>
 
-            <!-- أزرار الإجراءات وشارة القراءة فقط -->
-            <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-teal-50 text-[#0d5c75] border border-teal-100 rounded-xl text-xs font-bold">
-                    <i data-lucide="lock" class="w-3.5 h-3.5 text-emerald-600"></i>
-                    <span>وضع الاطلاع والقراءة فقط</span>
-                </span>
-                <button onclick="forceSyncVisitorData()" class="p-2 bg-slate-50 hover:bg-teal-50 text-slate-600 rounded-xl border border-teal-100 transition" title="تحديث البيانات">
-                    <i data-lucide="refresh-cw" class="w-4 h-4 text-[#0d5c75]"></i>
-                </button>
-            </div>
-        </div>
-    </header>
+    <div class="space-y-3" id="visitorDocsList">
+      <div class="bg-white rounded-2xl p-8 border border-slate-200 text-center text-slate-400">
+        <i class="fa-solid fa-circle-notch fa-spin text-teal-600 text-2xl mb-2 block"></i> جاري تحميل الوثائق السحابية...
+      </div>
+    </div>
 
-    <!-- المحتوى الرئيسي -->
-    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-8 space-y-6">
-        
-        <!-- 🏛️ البانر الملكي الفخم لثانوية الكسائي -->
-        <div class="bg-[#083847] bg-gradient-to-r from-[#0d5c75] to-[#062934] text-white p-6 sm:p-8 rounded-3xl shadow-sm space-y-4 relative overflow-hidden">
-            <div class="flex flex-wrap items-center gap-2 text-xs font-semibold">
-                <span class="px-2.5 py-1 bg-white/10 rounded-lg text-slate-200">المملكة العربية السعودية</span>
-                <span class="text-white/40">•</span>
-                <span class="px-2.5 py-1 bg-white/10 rounded-lg text-slate-200">وزارة التعليم</span>
-                <span class="text-white/40">•</span>
-                <span class="px-2.5 py-1 bg-emerald-500/20 text-emerald-300 rounded-lg border border-emerald-400/30">تعليم الشرقية</span>
-                <span class="text-white/40">•</span>
-                <span class="px-2.5 py-1 bg-white/10 rounded-lg text-slate-200 font-mono">العام الدراسي 1446هـ</span>
-            </div>
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                    <h2 class="text-xl sm:text-3xl font-bold tracking-tight">ثانوية الكسائي — بوابة الزوار والاطلاع الرقمي</h2>
-                    <p class="text-xs sm:text-sm text-teal-100 mt-1 max-w-3xl leading-relaxed">
-                        المنظومة الرسمية المصرحة لاستعراض الوثائق، الأدلة التنظيمية، والخطط المعتمدة عبر باركود التحقق المباشر برعاية إدارة التعليم بالمنطقة الشرقية.
-                    </p>
-                </div>
-                <div class="flex-shrink-0 bg-white/10 p-4 rounded-2xl border border-white/15 flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-emerald-400 text-slate-900 flex items-center justify-center font-bold">
-                        <i data-lucide="file-check-2" class="w-5 h-5"></i>
-                    </div>
-                    <div>
-                        <p class="text-xs font-bold text-white">بيئة استعراض مقروءة ومحصنة</p>
-                        <p class="text-[10px] text-teal-200">وثائق معتمدة ومحمية ضد التعديل</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+  </main>
 
-        <!-- قسم رمز QR وبطاقة الشفافية المدرسية -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            <!-- بطاقة رمز QR للوصول السريع -->
-            <div class="lg:col-span-4 bg-white p-6 rounded-3xl border border-teal-100 shadow-2xs space-y-4 text-center flex flex-col justify-between">
-                <div class="space-y-2">
-                    <div class="inline-flex items-center gap-1.5 text-xs font-bold text-[#0d5c75] bg-teal-50 px-3 py-1 rounded-full border border-teal-100">
-                        <i data-lucide="qr-code" class="w-4 h-4 text-emerald-600"></i>
-                        <span>رمز الوصول السريع (QR Code)</span>
-                    </div>
-                    <p class="text-xs text-slate-400">امسح الرمز من خلال كاميرا الجوال للاطلاع الفوري ومشاركة رابط البوابة</p>
-                </div>
-                <div class="p-4 bg-teal-50/40 rounded-2xl border border-teal-100 inline-block mx-auto">
-                    <div id="qrcode" class="p-2 bg-white rounded-xl shadow-2xs"></div>
-                    <p class="text-[10px] text-slate-500 font-mono font-bold mt-2">معرّف البوابة: ALKISAI-SEC-1446</p>
-                </div>
-                <div class="flex items-center justify-center gap-2 pt-2">
-                    <button onclick="copyPortalLink()" class="flex-1 py-2.5 bg-[#0d5c75] hover:bg-[#094254] text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-2xs">
-                        <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                        <span>نسخ الرابط المباشر</span>
-                    </button>
-                    <button onclick="window.print()" class="px-3 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
-                        <i data-lucide="printer" class="w-3.5 h-3.5"></i>
-                        <span class="hidden sm:inline">طباعة لاصق QR</span>
-                    </button>
-                </div>
-            </div>
+  <!-- تذييل الصفحة -->
+  <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-400">
+    نظام أرشفة وثائق ثانوية الكسائي • حقوق التصميم للأستاذ: سعد القرني
+  </footer>
 
-            <!-- بطاقة الشفافية والحوكمة المدرسية والمؤشرات -->
-            <div class="lg:col-span-8 bg-white p-6 sm:p-8 rounded-3xl border border-teal-100 shadow-2xs space-y-6 flex flex-col justify-between">
-                <div class="space-y-2">
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full flex items-center gap-1.5">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                            بوابة عامة مفتوحة للزوار وأولياء الأمور
-                        </span>
-                        <span class="text-xs font-mono text-slate-400">العام الدراسي 1446هـ</span>
-                    </div>
-                    <h3 class="text-lg sm:text-xl font-bold text-[#0d5c75]">المنظومة الرقمية للشفافية والحوكمة المدرسية</h3>
-                    <p class="text-xs text-slate-500 leading-relaxed">
-                        مرحباً بكم في البوابة الرسمية المخصصة للمشرفين التربويين، وأولياء الأمور، والشركاء التعليميين. تتيح لكم هذه المنصة استعراض كافة الأدلة التنظيمية والخطط الفصلية المعتمدة رسمياً من قبل إدارة مدرسة الكسائي الثانوية وفق أعلى معايير أمان وتوثيق البيانات.
-                    </p>
-                </div>
-                <div class="grid grid-cols-3 gap-4 pt-4 border-t border-slate-100">
-                    <div class="bg-slate-50 p-4 rounded-2xl border border-teal-50 text-center">
-                        <span class="text-2xl font-bold text-[#0d5c75]" id="vTotalDocsBadge">0</span>
-                        <p class="text-[11px] text-slate-500 font-semibold mt-0.5">وثيقة نشطة</p>
-                    </div>
-                    <div class="bg-slate-50 p-4 rounded-2xl border border-teal-50 text-center">
-                        <span class="text-2xl font-bold text-emerald-600">100%</span>
-                        <p class="text-[11px] text-slate-500 font-semibold mt-0.5">مطابقة للاعتماد</p>
-                    </div>
-                    <div class="bg-slate-50 p-4 rounded-2xl border border-teal-50 text-center">
-                        <span class="text-2xl font-bold text-slate-800" id="vTotalFoldersBadge">5</span>
-                        <p class="text-[11px] text-slate-500 font-semibold mt-0.5">مجلدات رئيسية</p>
-                    </div>
-                </div>
-                <div class="p-3 bg-teal-50/50 rounded-2xl border border-teal-100 flex items-center gap-2 text-xs text-slate-600">
-                    <i data-lucide="shield-alert" class="w-4 h-4 text-[#0d5c75] flex-shrink-0"></i>
-                    <span>تم غلق كافة صلاحيات التحميل غير المصرح أو التعديل الإداري لضمان مصداقية الأرشفة الرقمية.</span>
-                </div>
-            </div>
-        </div>
+  <!-- نص البرمجة والربط مع Firebase -->
+  <script type="module">
+    import { getCloudDocuments, getCloudFolders } from './firebase-db.js';
 
-        <!-- تصفح شجرة المجلدات المتجاوبة بالكامل -->
-        <section class="space-y-4">
-            <!-- شريط مسار التنقل المرن في الجوال والحواسيب -->
-            <div class="bg-white p-3 sm:p-4 rounded-2xl border border-teal-100 flex items-center justify-between gap-3 shadow-2xs">
-                <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5 flex-1">
-                    <button id="vBtnUp" onclick="visitorNavigateUp()" title="صعود لمجلد للأعلى" class="p-2 bg-slate-50 hover:bg-teal-50 text-slate-700 rounded-xl border border-teal-100 transition flex-shrink-0 disabled:opacity-30 disabled:pointer-events-none">
-                        <i data-lucide="arrow-up" class="w-4 h-4"></i>
-                    </button>
-                    <div id="vBreadcrumbs" class="flex items-center gap-1.5 text-xs font-semibold overflow-x-auto no-scrollbar"></div>
-                </div>
-                <span class="text-[11px] text-slate-400 font-mono hidden sm:inline">حالة الاستعراض: نشط وقانوني</span>
-            </div>
+    let allDocs = [];
+    let currentFilter = 'all';
 
-            <!-- المجلدات الفرعية التابعة -->
-            <div class="space-y-2">
-                <div class="flex items-center justify-between text-xs px-1">
-                    <span class="font-bold text-[#0d5c75] flex items-center gap-1.5">
-                        <i data-lucide="folder-tree" class="w-4 h-4 text-emerald-600"></i>
-                        <span>المجلدات المتاحة للاطلاع:</span>
-                    </span>
-                    <span id="vFolderCount" class="text-[11px] text-slate-400 font-mono">0 مجلد</span>
-                </div>
-                <div id="vFoldersGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3"></div>
-            </div>
+    async function initVisitorPortal() {
+      try {
+        const [docs, folders] = await Promise.all([getCloudDocuments(), getCloudFolders()]);
+        allDocs = docs;
 
-            <!-- وثائق الـ PDF المودعة في هذا المجلد -->
-            <div class="space-y-3 pt-2">
-                <div class="flex items-center justify-between text-xs px-1">
-                    <span class="font-bold text-[#0d5c75] flex items-center gap-1.5">
-                        <i data-lucide="file-check" class="w-4 h-4 text-[#0d5c75]"></i>
-                        <span>وثائق الـ PDF المودعة والمصرحة:</span>
-                    </span>
-                    <span id="vFilesCount" class="text-xs text-emerald-700 font-bold font-mono">0 وثيقة</span>
-                </div>
-                <div id="vFilesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-
-                <!-- حالة المجلد الفارغ -->
-                <div id="vEmptyState" class="hidden py-12 px-4 text-center text-slate-400 bg-white rounded-2xl border border-dashed border-teal-200 space-y-2">
-                    <i data-lucide="folder-open" class="w-10 h-10 mx-auto text-teal-200"></i>
-                    <p class="font-bold text-xs text-slate-700">لا توجد وثائق في هذا المجلد حالياً</p>
-                    <p class="text-[11px] text-slate-400">انقر على أحد المجلدات الفرعية بالأعلى للاطلاع على محتوياته المعتمدة.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- بطاقة ختم الاعتماد والتحقق اللحظي -->
-        <div class="bg-white p-5 rounded-2xl border border-teal-100 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-2xs">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-teal-50 text-[#0d5c75] flex items-center justify-center flex-shrink-0">
-                    <i data-lucide="shield-check" class="w-5 h-5 text-emerald-600"></i>
-                </div>
-                <div>
-                    <h4 class="font-bold text-xs sm:text-sm text-[#0d5c75]">التحقق اللحظي من سريان الوثائق</h4>
-                    <p class="text-[11px] text-slate-400">جميع المستندات المعروضة في بوابة الزوار ترتبط مباشرة بسجل الأرشفة السحابي للإدارة العامة للتعليم بالمنطقة الشرقية.</p>
-                </div>
-            </div>
-            <div class="flex items-center gap-2 text-xs font-bold text-slate-500 font-mono bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
-                <i data-lucide="check" class="w-4 h-4 text-emerald-600"></i>
-                <span>ختم الاعتماد الرقمي SHA-256 Verified Encrypted</span>
-            </div>
-        </div>
-
-        <!-- التذييل الرسمي وحقوق الأستاذ سعد القرني -->
-        <footer class="pt-6 pb-6 border-t border-teal-100 text-center text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div class="flex items-center gap-2">
-                <span class="px-3.5 py-1.5 bg-emerald-50 text-emerald-800 rounded-xl font-bold border border-emerald-200 text-xs flex items-center gap-1.5">
-                    <i data-lucide="badge-check" class="w-4 h-4 text-emerald-600"></i>
-                    <span>تصميم وتطوير: أ. سعد القرني</span>
-                </span>
-            </div>
-            <div class="text-center sm:text-left">
-                <p class="font-bold text-[#0d5c75] text-xs">ثانوية الكسائي — إدارة التعليم بالمنطقة الشرقية — وزارة التعليم</p>
-                <p class="text-[11px] text-slate-400">منظومة الأرشفة الرقمية والتحقق المعتمد للوثائق والسجلات المدرسية © 1446هـ - 2025م</p>
-            </div>
-        </footer>
-    </main>
-
-    <!-- البرمجة السلوكية JavaScript -->
-    <script>
-        lucide.createIcons();
-        let vCurrentFolder = 'root';
-
-        function loadUnifiedFolders() {
-            let folders = [];
-            if (window.ALKISAEE_DEFAULT_DATA && Array.isArray(window.ALKISAEE_DEFAULT_DATA.folders) && window.ALKISAEE_DEFAULT_DATA.folders.length > 0) {
-                folders = window.ALKISAEE_DEFAULT_DATA.folders;
-            } else {
-                try {
-                    const stored = localStorage.getItem('alkisaee_folders_tree');
-                    if (stored) folders = JSON.parse(stored);
-                } catch(e) {}
-            }
-            if (!folders || folders.length === 0) {
-                folders = [
-                    { id: 'planning', name: 'التنظيم والتخطيط', parentId: 'root' },
-                    { id: 'circulars', name: 'الوثائق والتعاميم', parentId: 'root' },
-                    { id: 'academic', name: 'الشؤون التعليمية والمتابعة', parentId: 'root' },
-                    { id: 'students', name: 'شؤون الطلاب', parentId: 'root' },
-                    { id: 'committees', name: 'الاجتماعات واللجان', parentId: 'root' }
-                ];
-            }
-            return folders;
-        }
-
-        function loadUnifiedFiles() {
-            let files = [];
-            if (window.ALKISAEE_DEFAULT_DATA && Array.isArray(window.ALKISAEE_DEFAULT_DATA.files)) {
-                files = window.ALKISAEE_DEFAULT_DATA.files;
-            }
-            try {
-                const stored = localStorage.getItem('alkisaee_all_documents');
-                if (stored) {
-                    const parsed = JSON.parse(stored);
-                    if (Array.isArray(parsed)) {
-                        parsed.forEach(f => {
-                            if (f && f.name && !files.some(existing => existing.id === f.id)) {
-                                files.push(f);
-                            }
-                        });
-                    }
-                }
-            } catch(e) {}
-            return files.filter(f => f && f.name && f.name !== 'undefined');
-        }
-
-        function forceSyncVisitorData() {
-            if (window.ALKISAEE_DEFAULT_DATA) {
-                if (window.ALKISAEE_DEFAULT_DATA.folders) {
-                    localStorage.setItem('alkisaee_folders_tree', JSON.stringify(window.ALKISAEE_DEFAULT_DATA.folders));
-                }
-                if (window.ALKISAEE_DEFAULT_DATA.files) {
-                    localStorage.setItem('alkisaee_all_documents', JSON.stringify(window.ALKISAEE_DEFAULT_DATA.files));
-                }
-            }
-            renderVisitorView();
-            alert('تم تحديث ومزامنة بيانات بوابة الزوار بنجاح!');
-        }
-
-        new QRCode(document.getElementById("qrcode"), {
-            text: window.location.href,
-            width: 110,
-            height: 110,
-            colorDark : "#0d5c75",
-            colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.M
+        const tabsContainer = document.getElementById('folderTabs');
+        folders.forEach(f => {
+          const btn = document.createElement('button');
+          btn.dataset.folder = f.id;
+          btn.className = 'folder-tab-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 transition shrink-0';
+          btn.textContent = f.name;
+          tabsContainer.appendChild(btn);
         });
 
-        function copyPortalLink() {
-            navigator.clipboard.writeText(window.location.href).then(() => {
-                alert('تم نسخ رابط بوابة الزوار بنجاح!');
-            }).catch(() => {
-                alert('رابط البوابة: ' + window.location.href);
+        document.querySelectorAll('.folder-tab-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.folder-tab-btn').forEach(b => {
+              b.className = 'folder-tab-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 transition shrink-0';
             });
-        }
+            btn.className = 'folder-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-teal-700 text-white shadow-sm shrink-0';
+            currentFilter = btn.dataset.folder;
+            renderDocs();
+          });
+        });
 
-        function visitorOpenFolder(fId) {
-            vCurrentFolder = fId;
-            renderVisitorView();
-            window.scrollTo({ top: 380, behavior: 'smooth' });
-        }
+        renderDocs();
+      } catch (err) {
+        console.error(err);
+        document.getElementById('visitorDocsList').innerHTML = `
+          <div class="p-6 bg-rose-50 text-rose-700 rounded-2xl text-center text-xs">
+            تعذر الاتصال بالسحابة. يرجى التأكد من اتصال الإنترنت وإعدادات Firebase.
+          </div>
+        `;
+      }
+    }
 
-        function visitorNavigateUp() {
-            if (vCurrentFolder === 'root') return;
-            const folders = loadUnifiedFolders();
-            const curr = folders.find(f => f.id === vCurrentFolder);
-            vCurrentFolder = curr ? (curr.parentId || 'root') : 'root';
-            renderVisitorView();
-        }
+    function renderDocs() {
+      const container = document.getElementById('visitorDocsList');
+      const filtered = currentFilter === 'all' ? allDocs : allDocs.filter(d => d.folderId === currentFilter);
+      
+      container.innerHTML = '';
 
-        function renderVisitorBreadcrumbs() {
-            const folders = loadUnifiedFolders();
-            const bc = document.getElementById('vBreadcrumbs');
-            const btnUp = document.getElementById('vBtnUp');
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="bg-white rounded-2xl p-8 border border-slate-200 text-center text-slate-400 text-xs">
+            لا توجد وثائق متاحة في هذا المجلد حالياً.
+          </div>
+        `;
+        return;
+      }
 
-            btnUp.disabled = (vCurrentFolder === 'root');
-            bc.innerHTML = '';
+      filtered.forEach(doc => {
+        const item = document.createElement('div');
+        item.className = 'bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between hover:border-teal-400 transition gap-3';
+        item.innerHTML = `
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg shrink-0">
+              <i class="fa-solid fa-file-pdf"></i>
+            </div>
+            <div class="min-w-0">
+              <h4 class="font-bold text-slate-800 text-sm truncate">${doc.name}</h4>
+              <div class="flex items-center gap-2 text-xs text-slate-400 mt-0.5">
+                <span class="text-teal-700 font-medium">${doc.folderName || 'عام'}</span>
+                <span>•</span>
+                <span>${doc.date || ''}</span>
+                <span>•</span>
+                <span>${doc.sizeText || ''}</span>
+              </div>
+            </div>
+          </div>
+          <a href="viewer.html?file=${encodeURIComponent(doc.fileUrl)}&title=${encodeURIComponent(doc.name)}&mode=visitor" class="px-4 py-2 rounded-xl bg-teal-50 text-teal-800 hover:bg-teal-100 text-xs font-bold transition flex items-center gap-1.5 shrink-0">
+            <i class="fa-solid fa-book-open"></i> قراءة المستند
+          </a>
+        `;
+        container.appendChild(item);
+      });
+    }
 
-            let path = [];
-            let curr = vCurrentFolder;
-            let depth = 0;
+    initVisitorPortal();
+  </script>
 
-            while (curr && curr !== 'root' && depth < 20) {
-                const found = folders.find(f => f.id === curr);
-                if (found) {
-                    path.unshift(found);
-                    curr = found.parentId;
-                } else break;
-                depth++;
-            }
-
-            const rootBtn = document.createElement('button');
-            const isRootActive = (vCurrentFolder === 'root');
-            rootBtn.className = `whitespace-nowrap px-3 py-1 rounded-xl transition flex items-center gap-1.5 text-xs ${
-                isRootActive ? 'bg-[#0d5c75] text-white font-bold shadow-2xs' : 'text-slate-600 hover:bg-teal-50'
-            }`;
-            rootBtn.innerHTML = `<i data-lucide="home" class="w-3.5 h-3.5"></i> <span>دليل الوثائق الرئيسي</span>`;
-            rootBtn.onclick = () => visitorOpenFolder('root');
-            bc.appendChild(rootBtn);
-
-            path.forEach((p, idx) => {
-                const sep = document.createElement('span');
-                sep.className = 'text-slate-300 flex-shrink-0';
-                sep.innerHTML = `<i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>`;
-                bc.appendChild(sep);
-
-                const btn = document.createElement('button');
-                const isLast = (idx === path.length - 1);
-                btn.className = `whitespace-nowrap px-3 py-1 rounded-xl transition text-xs ${
-                    isLast ? 'bg-emerald-600 text-white font-bold shadow-2xs' : 'text-slate-600 hover:bg-teal-50'
-                }`;
-                btn.textContent = p.name;
-                btn.onclick = () => visitorOpenFolder(p.id);
-                bc.appendChild(btn);
-            });
-
-            lucide.createIcons();
-            setTimeout(() => {
-                bc.scrollLeft = -bc.scrollWidth;
-            }, 50);
-        }
-
-        function renderVisitorView() {
-            renderVisitorBreadcrumbs();
-            const folders = loadUnifiedFolders();
-            const files = loadUnifiedFiles();
-
-            const childFolders = folders.filter(f => f.parentId === vCurrentFolder);
-            const childFiles = files.filter(f => {
-                if (vCurrentFolder === 'root') return !f.folderId || f.folderId === 'root';
-                return f.folderId === vCurrentFolder || f.folder === vCurrentFolder;
-            });
-
-            document.getElementById('vTotalDocsBadge').textContent = files.length;
-            document.getElementById('vTotalFoldersBadge').textContent = Math.max(5, folders.length);
-            document.getElementById('vFolderCount').textContent = childFolders.length + ' مجلد';
-            document.getElementById('vFilesCount').textContent = childFiles.length + ' وثيقة';
-
-            const gridF = document.getElementById('vFoldersGrid');
-            gridF.innerHTML = '';
-
-            if (childFolders.length === 0) {
-                gridF.innerHTML = '<div class="col-span-full text-xs text-slate-400 py-3 text-center bg-white rounded-xl border border-dashed border-teal-100">لا توجد مجلدات فرعية في هذا المستوى.</div>';
-            } else {
-                childFolders.forEach(f => {
-                    const card = document.createElement('div');
-                    card.className = 'bg-white p-3.5 rounded-2xl border border-teal-100 hover:border-emerald-500 active:bg-teal-50 shadow-2xs transition cursor-pointer flex items-center gap-2.5';
-                    card.onclick = () => visitorOpenFolder(f.id);
-                    card.innerHTML = `
-                        <div class="w-8 h-8 rounded-xl bg-teal-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
-                            <i data-lucide="folder" class="w-4 h-4"></i>
-                        </div>
-                        <span class="text-xs font-bold text-slate-800 truncate">${f.name}</span>
-                    `;
-                    gridF.appendChild(card);
-                });
-            }
-
-            const gridFiles = document.getElementById('vFilesGrid');
-            const empty = document.getElementById('vEmptyState');
-            gridFiles.innerHTML = '';
-
-            if (childFiles.length === 0) {
-                empty.classList.remove('hidden');
-            } else {
-                empty.classList.add('hidden');
-                childFiles.forEach(doc => {
-                    const docTitle = doc.name || 'وثيقة رسمية';
-                    const docDate = doc.date || 'معتمد';
-                    const card = document.createElement('div');
-                    card.className = 'bg-[#ffffff] p-5 rounded-2xl border border-teal-100 shadow-2xs space-y-4 flex flex-col justify-between hover:border-[#0d5c75] transition';
-                    card.innerHTML = `
-                        <div class="space-y-2.5">
-                            <div class="flex items-center justify-between">
-                                <span class="text-[10px] font-bold bg-red-100 text-red-600 px-2.5 py-0.5 rounded-md">PDF</span>
-                                <span class="text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-semibold border border-emerald-100">معتمد رسمياً</span>
-                            </div>
-                            <h4 class="font-bold text-xs sm:text-sm text-slate-800 leading-snug line-clamp-2">${docTitle}</h4>
-                            <p class="text-[11px] text-slate-400">${doc.folderName || 'أرشيف الإدارة'} • ${docDate}</p>
-                        </div>
-                        <a href="./viewer.html?id=${doc.id}&from=visitor" class="w-full py-2.5 bg-[#0d5c75] hover:bg-[#094254] text-white text-xs font-bold rounded-xl transition text-center flex items-center justify-center gap-2 shadow-2xs">
-                            <i data-lucide="eye" class="w-4 h-4"></i>
-                            <span>قراءة المستند</span>
-                        </a>
-                    `;
-                    gridFiles.appendChild(card);
-                });
-            }
-
-            lucide.createIcons();
-        }
-
-        renderVisitorView();
-    </script>
 </body>
 </html>

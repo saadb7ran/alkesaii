@@ -1,244 +1,227 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>إيداع وتوثيق وثيقة PDF - ثانوية الكسائي</title> <script src="https://cdn.tailwindcss.com"></script> <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet"> <script src="https://unpkg.com/lucide@latest"></script> <style> body { font-family: 'IBM Plex Sans Arabic', sans-serif; } </style>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>رفع وتوثيق ملفات PDF - ثانوية الكسائي</title>
+  
+  <!-- Tailwind CSS & Fonts & Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    body {
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      background-color: #f7faf9;
+    }
+  </style>
 </head>
 
-<body class="bg-[#f7faf9] text-slate-800 min-h-screen flex antialiased"> <!-- القائمة الجانبية الرسمية --> <aside class="w-72 bg-white border-l border-teal-100 flex flex-col justify-between hidden lg:flex shrink-0 z-20 shadow-xs"> <div> <div class="p-6 border-b border-teal-50 text-center flex flex-col items-center space-y-2"> <svg class="w-20 h-16" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg"> <g fill="#0d5c75"> <circle cx="30" cy="35" r="7"/><circle cx="50" cy="38" r="7"/><circle cx="70" cy="45" r="6"/><circle cx="90" cy="56" r="5"/> <circle cx="30" cy="55" r="6"/><circle cx="50" cy="58" r="6"/><circle cx="70" cy="65" r="5"/><circle cx="90" cy="74" r="4"/> <circle cx="30" cy="73" r="5"/><circle cx="50" cy="75" r="5"/><circle cx="70" cy="80" r="4.5"/><circle cx="88" cy="87" r="3.5"/> </g> <g fill="#10b981"> <circle cx="170" cy="35" r="7"/><circle cx="150" cy="38" r="7"/><circle cx="130" cy="45" r="6"/><circle cx="110" cy="56" r="5"/> <circle cx="170" cy="55" r="6"/><circle cx="150" cy="58" r="6"/><circle cx="130" cy="65" r="5"/><circle cx="110" cy="74" r="4"/> <circle cx="170" cy="73" r="5"/><circle cx="150" cy="75" r="5"/><circle cx="130" cy="80" r="4.5"/><circle cx="112" cy="87" r="3.5"/> </g> </svg> <div class="space-y-0.5"> <p class="text-[11px] text-slate-400 font-medium">المملكة العربية السعودية</p> <h2 class="font-bold text-xs text-[#0d5c75]">وزارة التعليم</h2> <p class="text-[11px] text-slate-500 font-semibold">الإدارة العامة للتعليم بالمنطقة الشرقية</p> <span class="inline-block mt-1 px-3 py-0.5 bg-teal-50 text-[#0d5c75] rounded-full text-[11px] font-bold border border-teal-100"> • ثانوية الكسائي • </span> <p class="text-[10px] text-slate-400 pt-1">إدارة وأرشفة الوثائق والسجلات</p> </div> </div>
+<body class="text-slate-800 min-h-screen flex">
 
-      <div class="p-4">
-        <a href="./upload.html" class="w-full py-3 bg-[#0d5c75] hover:bg-[#094254] text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-sm">
-          <i data-lucide="file-up" class="w-4 h-4"></i>
-          <span>رفع وثيقة جديدة</span>
-        </a>
+  <!-- القائمة الجانبية -->
+  <aside class="w-64 bg-white border-l border-slate-200 flex flex-col justify-between hidden md:flex shrink-0">
+    <div>
+      <div class="p-6 border-b border-slate-100 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-teal-600/10 text-teal-700 flex items-center justify-center font-bold text-xl">
+          <i class="fa-solid fa-school"></i>
+        </div>
+        <div>
+          <h1 class="font-bold text-slate-800 text-sm">ثانوية الكسائي</h1>
+          <p class="text-xs text-teal-700 font-medium">تعليم الشرقية</p>
+        </div>
       </div>
 
-      <nav class="px-4 space-y-1.5 text-xs font-semibold">
-        <a href="./index.html" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-teal-50/60 hover:text-[#0d5c75] transition">
-          <span class="flex items-center gap-3">
-            <i data-lucide="folder-kanban" class="w-4 h-4"></i>
-            <span>لوحة المجلدات الرئيسية</span>
-          </span>
+      <nav class="p-4 space-y-1">
+        <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 transition">
+          <i class="fa-solid fa-table-cells-large w-5 text-slate-400"></i>
+          <span class="text-sm font-medium">الرئيسية والمجلدات</span>
         </a>
-        <a href="./files.html" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-teal-50/60 hover:text-[#0d5c75] transition">
-          <span class="flex items-center gap-3">
-            <i data-lucide="layout-grid" class="w-4 h-4"></i>
-            <span>استعراض الملفات</span>
-          </span>
+        <a href="upload.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-teal-50 text-teal-800 font-semibold">
+          <i class="fa-solid fa-cloud-arrow-up w-5 text-teal-700"></i>
+          <span class="text-sm">رفع وثيقة جديدة</span>
         </a>
-        <a href="./viewer.html" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-teal-50/60 hover:text-[#0d5c75] transition">
-          <span class="flex items-center gap-3">
-            <i data-lucide="file-text" class="w-4 h-4"></i>
-            <span>مستعرض الوثائق (PDF)</span>
-          </span>
-        </a>
-        <a href="./visitor.html" target="_blank" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-emerald-800 bg-emerald-50/70 hover:bg-emerald-100 transition border border-emerald-200">
-          <span class="flex items-center gap-3">
-            <i data-lucide="qr-code" class="w-4 h-4 text-emerald-600"></i>
-            <span>بوابة الزوار (رمز QR)</span>
-          </span>
-          <span class="text-[10px] bg-emerald-600 text-white px-1.5 py-0.5 rounded">مباشر</span>
+        <a href="visitor.html" target="_blank" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 transition">
+          <i class="fa-solid fa-qrcode w-5 text-slate-400"></i>
+          <span class="text-sm font-medium">بوابة الزوار (QR)</span>
         </a>
       </nav>
     </div>
 
-    <div class="p-4 border-t border-teal-50 text-center space-y-1 text-slate-500 text-xs">
-      <p class="font-bold text-[#0d5c75] text-[11px] flex items-center justify-center gap-1">
-        <i data-lucide="badge-check" class="w-3.5 h-3.5 text-emerald-600"></i>
-        تصميم وتطوير: أ. سعد القرني
-      </p>
-      <p class="text-[10px] text-slate-400">ثانوية الكسائي • تعليم الشرقية</p>
+    <div class="p-4 border-t border-slate-100 text-xs text-slate-400 text-center">
+      حقوق التصميم للأستاذ: سعد القرني
     </div>
   </aside>
 
-  <!-- مساحة العرض الرئيسية -->
-  <div class="flex-1 flex flex-col min-w-0">
-    <header class="bg-white border-b border-teal-100 px-6 py-3.5 flex items-center justify-between sticky top-0 z-10 shadow-2xs">
-      <div class="flex items-center gap-3">
-        <a href="./files.html" class="p-2 bg-slate-50 hover:bg-teal-50 text-slate-600 rounded-xl border border-teal-100 transition" title="العودة للخلف">
-          <i data-lucide="arrow-right" class="w-4 h-4"></i>
-        </a>
-        <div>
-          <h1 class="text-sm md:text-base font-bold text-[#0d5c75]">إيداع وتوثيق وثيقة PDF جديدة</h1>
-          <p class="text-xs text-slate-400">إضافة الملف للأرشيف المعتمد لثانوية الكسائي</p>
-        </div>
+  <!-- المحتوى الرئيسي -->
+  <main class="flex-1 flex flex-col min-w-0">
+    <header class="h-16 bg-white border-b border-slate-200 px-6 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="text-sm font-semibold text-teal-800">إدارة الأرشفة السحابية</span>
+        <span class="text-slate-300">/</span>
+        <span class="text-sm text-slate-500">رفع وتوثيق مستند PDF</span>
       </div>
-      <a href="./files.html" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
-        <i data-lucide="folder" class="w-3.5 h-3.5"></i>
-        <span>العودة للأرشيف</span>
+      <a href="index.html" class="text-xs text-slate-500 hover:text-teal-700 flex items-center gap-1">
+        <i class="fa-solid fa-arrow-left"></i> العودة للرئيسية
       </a>
     </header>
 
-    <main class="p-6 md:p-8 max-w-4xl mx-auto w-full space-y-6">
-      <div class="bg-white rounded-3xl border border-teal-100 p-6 md:p-8 shadow-xs space-y-6">
-        <!-- منطقة السحب والإفلات / الاختيار -->
-        <div id="dropZone" 
-             onclick="document.getElementById('fileInput').click()" 
-             ondragover="handleDragOver(event)" 
-             ondragleave="handleDragLeave(event)" 
-             ondrop="handleDrop(event)"
-             class="border-2 border-dashed border-teal-200 hover:border-[#0d5c75] hover:bg-teal-50/40 rounded-2xl p-8 text-center cursor-pointer transition flex flex-col items-center justify-center space-y-3">
-          <div class="w-14 h-14 rounded-2xl bg-teal-50 text-[#0d5c75] flex items-center justify-center">
-            <i data-lucide="file-up" class="w-7 h-7 text-[#0d5c75]"></i>
-          </div>
+    <div class="p-6 md:p-10 max-w-4xl mx-auto w-full">
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 md:p-8">
+        <h2 class="text-xl font-bold text-slate-800 mb-2">إيداع ملف PDF في السحابة</h2>
+        <p class="text-sm text-slate-500 mb-6">سيتم رفع الملف وتخزينه سحابياً في Firebase ليظهر فوراً في لوحة التحكم وبوابة الزوار.</p>
+        
+        <form id="uploadForm" class="space-y-6">
+          
+          <!-- منطقة اختيار ورصد الملف -->
           <div>
-            <p class="text-sm font-bold text-slate-800">انقر هنا لاختيار ملف PDF من جهازك</p>
-            <p class="text-xs text-slate-400 mt-1">أو اسحب وأفلت الملف مباشرة داخل هذا المربع</p>
+            <label class="block text-sm font-medium text-slate-700 mb-2">مستند الـ PDF</label>
+            <div id="dropZone" class="border-2 border-dashed border-slate-300 hover:border-teal-500 rounded-2xl p-8 text-center cursor-pointer transition bg-slate-50/50">
+              <i class="fa-solid fa-file-pdf text-4xl text-rose-500 mb-3 block"></i>
+              <p class="text-sm font-semibold text-slate-700" id="fileNameDisplay">اسحب وأفلت ملف الـ PDF هنا أو اضغط للاختيار</p>
+              <p class="text-xs text-slate-400 mt-1">يقبل ملفات PDF فقط</p>
+              <input type="file" id="pdfFileInput" accept="application/pdf" class="hidden">
+            </div>
           </div>
-          <span id="selectedFileNameBadge" class="hidden inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-emerald-50 text-emerald-800 font-bold text-xs border border-emerald-200">
-            <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
-            <span id="selectedFileNameText"></span>
-          </span>
-          <input type="file" id="fileInput" accept="application/pdf" class="hidden" onchange="handleFileSelected(event)">
-        </div>
 
-        <!-- معلومات الوثيقة -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="space-y-1.5">
-            <label class="text-xs font-bold text-slate-700">عنوان أو اسم الوثيقة المعتمدة:</label>
-            <input type="text" id="docNameInput" placeholder="مثال: الخطة التشغيلية للفصل الدراسي الثاني" class="w-full px-3.5 py-2.5 bg-slate-50 border border-teal-100 rounded-xl text-xs focus:bg-white focus:outline-none focus:border-[#0d5c75] transition">
+          <!-- تفاصيل الوثيقة والمجلد -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">اسم الوثيقة / السجل</label>
+              <input type="text" id="docNameInput" required placeholder="مثال: الخطة التشغيلية للفصل الثاني" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-600">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">المجلد المستهدف</label>
+              <select id="folderSelect" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-600 bg-white">
+                <option value="planning" data-name="التنظيم والتخطيط">التنظيم والتخطيط</option>
+                <option value="circulars" data-name="الوثائق والتعاميم">الوثائق والتعاميم</option>
+                <option value="academic" data-name="الشؤون التعليمية والمتابعة">الشؤون التعليمية والمتابعة</option>
+                <option value="students" data-name="شؤون الطلاب">شؤون الطلاب</option>
+                <option value="committees" data-name="الاجتماعات واللجان">الاجتماعات واللجان</option>
+              </select>
+            </div>
           </div>
-          <div class="space-y-1.5">
-            <label class="text-xs font-bold text-slate-700">المجلد المستهدف:</label>
-            <select id="folderSelect" class="w-full px-3.5 py-2.5 bg-slate-50 border border-teal-100 rounded-xl text-xs focus:bg-white focus:outline-none focus:border-[#0d5c75] transition"></select>
-          </div>
-        </div>
 
-        <!-- أزرار الحفظ والإلغاء -->
-        <div class="pt-4 border-t border-slate-100 flex items-center justify-end gap-3">
-          <a href="./files.html" class="px-4 py-2.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition">إلغاء</a>
-          <button id="btnSubmitUpload" onclick="submitUpload()" class="px-6 py-2.5 bg-[#0d5c75] hover:bg-[#094254] text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-xs">
-            <i data-lucide="check-circle" class="w-4 h-4"></i>
-            <span>حفظ وتوثيق المستند في الأرشيف</span>
-          </button>
-        </div>
+          <!-- شريط حالة الرفع والرسائل -->
+          <div id="statusBox" class="hidden p-4 rounded-xl text-sm font-medium"></div>
+
+          <!-- أزرار الإجراء -->
+          <div class="pt-4 border-t border-slate-100 flex items-center justify-end gap-3">
+            <a href="index.html" class="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-sm hover:bg-slate-50 transition">إلغاء</a>
+            <button type="submit" id="submitBtn" class="px-6 py-2.5 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-semibold text-sm transition shadow-sm flex items-center gap-2">
+              <i class="fa-solid fa-cloud-arrow-up"></i> 
+              <span>رفع المستند إلى السحابة</span>
+            </button>
+          </div>
+
+        </form>
       </div>
-    </main>
+    </div>
+  </main>
 
-    <footer class="mt-auto border-t border-teal-100 bg-white py-4 px-6 text-center text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
-      <span class="px-3 py-1 bg-emerald-50 text-emerald-800 rounded-lg font-bold border border-emerald-200 text-[11px]">
-        تصميم وتطوير: أ. سعد القرني
-      </span>
-      <p class="text-[10px] text-slate-400">ثانوية الكسائي — الإدارة العامة للتعليم بالمنطقة الشرقية © 1446هـ</p>
-    </footer>
-  </div>
+  <!-- نص البرمجة الربط مع Firebase -->
+  <script type="module">
+    import { uploadCloudDocument, getCloudFolders } from './firebase-db.js';
 
-  <script>
-    lucide.createIcons();
-    let loadedPdfDataUri = null;
-    let loadedFileSize = 0;
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('pdfFileInput');
+    const fileNameDisplay = document.getElementById('fileNameDisplay');
+    const uploadForm = document.getElementById('uploadForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const statusBox = document.getElementById('statusBox');
+    const folderSelect = document.getElementById('folderSelect');
+    
+    let selectedFile = null;
 
-    function initFoldersDropdown() {
-      let folders = [];
+    // تهيئة قائمة المجلدات المتاحة
+    async function initFolders() {
       try {
-        folders = JSON.parse(localStorage.getItem('alkisaee_folders_tree')) || [];
-      } catch(e) {}
-
-      if (folders.length === 0) {
-        folders = [
-          { id: 'planning', name: 'التنظيم والتخطيط' },
-          { id: 'circulars', name: 'الوثائق والتعاميم' },
-          { id: 'academic', name: 'الشؤون التعليمية والمتابعة' },
-          { id: 'students', name: 'شؤون الطلاب' },
-          { id: 'committees', name: 'الاجتماعات واللجان' }
-        ];
+        const folders = await getCloudFolders();
+        folderSelect.innerHTML = '';
+        folders.forEach(f => {
+          const opt = document.createElement('option');
+          opt.value = f.id;
+          opt.dataset.name = f.name;
+          opt.textContent = f.name;
+          folderSelect.appendChild(opt);
+        });
+      } catch (e) {
+        console.warn(e);
       }
-
-      const select = document.getElementById('folderSelect');
-      select.innerHTML = '';
-      folders.forEach(f => {
-        const opt = document.createElement('option');
-        opt.value = f.id;
-        opt.textContent = f.name;
-        select.appendChild(opt);
-      });
     }
+    initFolders();
 
-    function processFile(file) {
-      if (!file || file.type !== 'application/pdf') {
-        alert('يرجى اختيار ملف بفرص بصيغة PDF فقط.');
+    // أحداث السحب والإفلات وتحديد الملف
+    dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('border-teal-500', 'bg-teal-50/20');
+    });
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.classList.remove('border-teal-500', 'bg-teal-50/20');
+    });
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('border-teal-500', 'bg-teal-50/20');
+      if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
+    });
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length > 0) handleFile(e.target.files[0]);
+    });
+
+    function handleFile(file) {
+      if (file.type !== 'application/pdf') {
+        alert('يرجى اختيار ملف بصيغة PDF فقط');
         return;
       }
-      loadedFileSize = file.size;
-      const nameInput = document.getElementById('docNameInput');
-      if (!nameInput.value) {
-        nameInput.value = file.name.replace(/\.pdf$/i, '');
-      }
-
-      document.getElementById('selectedFileNameBadge').classList.remove('hidden');
-      document.getElementById('selectedFileNameText').textContent = file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
-
-      const reader = new FileReader();
-      reader.onload = function(evt) {
-        loadedPdfDataUri = evt.target.result;
-      };
-      reader.readAsDataURL(file);
-      lucide.createIcons();
-    }
-
-    function handleFileSelected(e) {
-      const file = e.target.files[0];
-      processFile(file);
-    }
-
-    function handleDragOver(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      e.currentTarget.classList.add('bg-teal-50', 'border-[#0d5c75]');
-    }
-
-    function handleDragLeave(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      e.currentTarget.classList.remove('bg-teal-50', 'border-[#0d5c75]');
-    }
-
-    function handleDrop(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      e.currentTarget.classList.remove('bg-teal-50', 'border-[#0d5c75]');
-      const files = e.dataTransfer.files;
-      if (files && files.length > 0) {
-        processFile(files[0]);
+      selectedFile = file;
+      fileNameDisplay.textContent = `تم اختيار: ${file.name} (${(file.size / (1024 * 1024)).toFixed(2)} MB)`;
+      
+      if (!document.getElementById('docNameInput').value) {
+        document.getElementById('docNameInput').value = file.name.replace(/\.[^/.]+$/, "");
       }
     }
 
-    function submitUpload() {
-      const name = document.getElementById('docNameInput').value.trim();
-      const folderId = document.getElementById('folderSelect').value;
-      const folderSelect = document.getElementById('folderSelect');
-      const folderName = folderSelect.options[folderSelect.selectedIndex]?.textContent || 'مجلد معتمد';
-
-      if (!name) {
-        alert('يرجى كتابة اسم الوثيقة.');
+    // إرسال النموذج والرفع السحابي
+    uploadForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      if (!selectedFile) {
+        alert('يرجى اختيار ملف PDF أولاً');
         return;
       }
 
-      let docs = [];
-      try {
-        docs = JSON.parse(localStorage.getItem('alkisaee_all_documents')) || [];
-      } catch(e) {
-        docs = [];
-      }
-
-      const newDoc = {
-        id: 'doc_' + Date.now(),
-        name: name,
-        folderId: folderId,
-        folder: folderId,
-        folderName: folderName,
-        sizeBytes: loadedFileSize || 95000,
-        sizeText: (loadedFileSize ? (loadedFileSize / (1024 * 1024)).toFixed(2) + ' MB' : '0.1 MB'),
-        date: new Intl.DateTimeFormat('ar-SA-u-ca-islamic', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date()),
-        pdfData: loadedPdfDataUri || ''
+      const selectedOpt = folderSelect.options[folderSelect.selectedIndex];
+      const docMeta = {
+        name: document.getElementById('docNameInput').value.trim(),
+        folderId: folderSelect.value,
+        folderName: selectedOpt ? selectedOpt.dataset.name || selectedOpt.text : 'التنظيم والتخطيط'
       };
 
-      docs.push(newDoc);
-      localStorage.setItem('alkisaee_all_documents', JSON.stringify(docs));
-      alert('تم حفظ وتوثيق الوثيقة بنجاح في الأرشيف!');
-      window.location.href = './files.html?folder=' + folderId;
-    }
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> جاري الرفع السحابي...';
+      statusBox.className = 'p-4 rounded-xl text-sm font-medium bg-blue-50 text-blue-700 block';
+      statusBox.textContent = 'جاري رفع الملف إلى سحابة Firebase وحفظ البيانات...';
 
-    initFoldersDropdown();
+      try {
+        await uploadCloudDocument(selectedFile, docMeta);
+        statusBox.className = 'p-4 rounded-xl text-sm font-medium bg-emerald-50 text-emerald-800 block';
+        statusBox.textContent = '✅ تم رفع المستند وحفظه في السحابة بنجاح! جاري الانتقال للرئيسية...';
+        
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 1500);
+
+      } catch (error) {
+        console.error(error);
+        statusBox.className = 'p-4 rounded-xl text-sm font-medium bg-rose-50 text-rose-700 block';
+        statusBox.textContent = 'حدث خطأ أثناء الرفع: ' + error.message + ' (تأكد من إعداد Rules في Firebase كما هو موضح)';
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> إعادة المحاولة';
+      }
+    });
   </script>
+
 </body>
 </html>

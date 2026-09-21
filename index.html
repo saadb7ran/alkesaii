@@ -1,516 +1,281 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة القيادة والمستودع الرقمي - ثانوية الكسائي</title>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <style>
-        body {
-            font-family: 'IBM Plex Sans Arabic', sans-serif;
-        }
-        
-        .donut-ring {
-            stroke-dasharray: 283;
-            stroke-dashoffset: 283;
-            transform: rotate(-90deg);
-            transform-origin: 50% 50%;
-            transition: stroke-dashoffset 0.8s ease;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نظام إدارة وأرشفة وثائق ثانوية الكسائي</title>
+
+  <!-- Tailwind CSS & Fonts & Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    body {
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      background-color: #f7faf9;
+    }
+  </style>
 </head>
 
-<body class="bg-[#f7faf9] text-slate-800 min-h-screen flex antialiased">
+<body class="text-slate-800 min-h-screen flex">
 
-    <!-- القائمة الجانبية (Sidebar) -->
-    <aside class="w-72 bg-white border-l border-teal-100 flex flex-col justify-between hidden lg:flex shrink-0 z-20 shadow-xs">
+  <!-- القائمة الجانبية -->
+  <aside class="w-64 bg-white border-l border-slate-200 flex flex-col justify-between hidden md:flex shrink-0">
+    <div>
+      <div class="p-6 border-b border-slate-100 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-teal-600/10 text-teal-700 flex items-center justify-center font-bold text-xl">
+          <i class="fa-solid fa-school"></i>
+        </div>
         <div>
-            <!-- شعار الوزارة والمدرسة -->
-            <div class="p-6 border-b border-teal-50 text-center flex flex-col items-center space-y-2">
-                <svg class="w-20 h-16" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g fill="#0d5c75">
-                        <circle cx="30" cy="35" r="7"/><circle cx="50" cy="38" r="7"/><circle cx="70" cy="45" r="6"/><circle cx="90" cy="56" r="5"/>
-                        <circle cx="30" cy="55" r="6"/><circle cx="50" cy="58" r="6"/><circle cx="70" cy="65" r="5"/><circle cx="90" cy="74" r="4"/>
-                        <circle cx="30" cy="73" r="5"/><circle cx="50" cy="75" r="5"/><circle cx="70" cy="80" r="4.5"/><circle cx="88" cy="87" r="3.5"/>
-                    </g>
-                    <g fill="#10b981">
-                        <circle cx="170" cy="35" r="7"/><circle cx="150" cy="38" r="7"/><circle cx="130" cy="45" r="6"/><circle cx="110" cy="56" r="5"/>
-                        <circle cx="170" cy="55" r="6"/><circle cx="150" cy="58" r="6"/><circle cx="130" cy="65" r="5"/><circle cx="110" cy="74" r="4"/>
-                        <circle cx="170" cy="73" r="5"/><circle cx="150" cy="75" r="5"/><circle cx="130" cy="80" r="4.5"/><circle cx="112" cy="87" r="3.5"/>
-                    </g>
-                </svg>
-                <div class="space-y-0.5">
-                    <p class="text-[11px] text-slate-400 font-medium">المملكة العربية السعودية</p>
-                    <h2 class="font-bold text-xs text-[#0d5c75]">وزارة التعليم</h2>
-                    <p class="text-[11px] text-slate-500 font-semibold">الإدارة العامة للتعليم بالمنطقة الشرقية</p>
-                    <span class="inline-block mt-1 px-3 py-0.5 bg-teal-50 text-[#0d5c75] rounded-full text-[11px] font-bold border border-teal-100"> • ثانوية الكسائي • </span>
-                    <p class="text-[10px] text-slate-400 pt-1">إدارة وأرشفة الوثائق والسجلات</p>
-                </div>
-            </div>
-
-            <!-- زر رفع وثيقة -->
-            <div class="p-4">
-                <a href="./upload.html" class="w-full py-3 bg-[#0d5c75] hover:bg-[#094254] text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-sm">
-                    <i data-lucide="file-up" class="w-4 h-4"></i>
-                    <span>رفع وثيقة جديدة</span>
-                </a>
-            </div>
-
-            <!-- روابط التنقل -->
-            <nav class="px-4 space-y-1.5 text-xs font-semibold">
-                <a href="./index.html" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-teal-50 text-[#0d5c75] border border-teal-100 transition">
-                    <span class="flex items-center gap-3">
-                        <i data-lucide="folder-kanban" class="w-4 h-4 text-[#0d5c75]"></i>
-                        <span>لوحة المجلدات والمؤشرات</span>
-                    </span>
-                    <i data-lucide="chevron-left" class="w-4 h-4"></i>
-                </a>
-                <a href="./files.html" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-teal-50/60 hover:text-[#0d5c75] transition">
-                    <span class="flex items-center gap-3">
-                        <i data-lucide="layout-grid" class="w-4 h-4"></i>
-                        <span>استعراض الملفات</span>
-                    </span>
-                </a>
-                <a href="./visitor.html" target="_blank" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-emerald-800 bg-emerald-50/70 hover:bg-emerald-100 transition border border-emerald-200">
-                    <span class="flex items-center gap-3">
-                        <i data-lucide="qr-code" class="w-4 h-4 text-emerald-600"></i>
-                        <span>بوابة الزوار (رمز QR)</span>
-                    </span>
-                    <span class="text-[10px] bg-emerald-600 text-white px-1.5 py-0.5 rounded">مباشر</span>
-                </a>
-            </nav>
-
-            <!-- زر تنزيل البيانات -->
-            <div class="p-4 mx-4 my-2 bg-teal-50/60 rounded-2xl border border-teal-100 space-y-2">
-                <p class="text-[11px] text-slate-500 font-semibold">مزامنة الجوالات:</p>
-                <button onclick="downloadArchiveDataFile()" class="w-full py-2 bg-[#0d5c75] hover:bg-[#094254] text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5">
-                    <i data-lucide="download" class="w-3.5 h-3.5"></i>
-                    <span>تنزيل archive-data.js</span>
-                </button>
-            </div>
+          <h1 class="font-bold text-slate-800 text-sm">ثانوية الكسائي</h1>
+          <p class="text-xs text-teal-700 font-medium">تعليم الشرقية</p>
         </div>
+      </div>
 
-        <!-- حقوق التطوير الجانبية -->
-        <div class="p-4 border-t border-teal-50 text-center space-y-1 text-slate-500 text-xs">
-            <p class="font-bold text-[#0d5c75] text-[11px] flex items-center justify-center gap-1">
-                <i data-lucide="badge-check" class="w-3.5 h-3.5 text-emerald-600"></i>
-                تصميم وتطوير: أ. سعد القرني
-            </p>
-            <p class="text-[10px] text-slate-400">ثانوية الكسائي • تعليم الشرقية</p>
-        </div>
-    </aside>
-
-    <!-- مساحة المحتوى الرئيسي -->
-    <div class="flex-1 flex flex-col min-w-0">
-        
-        <!-- الهيدر العلوي -->
-        <header class="bg-white border-b border-teal-100 px-6 py-3.5 flex items-center justify-between sticky top-0 z-10 shadow-2xs">
-            <div class="flex items-center gap-3">
-                <div class="w-2.5 h-6 bg-[#0d5c75] rounded-full"></div>
-                <div>
-                    <h1 class="text-sm md:text-base font-bold text-[#0d5c75]">لوحة القيادة والمستودع الرقمي - ثانوية الكسائي</h1>
-                    <p class="text-xs text-slate-400">الإدارة العامة للتعليم بالمنطقة الشرقية</p>
-                </div>
-            </div>
-            <div class="flex items-center gap-2.5">
-                <a href="./visitor.html" target="_blank" class="px-3.5 py-2 bg-slate-50 hover:bg-teal-50 border border-teal-200 text-[#0d5c75] rounded-xl text-xs font-bold transition flex items-center gap-2">
-                    <i data-lucide="qr-code" class="w-4 h-4 text-emerald-600"></i>
-                    <span class="hidden sm:inline">بوابة الزوار</span>
-                </a>
-                <a href="./upload.html" class="px-4 py-2 bg-[#0d5c75] hover:bg-[#094254] text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-xs">
-                    <i data-lucide="plus" class="w-4 h-4"></i>
-                    <span>رفع وثيقة جديدة</span>
-                </a>
-            </div>
-        </header>
-
-        <!-- جسم الصفحة (Main) -->
-        <main class="p-6 md:p-8 space-y-6 max-w-7xl mx-auto w-full">
-            
-            <!-- البانر الكحلي الرئيسي -->
-            <div class="bg-[#083847] bg-gradient-to-r from-[#0d5c75] to-[#062934] text-white p-6 sm:p-8 rounded-3xl shadow-sm space-y-4">
-                <div class="flex flex-wrap items-center gap-2 text-xs font-semibold">
-                    <span class="px-2.5 py-1 bg-white/10 rounded-lg text-slate-200">المملكة العربية السعودية</span>
-                    <span class="text-white/40">•</span>
-                    <span class="px-2.5 py-1 bg-white/10 rounded-lg text-slate-200">وزارة التعليم</span>
-                    <span class="text-white/40">•</span>
-                    <span class="px-2.5 py-1 bg-emerald-500/20 text-emerald-300 rounded-lg border border-emerald-400/30">الإدارة العامة للتعليم بالمنطقة الشرقية</span>
-                    <span class="text-white/40">•</span>
-                    <span class="px-2.5 py-1 bg-white/10 rounded-lg text-slate-200 font-mono">1446هـ</span>
-                </div>
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div>
-                        <h1 class="text-xl sm:text-2xl font-bold tracking-tight">نظام الأرشفة والتوثيق الإلكتروني المعتمد</h1>
-                        <p class="text-xs text-teal-100 mt-1">المستودع الرقمي لحفظ وفهرسة ملفات وسجلات ثانوية الكسائي ومشاركتها الآمنة مع المستفيدين.</p>
-                    </div>
-                    <div class="flex items-center gap-2 flex-shrink-0">
-                        <a href="./upload.html" class="px-5 py-2.5 bg-emerald-400 hover:bg-emerald-500 text-slate-900 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm">
-                            <i data-lucide="file-plus" class="w-4 h-4"></i>
-                            <span>رفع ملف PDF جديد</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- بطاقات الإحصائيات -->
-            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="bg-white p-5 rounded-2xl border border-teal-100 shadow-2xs space-y-2">
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold text-slate-500">إجمالي الوثائق المؤرشفة</span>
-                        <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">محدث لحظياً</span>
-                    </div>
-                    <div class="flex items-baseline gap-2">
-                        <span class="text-3xl font-bold text-[#0d5c75]" id="statDocsCount">0</span>
-                        <span class="text-xs text-slate-400 font-bold">وثيقة</span>
-                    </div>
-                    <p class="text-[11px] text-slate-400 pt-2 border-t border-slate-50">جاهزية كاملة للاستعراض الفوري</p>
-                </div>
-
-                <div class="bg-white p-5 rounded-2xl border border-teal-100 shadow-2xs space-y-2">
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold text-slate-500">المجلدات النشطة</span>
-                        <span class="text-[10px] font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded-md">هيكلية معتمدة</span>
-                    </div>
-                    <div class="flex items-baseline gap-2">
-                        <span class="text-3xl font-bold text-slate-800" id="statFoldersCount">5</span>
-                        <span class="text-xs text-slate-400 font-bold">مجلدات رئيسية</span>
-                    </div>
-                    <p class="text-[11px] text-slate-400 pt-2 border-t border-slate-50">تدعم إنشاء تفريعات ومجلدات فرعية</p>
-                </div>
-
-                <div class="bg-white p-5 rounded-2xl border border-teal-100 shadow-2xs space-y-2">
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold text-slate-500">المساحة المستخدمة</span>
-                        <span class="text-[10px] font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md">سحابة الأرشيف</span>
-                    </div>
-                    <div class="flex items-baseline gap-2">
-                        <span class="text-3xl font-bold text-[#0d5c75]" id="statMbSize">0.0</span>
-                        <span class="text-xs text-slate-400 font-bold">ميجابايت</span>
-                    </div>
-                    <p class="text-[11px] text-slate-400 pt-2 border-t border-slate-50">سعة تقديرية: 1,000 MB</p>
-                </div>
-
-                <div class="bg-white p-5 rounded-2xl border border-teal-100 shadow-2xs space-y-2">
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold text-slate-500">معدل الاستيعاب</span>
-                        <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md" id="statUsageBadge">0.0%</span>
-                    </div>
-                    <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden my-2">
-                        <div id="statProgressBar" class="bg-emerald-500 h-full rounded-full transition-all" style="width: 0%"></div>
-                    </div>
-                    <p class="text-[11px] text-emerald-700 font-semibold pt-1">الأرشيف بحالة ممتازة وجاهز للعمل</p>
-                </div>
-            </section>
-
-            <!-- المجلدات المدرسية المعتمدة -->
-            <section class="space-y-4">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-2">
-                        <div class="w-2 h-5 bg-[#0d5c75] rounded-full"></div>
-                        <h2 class="text-base font-bold text-[#0d5c75]">المجلدات المدرسية المعتمدة</h2>
-                    </div>
-                    <a href="./files.html" class="text-xs font-bold text-teal-700 hover:text-[#0d5c75] flex items-center gap-1">
-                        <span>استعراض كافة المجلدات</span>
-                        <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
-                    </a>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                    <!-- مجلد 1 -->
-                    <div class="bg-white p-6 rounded-2xl border border-teal-100 hover:border-[#0d5c75] transition space-y-4 flex flex-col justify-between">
-                        <div class="space-y-3">
-                            <div class="w-12 h-12 rounded-2xl bg-teal-50 text-[#0d5c75] flex items-center justify-center">
-                                <i data-lucide="compass" class="w-6 h-6"></i>
-                            </div>
-                            <h3 class="font-bold text-sm text-slate-800">التنظيم والتخطيط</h3>
-                            <p class="text-xs text-slate-400">الخطة التشغيلية، توزيع المسؤوليات، والهيكل التنظيمي</p>
-                        </div>
-                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-                            <span class="font-bold text-[#0d5c75] bg-teal-50 px-2.5 py-1 rounded-lg" id="c-planning">0 وثيقة</span>
-                            <a href="./files.html?folder=planning" class="text-emerald-600 font-bold hover:underline">فتح المجلد</a>
-                        </div>
-                    </div>
-
-                    <!-- مجلد 2 -->
-                    <div class="bg-white p-6 rounded-2xl border border-teal-100 hover:border-[#0d5c75] transition space-y-4 flex flex-col justify-between">
-                        <div class="space-y-3">
-                            <div class="w-12 h-12 rounded-2xl bg-teal-50 text-[#0d5c75] flex items-center justify-center">
-                                <i data-lucide="mail" class="w-6 h-6"></i>
-                            </div>
-                            <h3 class="font-bold text-sm text-slate-800">الوثائق والتعاميم</h3>
-                            <p class="text-xs text-slate-400">القرارات واللوائح والتعاميم الوزارية المعتمدة</p>
-                        </div>
-                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-                            <span class="font-bold text-[#0d5c75] bg-teal-50 px-2.5 py-1 rounded-lg" id="c-circulars">0 وثيقة</span>
-                            <a href="./files.html?folder=circulars" class="text-emerald-600 font-bold hover:underline">فتح المجلد</a>
-                        </div>
-                    </div>
-
-                    <!-- مجلد 3 -->
-                    <div class="bg-white p-6 rounded-2xl border border-teal-100 hover:border-[#0d5c75] transition space-y-4 flex flex-col justify-between">
-                        <div class="space-y-3">
-                            <div class="w-12 h-12 rounded-2xl bg-teal-50 text-[#0d5c75] flex items-center justify-center">
-                                <i data-lucide="book-open-check" class="w-6 h-6"></i>
-                            </div>
-                            <h3 class="font-bold text-sm text-slate-800">الشؤون التعليمية والمتابعة</h3>
-                            <p class="text-xs text-slate-400">الجداول المدرسية، خطط الزيارات، ومتابعة الاختبارات</p>
-                        </div>
-                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-                            <span class="font-bold text-[#0d5c75] bg-teal-50 px-2.5 py-1 rounded-lg" id="c-academic">0 وثيقة</span>
-                            <a href="./files.html?folder=academic" class="text-emerald-600 font-bold hover:underline">فتح المجلد</a>
-                        </div>
-                    </div>
-
-                    <!-- مجلد 4 -->
-                    <div class="bg-white p-6 rounded-2xl border border-teal-100 hover:border-[#0d5c75] transition space-y-4 flex flex-col justify-between">
-                        <div class="space-y-3">
-                            <div class="w-12 h-12 rounded-2xl bg-teal-50 text-[#0d5c75] flex items-center justify-center">
-                                <i data-lucide="users" class="w-6 h-6"></i>
-                            </div>
-                            <h3 class="font-bold text-sm text-slate-800">شؤون الطلاب</h3>
-                            <p class="text-xs text-slate-400">الانضباط المدرسي، قواعد السلوك، والأنشطة الطلابية</p>
-                        </div>
-                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-                            <span class="font-bold text-[#0d5c75] bg-teal-50 px-2.5 py-1 rounded-lg" id="c-students">0 وثيقة</span>
-                            <a href="./files.html?folder=students" class="text-emerald-600 font-bold hover:underline">فتح المجلد</a>
-                        </div>
-                    </div>
-
-                    <!-- مجلد 5 -->
-                    <div class="bg-white p-6 rounded-2xl border border-teal-100 hover:border-[#0d5c75] transition space-y-4 flex flex-col justify-between">
-                        <div class="space-y-3">
-                            <div class="w-12 h-12 rounded-2xl bg-teal-50 text-[#0d5c75] flex items-center justify-center">
-                                <i data-lucide="message-square" class="w-6 h-6"></i>
-                            </div>
-                            <h3 class="font-bold text-sm text-slate-800">الاجتماعات واللجان</h3>
-                            <p class="text-xs text-slate-400">محاضر اللجان ومجالس أولياء الأمور وفرق العمل</p>
-                        </div>
-                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-                            <span class="font-bold text-[#0d5c75] bg-teal-50 px-2.5 py-1 rounded-lg" id="c-committees">0 وثيقة</span>
-                            <a href="./files.html?folder=committees" class="text-emerald-600 font-bold hover:underline">فتح المجلد</a>
-                        </div>
-                    </div>
-
-                    <!-- بطاقة بوابة الزوار -->
-                    <div class="bg-gradient-to-br from-teal-500 to-[#0d5c75] text-white p-6 rounded-2xl shadow-sm flex flex-col justify-between space-y-4">
-                        <div class="space-y-2">
-                            <span class="text-[10px] bg-white/20 px-2.5 py-1 rounded-full font-bold">بوابة الزوار</span>
-                            <h3 class="text-base font-bold">مشاركة الوثائق عبر رمز QR</h3>
-                            <p class="text-xs text-teal-100 leading-relaxed">إتاحة تصفح شجرة المجلدات وقراءة ملفات PDF المعتمدة للمشرفين والزوار بصيغة القراءة دون تعديل.</p>
-                        </div>
-                        <a href="./visitor.html" target="_blank" class="w-full py-2.5 bg-white text-[#0d5c75] hover:bg-teal-50 rounded-xl text-xs font-bold transition text-center flex items-center justify-center gap-2">
-                            <i data-lucide="external-link" class="w-4 h-4"></i>
-                            <span>فتح بوابة الزوار</span>
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- الرسم البياني وقائمة أحدث الملفات -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                
-                <!-- الرسم الدائري -->
-                <div class="bg-white p-6 rounded-2xl border border-teal-100 shadow-2xs space-y-4">
-                    <h3 class="font-bold text-xs sm:text-sm text-[#0d5c75] flex items-center gap-2">
-                        <i data-lucide="pie-chart" class="w-4 h-4 text-emerald-600"></i>
-                        <span>توزيع المساحة حسب التصنيف</span>
-                    </h3>
-                    <div class="relative w-36 h-36 mx-auto flex items-center justify-center">
-                        <svg class="w-full h-full" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="45" stroke="#f1f5f9" stroke-width="10" fill="none"/>
-                            <circle id="donutCircle" class="donut-ring" cx="50" cy="50" r="45" stroke="#0d5c75" stroke-width="10" stroke-linecap="round" fill="none"/>
-                        </svg>
-                        <div class="absolute text-center">
-                            <span class="text-2xl font-bold text-[#0d5c75]" id="donutPct">0%</span>
-                            <span class="block text-[10px] text-slate-400">مستخدم</span>
-                        </div>
-                    </div>
-                    <div class="space-y-2 text-xs pt-2 border-t border-slate-100">
-                        <div class="flex items-center justify-between text-slate-600">
-                            <span>التنظيم والتخطيط</span>
-                            <span class="font-bold font-mono" id="sz-planning">0 MB</span>
-                        </div>
-                        <div class="flex items-center justify-between text-slate-600">
-                            <span>الوثائق والتعاميم</span>
-                            <span class="font-bold font-mono" id="sz-circulars">0 MB</span>
-                        </div>
-                        <div class="flex items-center justify-between text-slate-600">
-                            <span>الشؤون التعليمية</span>
-                            <span class="font-bold font-mono" id="sz-academic">0 MB</span>
-                        </div>
-                        <div class="flex items-center justify-between text-slate-600">
-                            <span>شؤون الطلاب</span>
-                            <span class="font-bold font-mono" id="sz-students">0 MB</span>
-                        </div>
-                        <div class="flex items-center justify-between text-slate-600">
-                            <span>الاجتماعات واللجان</span>
-                            <span class="font-bold font-mono" id="sz-committees">0 MB</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- جدول أحدث الوثائق -->
-                <div class="lg:col-span-2 bg-white rounded-2xl border border-teal-100 p-6 space-y-4 shadow-2xs">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-2">
-                            <div class="w-2 h-5 bg-[#0d5c75] rounded-full"></div>
-                            <div>
-                                <h2 class="text-sm font-bold text-[#0d5c75]">أحدث وثائق PDF المودعة في الأرشيف</h2>
-                                <p class="text-[10px] text-slate-400">الملفات التي تم فحصها وحفظها في الموقع</p>
-                            </div>
-                        </div>
-                        <a href="./files.html" class="text-xs font-bold text-teal-700 hover:text-[#0d5c75] flex items-center gap-1">
-                            <span>عرض الكل</span>
-                            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
-                        </a>
-                    </div>
-
-                    <!-- قائمة الوثائق أو الرسالة البديلة -->
-                    <div id="recentDocsList" class="divide-y divide-slate-100"></div>
-                    <div id="noDocsPlaceholder" class="py-12 text-center text-slate-400 space-y-2 hidden">
-                        <i data-lucide="file-check" class="w-10 h-10 mx-auto text-teal-200"></i>
-                        <p class="font-bold text-xs text-slate-700">لا توجد وثائق محفوظة حالياً</p>
-                        <p class="text-[11px] text-slate-400">ابدأ برفع وثيقة جديدة لتظهر المؤشرات والملفات تلقائياً.</p>
-                    </div>
-                </div>
-
-            </div>
-        </main>
-
-        <!-- الفوتر السفي -->
-        <footer class="mt-auto border-t border-teal-100 bg-white py-4 px-6 text-center text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
-            <span class="px-3 py-1 bg-emerald-50 text-emerald-800 rounded-lg font-bold border border-emerald-200 text-[11px]">
-                تصميم وتطوير: أ. سعد القرني
-            </span>
-            <p class="text-[10px] text-slate-400">ثانوية الكسائي — الإدارة العامة للتعليم بالمنطقة الشرقية © 1446هـ</p>
-        </footer>
-
+      <nav class="p-4 space-y-1">
+        <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-teal-50 text-teal-800 font-semibold">
+          <i class="fa-solid fa-table-cells-large w-5 text-teal-700"></i>
+          <span class="text-sm">الرئيسية والمجلدات</span>
+        </a>
+        <a href="upload.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 transition">
+          <i class="fa-solid fa-cloud-arrow-up w-5 text-slate-400"></i>
+          <span class="text-sm font-medium">رفع وثيقة جديدة</span>
+        </a>
+        <a href="visitor.html" target="_blank" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 transition">
+          <i class="fa-solid fa-qrcode w-5 text-slate-400"></i>
+          <span class="text-sm font-medium">بوابة الزوار (QR)</span>
+        </a>
+      </nav>
     </div>
 
-    <!-- السكريبت التشغيلي -->
-    <script>
-        lucide.createIcons();
+    <div class="p-4 border-t border-slate-100 text-xs text-slate-400 text-center">
+      حقوق التصميم للأستاذ: سعد القرني
+    </div>
+  </aside>
 
-        function downloadArchiveDataFile() {
-            const folders = JSON.parse(localStorage.getItem('alkisaee_folders_tree') || '[]');
-            const files = JSON.parse(localStorage.getItem('alkisaee_all_documents') || '[]');
-            const data = { folders, files };
-            const content = 'window.ALKISAEE_DEFAULT_DATA = ' + JSON.stringify(data, null, 2) + ';';
-            const blob = new Blob([content], { type: 'application/javascript;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'archive-data.js';
-            a.click();
-            URL.revokeObjectURL(url);
-            alert('تم تنزيل archive-data.js بنجاح! ضعه في مجلد الموقع وارفعه لـ GitHub لتحديث الجوالات فوراً.');
-        }
+  <!-- المحتوى الرئيسي -->
+  <main class="flex-1 flex flex-col min-w-0">
+    <header class="h-20 bg-white border-b border-slate-200 px-6 flex items-center justify-between">
+      <div>
+        <h2 class="font-bold text-lg text-slate-800">نظام إدارة وأرشفة وثائق ثانوية الكسائي</h2>
+        <p class="text-xs text-slate-500">لوحة التحكم المركزية • الإدارة المدرسية المعتمدة • سحابي مباشر</p>
+      </div>
 
-        function refreshDashboard() {
-            let docs = [];
-            try {
-                docs = JSON.parse(localStorage.getItem('alkisaee_all_documents')) || [];
-            } catch(e) {
-                docs = [];
-            }
+      <div class="flex items-center gap-3">
+        <a href="visitor.html" target="_blank" class="px-4 py-2 rounded-xl border border-teal-200 text-teal-700 bg-teal-50/50 hover:bg-teal-50 text-sm font-medium flex items-center gap-2 transition">
+          <i class="fa-solid fa-qrcode"></i> بوابة الزوار (QR)
+        </a>
+        <a href="upload.html" class="px-4 py-2 rounded-xl bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold flex items-center gap-2 shadow-sm transition">
+          <i class="fa-solid fa-cloud-arrow-up"></i> رفع وثيقة جديدة
+        </a>
+      </div>
+    </header>
 
-            // استبعاد أي ملف تالف أو غير مسمى
-            docs = docs.filter(d => d && d.name && d.name !== 'undefined');
+    <div class="p-6 md:p-8 space-y-8 max-w-7xl mx-auto w-full">
+      
+      <!-- بطاقات المؤشرات اللحظية السحابية -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
+          <div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center text-xl">
+            <i class="fa-solid fa-file-lines"></i>
+          </div>
+          <div>
+            <p class="text-xs text-slate-500 font-medium">إجمالي الوثائق المؤرشفة</p>
+            <h3 class="text-2xl font-bold text-slate-800" id="totalDocsCount">0</h3>
+            <span class="text-[10px] text-teal-600 font-medium"><i class="fa-solid fa-cloud"></i> متصل بالسحابة</span>
+          </div>
+        </div>
 
-            let folders = [];
-            try {
-                folders = JSON.parse(localStorage.getItem('alkisaee_folders_tree')) || [];
-            } catch(e) {
-                folders = [];
-            }
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
+          <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center text-xl">
+            <i class="fa-solid fa-hard-drive"></i>
+          </div>
+          <div>
+            <p class="text-xs text-slate-500 font-medium">المساحة المستخدمة</p>
+            <h3 class="text-2xl font-bold text-slate-800" id="totalSizeText">0.0 MB</h3>
+            <span class="text-[10px] text-slate-400">سحابة Firebase</span>
+          </div>
+        </div>
 
-            // 1. المؤشرات الرقمية الحقيقية
-            const count = docs.length;
-            document.getElementById('statDocsCount').textContent = count;
-            document.getElementById('statFoldersCount').textContent = Math.max(5, folders.length);
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
+          <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center text-xl">
+            <i class="fa-solid fa-folder-tree"></i>
+          </div>
+          <div>
+            <p class="text-xs text-slate-500 font-medium">المجلدات الرئيسية</p>
+            <h3 class="text-2xl font-bold text-slate-800" id="totalFoldersCount">5</h3>
+            <span class="text-[10px] text-emerald-600 font-medium">هيكلية تنظيمية كاملة</span>
+          </div>
+        </div>
 
-            let totalBytes = 0;
-            const folderSizes = { planning: 0, circulars: 0, academic: 0, students: 0, committees: 0 };
-            const folderCounts = { planning: 0, circulars: 0, academic: 0, students: 0, committees: 0 };
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
+          <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center text-xl">
+            <i class="fa-solid fa-gauge-high"></i>
+          </div>
+          <div>
+            <p class="text-xs text-slate-500 font-medium">حالة المنظومة</p>
+            <h3 class="text-lg font-bold text-emerald-600">نشط ومتصل</h3>
+            <span class="text-[10px] text-slate-400">مزامنة تلقائية 100%</span>
+          </div>
+        </div>
+      </div>
 
-            docs.forEach(d => {
-                const sz = d.sizeBytes || 85000;
-                totalBytes += sz;
-                const fid = d.folderId || d.folder;
-                if (folderCounts[fid] !== undefined) {
-                    folderCounts[fid]++;
-                    folderSizes[fid] += sz;
-                }
-            });
+      <!-- المجلدات المدرسية المعتمدة -->
+      <div>
+        <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+          <i class="fa-solid fa-folder-open text-teal-700"></i> المجلدات المدرسية المعتمدة
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4" id="foldersContainer"></div>
+      </div>
 
-            const totalMb = (totalBytes / (1024 * 1024)).toFixed(2);
-            document.getElementById('statMbSize').textContent = totalMb;
+      <!-- جدول أحدث الوثائق السحابية -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+          <h3 class="font-bold text-slate-800 flex items-center gap-2">
+            <i class="fa-solid fa-clock-rotate-left text-teal-700"></i> أحدث الوثائق المودعة في الأرشيف السحابي
+          </h3>
+          <span class="text-xs text-slate-400">تحديث تلقائي</span>
+        </div>
 
-            const pct = Math.min(((totalMb / 1000) * 100), 100).toFixed(1);
-            document.getElementById('statUsageBadge').textContent = pct + '%';
-            document.getElementById('statProgressBar').style.width = Math.max(pct, 1) + '%';
-            document.getElementById('donutPct').textContent = Math.round(pct) + '%';
+        <div class="overflow-x-auto">
+          <table class="w-full text-right text-sm">
+            <thead class="bg-slate-50 text-slate-500 text-xs font-semibold">
+              <tr>
+                <th class="py-3 px-4">اسم الوثيقة والمستند</th>
+                <th class="py-3 px-4">المجلد</th>
+                <th class="py-3 px-4">الحجم</th>
+                <th class="py-3 px-4">تاريخ الإيداع</th>
+                <th class="py-3 px-4 text-center">الإجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="documentsTableBody" class="divide-y divide-slate-100">
+              <tr>
+                <td colspan="5" class="py-8 text-center text-slate-400">
+                  <i class="fa-solid fa-circle-notch fa-spin text-teal-600 text-xl mb-2 block"></i> جاري جلب الوثائق من السحابة...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
-            // تحديث الرسم الدائري
-            const offset = 283 - (283 * (pct / 100));
-            document.getElementById('donutCircle').style.strokeDashoffset = offset;
+    </div>
+  </main>
 
-            // تحديث بطاقات المجلدات
-            document.getElementById('c-planning').textContent = folderCounts.planning + ' وثيقة';
-            document.getElementById('c-circulars').textContent = folderCounts.circulars + ' وثيقة';
-            document.getElementById('c-academic').textContent = folderCounts.academic + ' وثيقة';
-            document.getElementById('c-students').textContent = folderCounts.students + ' وثيقة';
-            document.getElementById('c-committees').textContent = folderCounts.committees + ' وثيقة';
+  <!-- نص البرمجة والربط مع Firebase -->
+  <script type="module">
+    import { getCloudDocuments, getCloudFolders, deleteCloudDocument } from './firebase-db.js';
 
-            document.getElementById('sz-planning').textContent = (folderSizes.planning / (1024 * 1024)).toFixed(1) + ' MB';
-            document.getElementById('sz-circulars').textContent = (folderSizes.circulars / (1024 * 1024)).toFixed(1) + ' MB';
-            document.getElementById('sz-academic').textContent = (folderSizes.academic / (1024 * 1024)).toFixed(1) + ' MB';
-            document.getElementById('sz-students').textContent = (folderSizes.students / (1024 * 1024)).toFixed(1) + ' MB';
-            document.getElementById('sz-committees').textContent = (folderSizes.committees / (1024 * 1024)).toFixed(1) + ' MB';
+    let allDocs = [];
+    const defaultFoldersMeta = [
+      { id: 'planning', name: 'التنظيم والتخطيط', icon: 'fa-compass', desc: 'الخطة التشغيلية وتوزيع المسؤوليات' },
+      { id: 'circulars', name: 'الوثائق والتعاميم', icon: 'fa-envelope-open-text', desc: 'القرارات واللوائح الرسمية' },
+      { id: 'academic', name: 'الشؤون التعليمية', icon: 'fa-calendar-days', desc: 'الجداول والاختبارات والمتابعة' },
+      { id: 'students', name: 'شؤون الطلاب', icon: 'fa-user-group', desc: 'السلوك والمواظبة والأنشطة' },
+      { id: 'committees', name: 'الاجتماعات واللجان', icon: 'fa-comments', desc: 'محاضر اللجان ومجالس الآباء' }
+    ];
 
-            // 2. جدول أحدث الوثائق
-            const list = document.getElementById('recentDocsList');
-            const placeholder = document.getElementById('noDocsPlaceholder');
-            list.innerHTML = '';
+    async function loadData() {
+      try {
+        allDocs = await getCloudDocuments();
+        renderDashboard();
+      } catch (err) {
+        console.error(err);
+        document.getElementById('documentsTableBody').innerHTML = `
+          <tr><td colspan="5" class="py-8 text-center text-rose-500">حدث خطأ في الاتصال بقاعدة البيانات. تأكد من إعداد القواعد (Rules) في Firebase.</td></tr>
+        `;
+      }
+    }
 
-            if (count === 0) {
-                placeholder.classList.remove('hidden');
-            } else {
-                placeholder.classList.add('hidden');
-                const recent = [...docs].reverse().slice(0, 5);
-                
-                recent.forEach(doc => {
-                    const div = document.createElement('div');
-                    div.className = 'py-3 flex items-center justify-between gap-3 hover:bg-teal-50/40 px-2 rounded-xl transition';
-                    div.innerHTML = `
-                        <div class="flex items-center gap-3 min-w-0">
-                            <span class="text-[10px] font-bold bg-red-100 text-red-600 px-2 py-0.5 rounded">PDF</span>
-                            <div class="min-w-0">
-                                <h4 class="font-bold text-xs text-slate-800 truncate">${doc.name}</h4>
-                                <p class="text-[10px] text-slate-400">${doc.folderName || 'معتمد'} • ${doc.date || 'اليوم'} • ${doc.sizeText || '0.1 MB'}</p>
-                            </div>
-                        </div>
-                        <a href="./viewer.html?id=${doc.id}" class="px-3 py-1.5 bg-slate-50 hover:bg-[#0d5c75] hover:text-white rounded-lg text-xs font-bold transition">
-                            استعراض
-                        </a>
-                    `;
-                    list.appendChild(div);
-                });
-            }
+    function renderDashboard() {
+      // 1. المؤشرات
+      document.getElementById('totalDocsCount').textContent = allDocs.length;
+      const totalBytes = allDocs.reduce((acc, curr) => acc + (curr.sizeBytes || 0), 0);
+      document.getElementById('totalSizeText').textContent = (totalBytes / (1024 * 1024)).toFixed(2) + ' MB';
 
-            lucide.createIcons();
-        }
+      // 2. المجلدات
+      const foldersContainer = document.getElementById('foldersContainer');
+      foldersContainer.innerHTML = '';
+      defaultFoldersMeta.forEach(meta => {
+        const count = allDocs.filter(d => d.folderId === meta.id).length;
+        const card = document.createElement('div');
+        card.className = 'bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-teal-500 transition flex flex-col justify-between';
+        card.innerHTML = `
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center text-lg mb-3">
+              <i class="fa-solid ${meta.icon}"></i>
+            </div>
+            <h4 class="font-bold text-slate-800 text-sm mb-1">${meta.name}</h4>
+            <p class="text-[11px] text-slate-400 mb-3">${meta.desc}</p>
+          </div>
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+            <span class="font-semibold text-slate-600">${count} وثائق</span>
+            <a href="visitor.html" class="text-teal-700 font-medium hover:underline">استعراض</a>
+          </div>
+        `;
+        foldersContainer.appendChild(card);
+      });
 
-        refreshDashboard();
-    </script>
+      // 3. جدول الوثائق
+      const tableBody = document.getElementById('documentsTableBody');
+      tableBody.innerHTML = '';
+
+      if (allDocs.length === 0) {
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="5" class="py-8 text-center text-slate-400">
+              لا توجد وثائق مرفوعة حتى الآن. اضغط على "رفع وثيقة جديدة" لإيداع أول مستند.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      allDocs.forEach(doc => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50 transition';
+        tr.innerHTML = `
+          <td class="py-3 px-4 flex items-center gap-3">
+            <i class="fa-solid fa-file-pdf text-rose-500 text-lg"></i>
+            <span class="font-medium text-slate-800">${doc.name}</span>
+          </td>
+          <td class="py-3 px-4">
+            <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-teal-50 text-teal-800 border border-teal-100">${doc.folderName || 'عام'}</span>
+          </td>
+          <td class="py-3 px-4 text-xs text-slate-500">${doc.sizeText || '0 MB'}</td>
+          <td class="py-3 px-4 text-xs text-slate-500">${doc.date || '-'}</td>
+          <td class="py-3 px-4 text-center">
+            <div class="flex items-center justify-center gap-2">
+              <a href="viewer.html?file=${encodeURIComponent(doc.fileUrl)}&title=${encodeURIComponent(doc.name)}" class="px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-medium transition">
+                <i class="fa-solid fa-eye"></i> استعراض
+              </a>
+              <button data-id="${doc.id}" data-path="${doc.storagePath || ''}" class="delete-btn px-2.5 py-1 text-rose-500 hover:bg-rose-50 rounded-lg text-xs transition" title="حذف المستند">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </div>
+          </td>
+        `;
+        tableBody.appendChild(tr);
+      });
+
+      // أزرار الحذف
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const docId = btn.dataset.id;
+          const storagePath = btn.dataset.path;
+          if (confirm('هل أنت متأكد من حذف هذه الوثيقة نهائياً من السحابة؟')) {
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>';
+            btn.disabled = true;
+            await deleteCloudDocument(docId, storagePath);
+            await loadData();
+          }
+        });
+      });
+    }
+
+    loadData();
+  </script>
+
 </body>
 </html>
