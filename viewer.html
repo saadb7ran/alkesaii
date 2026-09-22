@@ -1,188 +1,166 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مستعرض وثائق PDF - ثانوية الكسائي</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مستعرض وثائق PDF - ثانوية الكسائي</title>
 
-    <!-- المكتبات والخطوط الخارجية -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Tailwind CSS & Fonts & FontAwesome -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <style>
-        body {
-            font-family: 'IBM Plex Sans Arabic', sans-serif;
-            background-color: #0f172a;
-        }
-    </style>
+  <style>
+    body {
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      background-color: #0b1120;
+    }
+  </style>
 </head>
+
 <body class="h-screen flex flex-col overflow-hidden text-slate-200">
 
-    <!-- ========================================== -->
-    <!-- 1. الشريط العلوي (Header Toolbar)          -->
-    <!-- ========================================== -->
-    <header class="h-16 bg-slate-900 border-b border-slate-800 px-4 md:px-6 flex items-center justify-between shrink-0 shadow-md z-10">
-        
-        <!-- زر العودة وعنوان المستند -->
-        <div class="flex items-center gap-3 min-w-0">
-            <button id="backBtn" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold flex items-center gap-1.5 transition border border-slate-700/50">
-                <i class="fa-solid fa-arrow-right"></i> عودة
-            </button>
-            <div class="h-4 w-px bg-slate-700 shrink-0"></div>
-            <div class="min-w-0">
-                <h1 class="font-bold text-xs md:text-sm text-white truncate max-w-xs md:max-w-md" id="docTitle">مستعرض الوثائق الرسمية</h1>
-                <p class="text-[10px] text-teal-400 font-semibold flex items-center gap-1">
-                    <i class="fa-solid fa-graduation-cap"></i> ثانوية الكسائي • تعليم الشرقية
-                </p>
-            </div>
-        </div>
+  <!-- الشريط العلوي للمستعرض -->
+  <header class="h-16 bg-slate-900 border-b border-slate-800 px-4 md:px-6 flex items-center justify-between shrink-0 z-20">
+    <div class="flex items-center gap-3">
+      <button id="backBtn" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold flex items-center gap-1.5 transition">
+        <i class="fa-solid fa-arrow-right"></i>
+        <span>عودة</span>
+      </button>
+      <div class="h-4 w-px bg-slate-700"></div>
+      <div>
+        <h1 class="font-bold text-xs md:text-sm text-white truncate max-w-xs md:max-w-md" id="docTitle">مستعرض الوثائق الرسمية</h1>
+        <p class="text-[10px] text-teal-400 font-semibold">ثانوية الكسائي • تعليم الشرقية</p>
+      </div>
+    </div>
 
-        <!-- أزرار الإجراءات (فتح في نافذة مستقلة وتحميل) -->
-        <div class="flex items-center gap-2">
-            <a id="openDirectBtn" href="#" target="_blank" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-1.5 transition">
-                <i class="fa-solid fa-up-right-from-square"></i>
-                <span class="hidden sm:inline">نافذة مستقلة</span>
-            </a>
-            <a id="downloadBtn" href="#" download="document.pdf" class="px-3.5 py-1.5 rounded-xl bg-[#0d5c75] hover:bg-teal-600 text-white text-xs font-bold flex items-center gap-1.5 transition shadow-sm">
-                <i class="fa-solid fa-download"></i>
-                <span class="hidden sm:inline">تحميل المستند</span>
-            </a>
-        </div>
-    </header>
+    <div class="flex items-center gap-2">
+      <a id="openDirectBtn" href="#" target="_blank" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-1.5 transition">
+        <i class="fa-solid fa-up-right-from-square"></i>
+        <span class="hidden sm:inline">نافذة مستقلة</span>
+      </a>
+      <a id="downloadBtn" href="#" download="document.pdf" class="px-3.5 py-1.5 rounded-xl bg-[#0d5c75] hover:bg-teal-600 text-white text-xs font-bold flex items-center gap-1.5 transition shadow-sm">
+        <i class="fa-solid fa-download"></i>
+        <span class="hidden sm:inline">تحميل المستند</span>
+      </a>
+    </div>
+  </header>
 
-    <!-- ========================================== -->
-    <!-- 2. منطقة عرض الملف (Main Content Area)     -->
-    <!-- ========================================== -->
-    <main class="flex-1 bg-slate-950 w-full h-full relative flex items-center justify-center">
-        
-        <!-- رسالة حالة التحميل -->
-        <div id="loadingState" class="text-center text-slate-400">
-            <i class="fa-solid fa-circle-notch fa-spin text-teal-500 text-3xl mb-3 block"></i>
-            <p class="text-xs">جاري تهيئة وعرض وثيقة الـ PDF...</p>
-        </div>
+  <!-- مساحة العرض الرئيسية -->
+  <main class="flex-1 bg-slate-950 w-full h-full relative flex items-center justify-center p-0">
+    <!-- مؤشر جاري التحميل -->
+    <div id="loadingBox" class="text-center text-slate-400 p-6">
+      <i class="fa-solid fa-circle-notch fa-spin text-teal-500 text-3xl mb-3 block"></i>
+      <p class="text-xs font-semibold">جاري تهيئة وعرض وثيقة الـ PDF...</p>
+    </div>
 
-        <!-- بطاقة العرض البديلة للهواتف المحمولة -->
-        <div id="mobileFallback" class="hidden text-center p-6 max-w-md bg-slate-900 border border-slate-800 rounded-3xl mx-4 space-y-4 shadow-xl">
-            <div class="w-16 h-16 rounded-2xl bg-rose-500/10 text-rose-400 flex items-center justify-center text-2xl mx-auto">
-                <i class="fa-solid fa-file-pdf"></i>
-            </div>
-            <div>
-                <h3 class="font-bold text-white text-sm" id="fallbackTitle">وثيقة رسمية</h3>
-                <p class="text-xs text-slate-400 mt-1">متصفح جهازك يفضل فتح ملفات الـ PDF عبر القارئ المدمج بالنظام.</p>
-            </div>
-            <a id="fallbackOpenBtn" href="#" target="_blank" class="block w-full py-3 rounded-xl bg-[#0d5c75] hover:bg-teal-600 text-white font-bold text-xs transition shadow-sm">
-                <i class="fa-solid fa-book-open ml-1"></i> فتح وقراءة المستند الآن
-            </a>
-        </div>
+    <!-- بطاقة التنبيه في حال تعذر قراءة الملف مباشرة -->
+    <div id="errorBox" class="hidden text-center p-8 max-w-md bg-slate-900 border border-slate-800 rounded-3xl mx-4 space-y-4 shadow-xl">
+      <div class="w-14 h-14 rounded-2xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-2xl mx-auto">
+        <i class="fa-solid fa-file-circle-exclamation"></i>
+      </div>
+      <div>
+        <h3 class="font-bold text-white text-sm" id="errorTitle">تنبيه استعراض الوثيقة</h3>
+        <p class="text-xs text-slate-400 mt-1 leading-relaxed" id="errorMsg">
+          تم فتح الصفحة دون تمرير رابط الملف، أو انتهت جلسة القراءة المؤقتة.
+        </p>
+      </div>
+      <div class="pt-2 flex flex-col gap-2">
+        <button id="retryBackBtn" class="w-full py-2.5 rounded-xl bg-[#0d5c75] hover:bg-[#0a4659] text-white font-bold text-xs transition">
+          العودة لاختيار الوثيقة مجدداً
+        </button>
+      </div>
+    </div>
 
-        <!-- إطار عرض الـ PDF للحواسب -->
-        <iframe id="pdfFrame" class="w-full h-full border-0 hidden" src="about:blank" title="عرض ملف الـ PDF"></iframe>
-    </main>
+    <!-- حاوية عرض الـ PDF الآمنة بدون I/O error -->
+    <div id="pdfContainer" class="w-full h-full hidden">
+      <object id="pdfObject" class="w-full h-full" type="application/pdf" data="">
+        <embed id="pdfEmbed" class="w-full h-full" type="application/pdf" src="" />
+      </object>
+    </div>
+  </main>
 
-    <!-- ========================================== -->
-    <!-- 3. البرمجة والتفاعل (JavaScript)           -->
-    <!-- ========================================== -->
-    <script>
-        // دالة تحويل Base64 Data URL إلى Blob نظيف وسريع
-        function base64ToBlob(base64Data) {
-            const parts = base64Data.split(';base64,');
-            const contentType = parts[0].replace('data:', '') || 'application/pdf';
-            const raw = window.atob(parts[1]);
-            const rawLength = raw.length;
-            const uInt8Array = new Uint8Array(rawLength);
-            for (let i = 0; i < rawLength; ++i) {
-                uInt8Array[i] = raw.charCodeAt(i);
-            }
-            return new Blob([uInt8Array], { type: contentType });
-        }
+  <script>
+    // تحويل Base64 إلى Blob صالح للـ Object URL
+    function base64ToBlobUrl(base64Data) {
+      if (!base64Data.includes(';base64,')) return base64Data;
+      
+      const parts = base64Data.split(';base64,');
+      const contentType = parts[0].replace('data:', '') || 'application/pdf';
+      const raw = window.atob(parts[1]);
+      const rawLength = raw.length;
+      const uInt8Array = new Uint8Array(rawLength);
+      
+      for (let i = 0; i < rawLength; ++i) {
+        uInt8Array[i] = raw.charCodeAt(i);
+      }
+      
+      const blob = new Blob([uInt8Array], { type: contentType });
+      return URL.createObjectURL(blob);
+    }
 
-        // قراءة المتغيرات من رابط الصفحة (URL Parameters)
-        const params = new URLSearchParams(window.location.search);
-        const title = params.get('title');
-        const mode = params.get('mode');
+    const params = new URLSearchParams(window.location.search);
+    const title = params.get('title');
+    const mode = params.get('mode');
 
-        // جلب ملف الـ PDF إما من ذاكرة الجلسة المؤقتة (sessionStorage) أو من الرابط
-        let fileUrl = sessionStorage.getItem('currentViewPdf');
-        if (!fileUrl && params.get('file')) {
-            fileUrl = decodeURIComponent(params.get('file'));
-        }
+    if (title) {
+      const decodedTitle = decodeURIComponent(title);
+      document.getElementById('docTitle').textContent = decodedTitle;
+      document.getElementById('downloadBtn').setAttribute('download', `${decodedTitle}.pdf`);
+    }
 
-        // تعيين العناوين وأسماء التنزيل
-        if (title) {
-            const decodedTitle = decodeURIComponent(title);
-            document.getElementById('docTitle').textContent = decodedTitle;
-            document.getElementById('fallbackTitle').textContent = decodedTitle;
-            document.getElementById('downloadBtn').setAttribute('download', `${decodedTitle}.pdf`);
-        }
+    // جلب ملف الـ PDF: إما من sessionStorage أو من localStorage أو من معامل الرابط
+    let fileUrl = sessionStorage.getItem('currentViewPdf') || localStorage.getItem('currentViewPdf');
+    if (!fileUrl && params.get('file')) {
+      fileUrl = decodeURIComponent(params.get('file'));
+    }
 
-        // ربط عناصر الواجهة
-        const frame = document.getElementById('pdfFrame');
-        const loading = document.getElementById('loadingState');
-        const fallback = document.getElementById('mobileFallback');
-        const downloadBtn = document.getElementById('downloadBtn');
-        const openDirectBtn = document.getElementById('openDirectBtn');
-        const fallbackOpenBtn = document.getElementById('fallbackOpenBtn');
+    const loadingBox = document.getElementById('loadingBox');
+    const errorBox = document.getElementById('errorBox');
+    const pdfContainer = document.getElementById('pdfContainer');
+    const pdfObject = document.getElementById('pdfObject');
+    const pdfEmbed = document.getElementById('pdfEmbed');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const openDirectBtn = document.getElementById('openDirectBtn');
 
-        // عرض ومعالجة المستند
-        if (fileUrl) {
-            try {
-                let objectUrl = fileUrl;
+    if (fileUrl && fileUrl.length > 20) {
+      try {
+        const objectUrl = base64ToBlobUrl(fileUrl);
+        downloadBtn.href = objectUrl;
+        openDirectBtn.href = objectUrl;
 
-                // تحويل بيانات Base64 إلى Blob Object URL عند الحاجة
-                if (fileUrl.startsWith('data:application/pdf')) {
-                    const blob = base64ToBlob(fileUrl);
-                    objectUrl = URL.createObjectURL(blob);
-                }
+        // تعيين الرابط للـ object و embed معاً لضمان عمله في كل المتصفحات بدون I/O error
+        pdfObject.setAttribute('data', objectUrl);
+        pdfEmbed.setAttribute('src', objectUrl);
 
-                downloadBtn.href = objectUrl;
-                openDirectBtn.href = objectUrl;
-                fallbackOpenBtn.href = objectUrl;
+        loadingBox.classList.add('hidden');
+        pdfContainer.classList.remove('hidden');
+      } catch (err) {
+        console.error("خطأ تشغيل الملف:", err);
+        showError("حدث خطأ أثناء معالجة ملف الـ PDF للعرض. يمكنك تحميله مباشرة عبر الزر العلوي.");
+      }
+    } else {
+      showError("لم يتم العثور على محتوى المستند في الذاكرة. يرجى العودة والنقر على زر «قراءة المستند» مرة أخرى.");
+    }
 
-                // التمييز بين بيئة الجوال وبيئة الحاسوب
-                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                if (isMobile) {
-                    loading.classList.add('hidden');
-                    fallback.classList.remove('hidden');
-                } else {
-                    frame.src = objectUrl;
-                    frame.onload = () => {
-                        loading.classList.add('hidden');
-                        frame.classList.remove('hidden');
-                    };
+    function showError(msg) {
+      loadingBox.classList.add('hidden');
+      errorBox.classList.remove('hidden');
+      document.getElementById('errorMsg').textContent = msg;
+    }
 
-                    // صمام أمان لتجاوز حالات تأخر التحميل
-                    setTimeout(() => {
-                        loading.classList.add('hidden');
-                        frame.classList.remove('hidden');
-                    }, 800);
-                }
-            } catch (err) {
-                console.error("خطأ معالجة الـ PDF:", err);
-                loading.innerHTML = `
-                    <div class="text-rose-400 text-xs">
-                        <i class="fa-solid fa-triangle-exclamation text-2xl mb-2 block"></i> 
-                        تعذر فتح الملف مباشرة. يرجى تجربة زر التحميل أعلاه.
-                    </div>
-                `;
-            }
-        } else {
-            loading.innerHTML = `
-                <div class="text-amber-400 text-xs">
-                    <i class="fa-solid fa-circle-exclamation text-2xl mb-2 block"></i> 
-                    لم يتم العثور على رابط الوثيقة المطلوبة.
-                </div>
-            `;
-        }
+    // أزرار العودة الذكية
+    function handleBack() {
+      if (mode === 'visitor') {
+        window.location.href = 'visitor.html';
+      } else {
+        window.history.length > 1 ? window.history.back() : window.location.href = 'index.html';
+      }
+    }
 
-        // منطق التوجيه الذكي لزر العودة
-        document.getElementById('backBtn').addEventListener('click', () => {
-            if (mode === 'visitor') {
-                window.location.href = 'visitor.html';
-            } else {
-                window.history.length > 1 ? window.history.back() : window.location.href = 'index.html';
-            }
-        });
-    </script>
+    document.getElementById('backBtn').addEventListener('click', handleBack);
+    document.getElementById('retryBackBtn').addEventListener('click', handleBack);
+  </script>
+
 </body>
 </html>

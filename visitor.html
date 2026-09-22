@@ -247,6 +247,11 @@
             filtered.forEach(doc => {
                 const card = document.createElement('div');
                 card.className = 'bg-white p-5 rounded-3xl border border-slate-200 shadow-xs hover:border-[#0d5c75] transition flex flex-col justify-between space-y-4';
+                
+                // تنظيف القيم لتمريرها بشكل آمن داخل الخاصية
+                const safeFileUrl = doc.fileUrl || '';
+                const safeTitle = doc.name || 'مستند بدون عنوان';
+
                 card.innerHTML = `
                     <div class="space-y-3">
                         <div class="flex items-center justify-between">
@@ -262,32 +267,57 @@
                                 <i class="fa-solid fa-file-pdf"></i>
                             </div>
                             <div class="min-w-0">
-                                <h4 class="font-bold text-slate-800 text-xs md:text-sm leading-snug line-clamp-2">${doc.name}</h4>
+                                <h4 class="font-bold text-slate-800 text-xs md:text-sm leading-snug line-clamp-2">${safeTitle}</h4>
                                 <p class="text-[10px] text-slate-400 font-mono mt-0.5">${doc.code || 'وثيقة إلكترونية'}</p>
                             </div>
                         </div>
                     </div>
                     <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
                         <span class="text-[11px] text-slate-400 font-medium">${doc.sizeText || '0.0 MB'}</span>
-                        <button onclick="openVisitorDoc('${encodeURIComponent(doc.fileUrl)}', '${encodeURIComponent(doc.name)}')" class="px-3.5 py-1.5 rounded-xl bg-[#0d5c75] hover:bg-[#0a4659] text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <button class="open-doc-btn px-3.5 py-1.5 rounded-xl bg-[#0d5c75] hover:bg-[#0a4659] text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
                             <i class="fa-solid fa-book-open"></i> قراءة المستند
                         </button>
                     </div>
                 `;
+
+                // إضافة مستمع الأحداث بزر فتح المستند بشكل نظيف وآمن
+                const btn = card.querySelector('.open-doc-btn');
+                btn.addEventListener('click', () => {
+                    openVisitorDoc(safeFileUrl, safeTitle);
+                });
+
                 grid.appendChild(card);
             });
 
             container.appendChild(grid);
         }
 
-        // فتح المستند في مستعرض الوثائق
+        // فتح المستند في مستعرض الوثائق والتخزين في الذاكرتين
         window.openVisitorDoc = function(fileUrl, title) {
             try {
+                // حفظ الملف في الذاكرة المؤقتة وفي التخزين المحلي لقراءته بصفحة viewer.html
                 sessionStorage.setItem('currentViewPdf', fileUrl);
+                localStorage.setItem('currentViewPdf', fileUrl);
+                
+                // التوجيه إلى صفحة العرض
                 window.location.href = `viewer.html?title=${encodeURIComponent(title)}&mode=visitor`;
             } catch (e) {
-                const win = window.open();
-                win.document.write('<iframe src="' + fileUrl + '" frameborder="0" style="border:0; width:100%; height:100%;" allowfullscreen></iframe>');
+                // في حال كان حجم الملف كبيراً جداً على التخزين المحلي، فتحه بإنشاء رابط Blob موقت
+                console.warn("تعذر التخزين المحلي، جاري المعالجة كـ Blob:", e);
+                if (fileUrl.startsWith('data:')) {
+                    const parts = fileUrl.split(';base64,');
+                    const contentType = parts[0].replace('data:', '') || 'application/pdf';
+                    const raw = window.atob(parts[1]);
+                    const uInt8Array = new Uint8Array(raw.length);
+                    for (let i = 0; i < raw.length; ++i) {
+                        uInt8Array[i] = raw.charCodeAt(i);
+                    }
+                    const blob = new Blob([uInt8Array], { type: contentType });
+                    const objUrl = URL.createObjectURL(blob);
+                    window.open(objUrl, '_blank');
+                } else {
+                    window.open(fileUrl, '_blank');
+                }
             }
         };
 
