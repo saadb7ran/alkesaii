@@ -2,10 +2,10 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>بوابة الزوار والاطلاع الرقمي - ثانوية الكسائي</title>
   
-  <!-- Tailwind CSS & الخطوط والرموز -->
+  <!-- Tailwind CSS & Fonts & FontAwesome -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -14,6 +14,7 @@
     body {
       font-family: 'IBM Plex Sans Arabic', sans-serif;
       background-color: #f7faf9;
+      -webkit-tap-highlight-color: transparent;
     }
     @media print {
       body * {
@@ -37,13 +38,13 @@
 <body class="min-h-screen text-slate-800 flex flex-col justify-between bg-[#f7faf9]">
 
   <!-- ========================================== -->
-  <!-- 1. الترويسة الرسمية لبوابة الزوار        -->
+  <!-- 1. الترويسة الرسمية المتجاوبة             -->
   <!-- ========================================== -->
   <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-xs">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <!-- شعار الوزارة الرسمي -->
-        <div class="w-12 h-12 flex items-center justify-center text-[#0d5c75] shrink-0">
+    <div class="max-w-6xl mx-auto px-4 py-2.5 md:py-3 flex items-center justify-between">
+      <div class="flex items-center gap-2.5 md:gap-3">
+        <!-- شعار الوزارة الرسمي SVG -->
+        <div class="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-[#0d5c75] shrink-0">
           <svg class="w-full h-full" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="30" cy="40" r="7" fill="#0d5c75"/><circle cx="48" cy="43" r="6.5" fill="#0d5c75"/><circle cx="65" cy="48" r="6" fill="#148398"/><circle cx="81" cy="55" r="5.5" fill="#1fa882"/><circle cx="95" cy="65" r="5" fill="#2eb872"/><circle cx="105" cy="65" r="5" fill="#2eb872"/><circle cx="119" cy="55" r="5.5" fill="#1fa882"/><circle cx="135" cy="48" r="6" fill="#148398"/><circle cx="152" cy="43" r="6.5" fill="#0d5c75"/><circle cx="170" cy="40" r="7" fill="#0d5c75"/>
             <circle cx="30" cy="60" r="7" fill="#0d5c75"/><circle cx="48" cy="63" r="6.5" fill="#0d5c75"/><circle cx="65" cy="68" r="6" fill="#148398"/><circle cx="135" cy="68" r="6" fill="#148398"/><circle cx="152" cy="63" r="6.5" fill="#0d5c75"/><circle cx="170" cy="60" r="7" fill="#0d5c75"/>
@@ -51,117 +52,122 @@
           </svg>
         </div>
         <div>
-          <h1 class="font-bold text-slate-800 text-xs md:text-sm">وزارة التعليم • الإدارة العامة للتعليم بالمنطقة الشرقية</h1>
-          <p class="text-xs text-[#0d5c75] font-bold">ثانوية الكسائي — بوابة الزوار والمستفيدين والاطلاع الرقمي</p>
+          <h1 class="font-bold text-slate-800 text-xs md:text-sm line-clamp-1">وزارة التعليم • تعليم الشرقية</h1>
+          <p class="text-[11px] md:text-xs text-[#0d5c75] font-bold line-clamp-1">ثانوية الكسائي — بوابة الزوار والمستفيدين</p>
         </div>
       </div>
-      <div class="flex items-center gap-2">
-        <button id="openPrintBtn" class="px-3.5 py-1.5 rounded-xl border border-slate-200 text-slate-700 bg-white hover:bg-slate-50 text-xs font-semibold flex items-center gap-1.5 transition shadow-xs">
-          <i class="fa-solid fa-qrcode text-[#0d5c75]"></i> طباعة لاصق QR
+      
+      <div class="flex items-center gap-1.5 md:gap-2">
+        <button id="openPrintBtn" class="px-2.5 md:px-3.5 py-1.5 rounded-xl border border-slate-200 text-slate-700 bg-white hover:bg-slate-50 text-[11px] md:text-xs font-semibold flex items-center gap-1 shadow-xs">
+          <i class="fa-solid fa-qrcode text-[#0d5c75]"></i>
+          <span class="hidden sm:inline">طباعة لاصق QR</span>
         </button>
-        <div class="bg-emerald-50 text-emerald-800 border border-emerald-200 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span>وضع الاطلاع والقراءة فقط</span>
+        <div class="bg-emerald-50 text-emerald-800 border border-emerald-200 px-2.5 py-1 md:py-1.5 rounded-full text-[10px] md:text-xs font-semibold flex items-center gap-1 shrink-0">
+          <span class="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>اطلاع فقط</span>
         </div>
       </div>
     </div>
   </header>
 
   <!-- ========================================== -->
-  <!-- 2. محتوى الصفحة الرئيسية                   -->
+  <!-- 2. محتوى الصفحة الرئيسي                    -->
   <!-- ========================================== -->
-  <main class="max-w-6xl mx-auto px-4 py-6 w-full flex-1 space-y-6">
+  <main class="max-w-6xl mx-auto px-3.5 md:px-4 py-4 md:py-6 w-full flex-1 space-y-4 md:space-y-6">
     
-    <!-- البانر الرئيسي -->
-    <div class="bg-gradient-to-l from-[#093f4e] via-[#0d5c75] to-[#127284] rounded-3xl p-6 md:p-8 text-white shadow-md flex flex-col md:flex-row items-center justify-between gap-6">
-      <div class="space-y-2 text-center md:text-right">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-teal-200 text-xs font-semibold">
-          <span class="w-2 h-2 rounded-full bg-emerald-400"></span> نظام الأرشفة والتوثيق المعتمد • ثانوية الكسائي
+    <!-- البانر المدمج للجوال والكمبيوتر -->
+    <div class="bg-gradient-to-l from-[#093f4e] via-[#0d5c75] to-[#127284] rounded-2xl md:rounded-3xl p-4 md:p-8 text-white shadow-md flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6">
+      <div class="space-y-1.5 md:space-y-2 text-center md:text-right">
+        <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 md:py-1 rounded-full bg-white/10 text-teal-200 text-[10px] md:text-xs font-semibold">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> نظام الأرشفة المعتمد • ثانوية الكسائي
         </div>
-        <h2 class="text-2xl md:text-3xl font-bold">بوابة الزوار والاطلاع الرقمي — ثانوية الكسائي</h2>
-        <p class="text-xs text-teal-100 max-w-2xl leading-relaxed">
-          المنظومة الرسمية المصرحة لاستعراض الوثائق، الأدلة التنظيمية، والجداول المعتمدة عبر باركود التحقق المباشر برعاية إدارة التعليم بالمنطقة الشرقية.
+        <h2 class="text-lg md:text-3xl font-bold">بوابة الزوار والاطلاع الرقمي</h2>
+        <p class="text-[11px] md:text-xs text-teal-100 max-w-2xl leading-relaxed">
+          استعراض وقراءة الوثائق، الأدلة التنظيمية، والجداول المعتمدة برعاية الإدارة العامة للتعليم بالمنطقة الشرقية.
         </p>
       </div>
-      <div class="bg-white/10 border border-white/20 p-4 rounded-2xl text-center shrink-0 w-48">
-        <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-lg mx-auto mb-1.5 text-emerald-300">
-          <i class="fa-solid fa-shield-halved"></i>
+      <div class="bg-white/10 border border-white/20 px-4 py-2.5 md:p-4 rounded-xl md:rounded-2xl text-center shrink-0 w-full sm:w-48 flex sm:flex-col items-center justify-between sm:justify-center">
+        <div>
+          <span class="text-[9px] md:text-[10px] text-teal-200 block">المعرف الرقمي المعتمد</span>
+          <span class="text-xs md:text-sm font-mono font-bold tracking-wider text-white">EAS-KS-1447</span>
         </div>
-        <span class="text-[10px] text-teal-200 block">المعرف الرقمي المعتمد</span>
-        <span class="text-sm font-mono font-bold tracking-wider text-white">EAS-KS-1447</span>
-        <span class="text-[10px] text-emerald-300 block mt-0.5"><i class="fa-solid fa-lock"></i> وصول مقيد للاطلاع</span>
+        <span class="text-[9px] md:text-[10px] text-emerald-300 block mt-0.5"><i class="fa-solid fa-lock"></i> قراءة فقط</span>
       </div>
     </div>
 
-    <!-- بطاقة باركود الوصول السريع ومعلومات البوابة -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-      <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs flex flex-col items-center text-center space-y-3">
-        <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+    <!-- بطاقة الباركود وتصفح شجرة المجلدات -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+      <!-- بطاقة الباركود السريع -->
+      <div class="bg-white p-4 md:p-6 rounded-2xl md:rounded-3xl border border-slate-200 shadow-xs flex flex-col items-center text-center space-y-2 md:space-y-3">
+        <h3 class="font-bold text-slate-800 text-xs md:text-sm flex items-center gap-2">
           <i class="fa-solid fa-qrcode text-[#0d5c75]"></i> رمز الوصول السريع (QR Code)
         </h3>
-        <p class="text-[11px] text-slate-400">امسح الرمز عبر كاميرا الجوال لفتح هذه البوابة مباشرة</p>
-        <div class="p-3 bg-slate-50 border border-slate-100 rounded-2xl">
-          <img id="qrDirectView" src="" alt="QR Code" class="w-36 h-36 mx-auto">
+        <p class="text-[10px] md:text-[11px] text-slate-400">امسح الرمز بكاميرا الجوال لمشاركة البوابة</p>
+        <div class="p-2 md:p-3 bg-slate-50 border border-slate-100 rounded-2xl">
+          <img id="qrDirectView" src="" alt="QR Code" class="w-28 h-28 md:w-36 md:h-36 mx-auto">
         </div>
         <div class="flex items-center gap-2 w-full pt-1">
-          <button id="copyPortalUrlBtn" class="flex-1 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition flex items-center justify-center gap-1.5">
+          <button id="copyPortalUrlBtn" class="flex-1 py-1.5 md:py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] md:text-xs font-semibold transition flex items-center justify-center gap-1">
             <i class="fa-solid fa-copy"></i> نسخ الرابط
           </button>
-          <button onclick="document.getElementById('openPrintBtn').click()" class="flex-1 py-2 rounded-xl bg-teal-50 hover:bg-teal-100 text-[#0d5c75] text-xs font-bold transition flex items-center justify-center gap-1.5">
+          <button onclick="document.getElementById('openPrintBtn').click()" class="flex-1 py-1.5 md:py-2 rounded-xl bg-teal-50 hover:bg-teal-100 text-[#0d5c75] text-[11px] md:text-xs font-bold transition flex items-center justify-center gap-1">
             <i class="fa-solid fa-print"></i> طباعة اللاصق
           </button>
         </div>
       </div>
 
-      <div class="md:col-span-2 bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
-        <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
-          <h3 class="font-bold text-slate-800 text-sm md:text-base flex items-center gap-2">
-            <i class="fa-solid fa-folder-tree text-[#0d5c75]"></i> تصفح شجرة المجلدات المعتمدة
+      <!-- تصفح المجلدات والفلترة السريعة -->
+      <div class="md:col-span-2 bg-white p-4 md:p-6 rounded-2xl md:rounded-3xl border border-slate-200 shadow-xs space-y-3 md:space-y-4">
+        <div class="border-b border-slate-100 pb-2 md:pb-3 flex items-center justify-between">
+          <h3 class="font-bold text-slate-800 text-xs md:text-base flex items-center gap-2">
+            <i class="fa-solid fa-folder-tree text-[#0d5c75]"></i> تصفح المجلدات المعتمدة
           </h3>
-          <span class="text-xs text-slate-400 font-medium">العام الدراسي 1447هـ</span>
+          <span class="text-[10px] md:text-xs text-slate-400 font-medium">العام 1447هـ</span>
         </div>
         
-        <!-- تبويبات المجلدات -->
+        <!-- أزرار التبويبات مع تمرير أفقي للأجهزة الذكية -->
         <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-none" id="visitorFolderTabs">
-          <button data-folder="all" class="folder-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-[#0d5c75] text-white shadow-xs shrink-0"> كافة المجلدات </button>
-          <button data-folder="planning" class="folder-tab-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 shrink-0">مجلد التنظيم والتخطيط</button>
-          <button data-folder="circulars" class="folder-tab-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 shrink-0">مجلد الوثائق والتعاميم</button>
-          <button data-folder="academic" class="folder-tab-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 shrink-0">الشؤون التعليمية والمتابعة</button>
-          <button data-folder="students" class="folder-tab-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 shrink-0">مجلد شؤون الطلاب</button>
-          <button data-folder="committees" class="folder-tab-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 shrink-0">مجلد الاجتماعات واللجان</button>
+          <button data-folder="all" class="folder-tab-btn px-3.5 py-1.5 md:px-4 md:py-2 rounded-xl text-xs font-bold bg-[#0d5c75] text-white shadow-xs shrink-0 transition">
+            كافة المجلدات
+          </button>
+          <button data-folder="planning" class="folder-tab-btn px-3.5 py-1.5 md:px-4 md:py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 shrink-0 transition">التنظيم والتخطيط</button>
+          <button data-folder="circulars" class="folder-tab-btn px-3.5 py-1.5 md:px-4 md:py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 shrink-0 transition">الوثائق والتعاميم</button>
+          <button data-folder="academic" class="folder-tab-btn px-3.5 py-1.5 md:px-4 md:py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 shrink-0 transition">الشؤون التعليمية</button>
+          <button data-folder="students" class="folder-tab-btn px-3.5 py-1.5 md:px-4 md:py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 shrink-0 transition">شؤون الطلاب</button>
+          <button data-folder="committees" class="folder-tab-btn px-3.5 py-1.5 md:px-4 md:py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 shrink-0 transition">الاجتماعات واللجان</button>
         </div>
-        <div class="p-3 bg-teal-50/60 rounded-2xl border border-teal-100 flex items-center gap-2 text-xs text-[#0d5c75]">
-          <i class="fa-solid fa-circle-info"></i> <span>جميع الوثائق المعروضة في هذه البوابة هي وثائق إدارية معتمدة ومحدثة لحظياً من السحابة.</span>
+
+        <div class="p-2.5 md:p-3 bg-teal-50/60 rounded-xl md:rounded-2xl border border-teal-100 flex items-center gap-2 text-[11px] md:text-xs text-[#0d5c75]">
+          <i class="fa-solid fa-circle-info shrink-0"></i>
+          <span>الوثائق المعروضة معتمدة رسمياً ومحدثة سحابياً لحظة بلحظة.</span>
         </div>
       </div>
     </div>
 
-    <!-- شبكة بطاقات الوثائق المعروضة -->
-    <div class="space-y-3" id="visitorDocsList">
-      <div class="bg-white rounded-3xl p-10 border border-slate-200 text-center text-slate-400">
-        <i class="fa-solid fa-circle-notch fa-spin text-[#0d5c75] text-2xl mb-2 block"></i> جاري الاتصال بالسحابة وجلب الوثائق المعتمدة...
+    <!-- قائمة عرض بطاقات الوثائق -->
+    <div id="visitorDocsList" class="space-y-3">
+      <div class="bg-white rounded-2xl md:rounded-3xl p-8 md:p-10 border border-slate-200 text-center text-slate-400">
+        <i class="fa-solid fa-circle-notch fa-spin text-[#0d5c75] text-2xl mb-2 block"></i> جاري الاتصال بالسحابة وجلب الوثائق...
       </div>
     </div>
   </main>
 
   <!-- ========================================== -->
-  <!-- 3. مستعرض الـ PDF المدمج للزوار            -->
+  <!-- 3. مستعرض الـ PDF المتجاوب مع الجوال        -->
   <!-- ========================================== -->
-  <div id="visitorViewerModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-xs z-50 hidden flex flex-col justify-between">
-    <div class="h-16 bg-slate-900 border-b border-slate-800 px-4 md:px-6 flex items-center justify-between shrink-0 shadow-lg text-white">
-      <div class="flex items-center gap-3">
-        <button onclick="closeVisitorViewer()" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold flex items-center gap-1.5 transition">
-          <i class="fa-solid fa-xmark"></i> إغلاق وقراءة وثيقة أخرى
+  <div id="visitorViewerModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-xs z-50 hidden flex flex-col justify-between">
+    <div class="h-14 md:h-16 bg-slate-900 border-b border-slate-800 px-3 md:px-6 flex items-center justify-between shrink-0 shadow-lg text-white">
+      <div class="flex items-center gap-2 md:gap-3 min-w-0">
+        <button onclick="closeVisitorViewer()" class="px-3 py-1 md:py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold flex items-center gap-1.5 transition shrink-0">
+          <i class="fa-solid fa-xmark"></i> إغلاق
         </button>
-        <div class="h-4 w-px bg-slate-700"></div>
-        <div>
-          <h2 class="font-bold text-xs md:text-sm text-white truncate max-w-xs md:max-w-md" id="visitorModalTitle">قراءة المستند</h2>
-          <p class="text-[10px] text-teal-400 font-semibold">ثانوية الكسائي • قراءة مباشرة في نفس الصفحة</p>
-        </div>
+        <div class="h-4 w-px bg-slate-700 shrink-0"></div>
+        <h2 class="font-bold text-xs md:text-sm text-white truncate" id="visitorModalTitle">قراءة المستند</h2>
       </div>
-      <div class="flex items-center gap-2">
-        <a id="visitorDownloadBtn" href="#" download="document.pdf" class="px-3.5 py-1.5 rounded-xl bg-[#0d5c75] hover:bg-teal-600 text-white text-xs font-bold flex items-center gap-1.5 transition shadow-sm">
-          <i class="fa-solid fa-download"></i> تحميل المستند
+      <div class="flex items-center gap-2 shrink-0">
+        <a id="visitorDownloadBtn" href="#" download="document.pdf" class="px-3 py-1 md:py-1.5 rounded-xl bg-[#0d5c75] hover:bg-teal-600 text-white text-xs font-bold flex items-center gap-1 transition shadow-sm">
+          <i class="fa-solid fa-download"></i>
+          <span class="hidden sm:inline">تحميل المستند</span>
         </a>
       </div>
     </div>
@@ -171,39 +177,38 @@
   </div>
 
   <!-- ========================================== -->
-  <!-- 4. نافذة طباعة لاصق QR المعتمد              -->
+  <!-- 4. نافذة طباعة لاصق QR                      -->
   <!-- ========================================== -->
   <div id="printModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-sm w-full p-6 text-center space-y-4 shadow-2xl">
       <div id="printQrCard" class="p-6 border-2 border-[#0d5c75]/30 rounded-2xl space-y-3 bg-white">
-        <h4 class="font-bold text-slate-700 text-xs">وزارة التعليم • الإدارة العامة للتعليم بالمنطقة الشرقية</h4>
+        <h4 class="font-bold text-slate-700 text-xs">وزارة التعليم • تعليم الشرقية</h4>
         <h3 class="font-bold text-[#0d5c75] text-base">ثانوية الكسائي</h3>
-        <p class="text-[11px] text-slate-500 font-semibold">بوابة الزوار والاطلاع الرقمي المعتمد</p>
+        <p class="text-[11px] text-slate-500 font-semibold">بوابة الزوار والاطلاع الرقمي</p>
         <div class="p-4 bg-slate-50 rounded-2xl inline-block border border-slate-200">
-          <img id="qrPrintImage" src="" alt="QR Code" class="w-44 h-44 mx-auto">
+          <img id="qrPrintImage" src="" alt="QR Code" class="w-40 h-40 mx-auto">
         </div>
-        <p class="text-[10px] text-slate-500 leading-relaxed">امسح الرمز بكاميرا الجوال للاطلاع المباشر وقراءة السجلات والخطط المدرسية</p>
-        <span class="text-[9px] text-slate-400 block pt-2 border-t border-slate-100">منظومة الأرشفة المدرسية • تصميم وتطوير: أ. سعد القرني</span>
+        <p class="text-[10px] text-slate-500 leading-relaxed">امسح الرمز بكاميرا الجوال للاطلاع المباشر</p>
+        <span class="text-[9px] text-slate-400 block pt-2 border-t border-slate-100">حقوق التصميم والتطوير: أ. سعد القرني</span>
       </div>
       <div class="flex items-center gap-3">
         <button onclick="window.print()" class="flex-1 py-2.5 rounded-xl bg-[#0d5c75] text-white text-xs font-bold hover:bg-[#0a4659] transition flex items-center justify-center gap-1.5 shadow-sm">
           <i class="fa-solid fa-print"></i> بدء الطباعة
         </button>
-        <button id="closePrintBtn" class="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-xs font-semibold hover:bg-slate-50 transition"> إغلاق </button>
+        <button id="closePrintBtn" class="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-xs font-semibold hover:bg-slate-50 transition">
+          إغلاق
+        </button>
       </div>
     </div>
   </div>
 
   <!-- ========================================== -->
-  <!-- 5. التذييل (Footer)                        -->
+  <!-- 5. التذييل والبرمجة                        -->
   <!-- ========================================== -->
-  <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500 font-semibold">
-    منظومة ثانوية الكسائي الرسمية — الإدارة العامة للتعليم بالمنطقة الشرقية • حقوق التصميم والتطوير: أ. سعد القرني
+  <footer class="bg-white border-t border-slate-200 py-3 md:py-4 text-center text-[11px] md:text-xs text-slate-500 font-semibold px-4">
+    منظومة ثانوية الكسائي — الإدارة العامة للتعليم بالمنطقة الشرقية • تصميم وتطوير: أ. سعد القرني
   </footer>
 
-  <!-- ========================================== -->
-  <!-- 6. البرمجة والتفاعل                       -->
-  <!-- ========================================== -->
   <script type="module">
     import { getCloudDocuments } from './firebase-db.js';
 
@@ -236,8 +241,8 @@
       } catch (err) {
         console.error(err);
         document.getElementById('visitorDocsList').innerHTML = `
-          <div class="bg-white rounded-3xl p-8 border border-slate-200 text-center text-rose-500 text-xs font-semibold">
-            تعذر الاتصال بالسحابة. يرجى التحقق من اتصال الإنترنت وإعدادات المنظومة.
+          <div class="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 border border-slate-200 text-center text-rose-500 text-xs font-semibold">
+            تعذر الاتصال بالسحابة. يرجى التحقق من اتصال الإنترنت.
           </div>
         `;
       }
@@ -249,7 +254,7 @@
 
       if (filtered.length === 0) {
         container.innerHTML = `
-          <div class="bg-white rounded-3xl p-10 border border-slate-200 text-center text-slate-400">
+          <div class="bg-white rounded-2xl md:rounded-3xl p-8 md:p-10 border border-slate-200 text-center text-slate-400">
             <i class="fa-solid fa-folder-open text-3xl text-slate-300 mb-2 block"></i>
             <p class="text-xs font-semibold">لا توجد وثائق متاحة في هذا المجلد حالياً.</p>
           </div>
@@ -259,36 +264,34 @@
 
       container.innerHTML = '';
       const grid = document.createElement('div');
-      grid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4';
+      grid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4';
 
       filtered.forEach(doc => {
         const card = document.createElement('div');
-        card.className = 'bg-white p-5 rounded-3xl border border-slate-200 shadow-xs hover:border-[#0d5c75] transition flex flex-col justify-between space-y-4';
-        
+        card.className = 'bg-white p-4 md:p-5 rounded-2xl md:rounded-3xl border border-slate-200 shadow-xs hover:border-[#0d5c75] transition flex flex-col justify-between space-y-3';
         card.innerHTML = `
-          <div class="space-y-3">
+          <div class="space-y-2.5">
             <div class="flex items-center justify-between">
-              <span class="text-[11px] px-2.5 py-0.5 rounded-full font-semibold bg-teal-50 text-[#0d5c75] border border-teal-100">
+              <span class="text-[10px] md:text-[11px] px-2.5 py-0.5 rounded-full font-semibold bg-teal-50 text-[#0d5c75] border border-teal-100">
                 ${doc.folderName || 'مجلد معتمد'}
               </span>
-              <span class="text-[10px] text-emerald-700 font-bold flex items-center gap-1">
-                <i class="fa-solid fa-circle-check"></i> معتمد رسمياً
+              <span class="text-[9px] md:text-[10px] text-emerald-700 font-bold flex items-center gap-1">
+                <i class="fa-solid fa-circle-check"></i> معتمد
               </span>
             </div>
-            <div class="flex items-start gap-3">
-              <div class="w-10 h-10 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-xl shrink-0 mt-0.5">
+            <div class="flex items-start gap-2.5 md:gap-3">
+              <div class="w-9 h-9 md:w-10 md:h-10 rounded-xl md:rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg md:text-xl shrink-0 mt-0.5">
                 <i class="fa-solid fa-file-pdf"></i>
               </div>
               <div class="min-w-0">
                 <h4 class="font-bold text-slate-800 text-xs md:text-sm leading-snug line-clamp-2">${doc.name}</h4>
-                <p class="text-[10px] text-slate-400 font-mono mt-0.5">${doc.code || 'وثيقة إلكترونية'}</p>
+                <p class="text-[9px] md:text-[10px] text-slate-400 font-mono mt-0.5">${doc.code || 'وثيقة رسمية'}</p>
               </div>
             </div>
           </div>
-          
-          <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-            <span class="text-[11px] text-slate-400 font-medium">${doc.sizeText || '0.0 MB'}</span>
-            <button onclick="openVisitorViewer('${encodeURIComponent(doc.fileUrl)}', '${encodeURIComponent(doc.name)}')" class="px-3.5 py-1.5 rounded-xl bg-[#0d5c75] hover:bg-[#0a4659] text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+          <div class="pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs">
+            <span class="text-[10px] md:text-[11px] text-slate-400 font-medium">${doc.sizeText || '0.0 MB'}</span>
+            <button onclick="openVisitorViewer('${encodeURIComponent(doc.fileUrl)}', '${encodeURIComponent(doc.name)}')" class="px-3 md:px-3.5 py-1.5 rounded-xl bg-[#0d5c75] hover:bg-[#0a4659] text-white text-[11px] md:text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
               <i class="fa-solid fa-book-open"></i> قراءة المستند
             </button>
           </div>
@@ -299,18 +302,18 @@
       container.appendChild(grid);
     }
 
-    // دوال الاستعراض المباشر في نفس صفحة الزائر
+    // فتح وغلق المستعرض المتجاوب
     window.openVisitorViewer = function(encodedFileUrl, encodedTitle) {
       const fileUrl = decodeURIComponent(encodedFileUrl);
       const title = decodeURIComponent(encodedTitle);
-      
+
       document.getElementById('visitorModalTitle').textContent = title;
       document.getElementById('visitorDownloadBtn').href = fileUrl;
       document.getElementById('visitorDownloadBtn').setAttribute('download', `${title}.pdf`);
-      
+
       const iframe = document.getElementById('visitorIframe');
       iframe.src = fileUrl;
-      
+
       document.getElementById('visitorViewerModal').classList.remove('hidden');
       document.body.style.overflow = 'hidden';
     };
@@ -322,13 +325,13 @@
       document.body.style.overflow = 'auto';
     };
 
-    // التصفية بحسب المجلدات
+    // فلترة التبويبات
     document.querySelectorAll('.folder-tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.folder-tab-btn').forEach(b => {
-          b.className = 'folder-tab-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 shrink-0';
+          b.className = 'folder-tab-btn px-3.5 py-1.5 md:px-4 md:py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 shrink-0 transition';
         });
-        btn.className = 'folder-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-[#0d5c75] text-white shadow-xs shrink-0';
+        btn.className = 'folder-tab-btn px-3.5 py-1.5 md:px-4 md:py-2 rounded-xl text-xs font-bold bg-[#0d5c75] text-white shadow-xs shrink-0 transition';
         currentFilter = btn.dataset.folder;
         renderDocs();
       });
