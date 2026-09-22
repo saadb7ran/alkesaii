@@ -1,5 +1,4 @@
-// firebase-db.js - منظومة ثانوية الكسائي السحابية الرسمية
-
+// firebase-db.js - منظومة ثانوية الكسائي الرسمية
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { 
   getFirestore, 
@@ -9,8 +8,17 @@ import {
   deleteDoc, 
   doc 
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { 
+  getStorage, 
+  ref, 
+  uploadBytes, 
+  getDownloadURL, 
+  deleteObject 
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
-// إعدادات Firebase الخاصة بمشروع ثانوية الكسائي
+// ==========================================
+// 1. إعدادات Firebase الخاصة بالمشروع
+// ==========================================
 const firebaseConfig = {
   apiKey: "AIzaSyAhwcbBVFr1i0mLOw5iKdVRS9_EZeJrvbg",
   authDomain: "alkisaee-portal.firebaseapp.com",
@@ -21,54 +29,50 @@ const firebaseConfig = {
   measurementId: "G-001J0DY6QZ"
 };
 
-// تهيئة تطبيق Firebase وخدمة قاعدة البيانات Firestore
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
-/**
- * دالة مساعدة لتطوير وتحويل ملفات الـ PDF إلى صيغة Base64 للحفظ السريع
- * @param {File} file - ملف المستند المرفوع من المستخدم
- * @returns {Promise<string>}
- */
-function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (err) => reject(err);
-  });
-}
+const storage = getStorage(app);
 
 // ==========================================
-// 1. إدارة الوثائق والمستندات (Documents)
+// 2. إدارة الوثائق والمستندات السحابية
 // ==========================================
 
 /**
- * رفع وتوثيق مستند جديد بالسحابة
+ * رفع وتوثيق مستند PDF سحابياً في Firebase Storage و Firestore
  */
 export async function uploadCloudDocument(file, docMeta) {
   try {
-    const fileDataUrl = await fileToBase64(file);
+    // اسم فريد للملف في التخزين السحابي
+    const cleanFileName = file.name.replace(/[^a-zA-Z0-9.]/g, "_");
+    const filePath = `documents/${Date.now()}_${cleanFileName}`;
+    const storageRef = ref(storage, filePath);
+
+    // رفع الملف الفعلي إلى Firebase Storage
+    const uploadResult = await uploadBytes(storageRef, file);
+    const downloadUrl = await getDownloadURL(uploadResult.ref);
+
+    // حفظ بيانات الفهرسة والتوثيق في Firestore
     const docRef = await addDoc(collection(db, "documents"), {
       name: docMeta.name || file.name,
       folderId: docMeta.folderId || 'planning',
       subfolderId: docMeta.subfolderId || '',
+      subfolderName: docMeta.subfolderName || '',
       folderName: docMeta.folderName || 'التنظيم والتخطيط',
       code: docMeta.code || '',
-      fileUrl: fileDataUrl,
+      fileUrl: downloadUrl,
+      storagePath: filePath,
       sizeBytes: file.size,
       sizeText: (file.size / (1024 * 1024)).toFixed(2) + ' MB',
-      date: docMeta.hijriDate || new Intl.DateTimeFormat('ar-SA-u-ca-islamic', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
+      date: docMeta.hijriDate || new Intl.DateTimeFormat('ar-SA-u-ca-islamic', { 
+        day: 'numeric', 
+        month: 'long', 
+        year: 'numeric' 
       }).format(new Date()),
       gregDate: docMeta.gregDate || new Date().toLocaleDateString('en-GB'),
-      description: docMeta.description || '',
       createdAt: Date.now()
     });
 
-    return { id: docRef.id, success: true };
+    return { id: docRef.id, fileUrl: downloadUrl, success: true };
   } catch (err) {
     console.error("خطأ رفع المستند السحابي:", err);
     throw err;
@@ -76,7 +80,7 @@ export async function uploadCloudDocument(file, docMeta) {
 }
 
 /**
- * جلب جميع الوثائق المودعة بالسحابة (مرتبة حسب الأحدث)
+ * جلب جميع الوثائق المودعة مرتبة حسب تاريخ الإنشاء
  */
 export async function getCloudDocuments() {
   try {
@@ -93,10 +97,18 @@ export async function getCloudDocuments() {
 }
 
 /**
- * حذف وثيقة محددة من السحابة
+ * حذف وثيقة من السحابة (من Firestore و Firebase Storage معاً)
  */
-export async function deleteCloudDocument(docId) {
+export async function deleteCloudDocument(docId, storagePath) {
   try {
+    if (storagePath) {
+      try {
+        const fileRef = ref(storage, storagePath);
+        await deleteObject(fileRef);
+      } catch(e) {
+        console.warn("تنفيذي: تحذير أثناء حذف الملف من Storage:", e);
+      }
+    }
     await deleteDoc(doc(db, "documents", docId));
     return true;
   } catch (err) {
@@ -106,11 +118,11 @@ export async function deleteCloudDocument(docId) {
 }
 
 // ==========================================
-// 2. إدارة المجلدات (Folders)
+// 3. إدارة المجلدات والمجلدات الفرعية
 // ==========================================
 
 /**
- * جلب قائمة المجلدات السحابية
+ * جلب قائمة المجلدات
  */
 export async function getCloudFolders() {
   try {
@@ -127,13 +139,13 @@ export async function getCloudFolders() {
 }
 
 /**
- * إنشاء مجلد فرعي سحابي جديد
+ * إضافة مجلد جديد
  */
 export async function addCloudFolder(folderData) {
   try {
-    const docRef = await addDoc(collection(db, "folders"), {
-      ...folderData,
-      createdAt: Date.now()
+    const docRef = await addDoc(collection(db, "folders"), { 
+      ...folderData, 
+      createdAt: Date.now() 
     });
     return { id: docRef.id, ...folderData };
   } catch (err) {
@@ -143,7 +155,7 @@ export async function addCloudFolder(folderData) {
 }
 
 /**
- * حذف مجلد سحابي
+ * حذف مجلد
  */
 export async function deleteCloudFolder(folderId) {
   try {
