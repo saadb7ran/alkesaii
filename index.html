@@ -445,23 +445,30 @@
       }
     };
 
+    // إنشاء مجلد جديد مع التحديث الفوري المباشر على الشاشة
     window.promptCreateFolderInCurrent = async function() {
-      const parentName = folderPathStack.length > 0 ? folderPathStack[folderPathStack.length - 1].name : 'الرئيسية';
-      const name = prompt(`أدخل اسم المجلد الفرعي الجديد داخل [${parentName}]:`);
+      const activeFolder = folderPathStack.length > 0 ? folderPathStack[folderPathStack.length - 1] : { id: 'planning', name: 'التنظيم والتخطيط' };
+      const name = prompt(`أدخل اسم المجلد الفرعي الجديد داخل [${activeFolder.name}]:`);
+      
       if (name && name.trim()) {
+        const folderName = name.trim();
         const parentId = currentFolderId || 'planning';
-        await addCloudFolder({ name: name.trim(), parentId: parentId });
+        
+        // حفظ المجلد
+        await addCloudFolder({ name: folderName, parentId: parentId });
+        
+        // إعادة تحميل ورسم المجلدات فوراً
         await loadData();
+        alert(`✅ تم إنشاء المجلد الفرعي [${folderName}] بنجاح!`);
       }
     };
 
+    // الانتقال للرفع مع تمرير المجلد المفتوح حالياً
     window.uploadInCurrentFolder = function() {
       let url = 'upload.html';
-      if (currentFolderId) {
-        const root = folderPathStack.length > 0 ? folderPathStack[0].id : currentFolderId;
-        const sub = folderPathStack.length > 1 ? folderPathStack[folderPathStack.length - 1].name : '';
-        url += `?folder=${encodeURIComponent(root)}&sub=${encodeURIComponent(sub)}`;
-      }
+      const root = folderPathStack.length > 0 ? folderPathStack[0].id : (currentFolderId || 'planning');
+      const sub = folderPathStack.length > 1 ? folderPathStack[folderPathStack.length - 1].name : '';
+      url += `?folder=${encodeURIComponent(root)}&sub=${encodeURIComponent(sub)}`;
       window.location.href = url;
     };
 

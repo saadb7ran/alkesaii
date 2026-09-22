@@ -277,24 +277,22 @@
         day: 'numeric'
       }).format(new Date());
     } catch(e) {
-      document.getElementById('docHijriDate').value = '1447 هـ';
+      document.getElementById('docHijriDate').value = '1448 هـ';
     }
 
-    // جلب المجلدات الفرعية وتحديث القائمة
-    async function initSubfolders() {
-      try {
-        cloudCustomFolders = await getCloudFolders();
-      } catch (e) {
-        console.warn("Could not fetch cloud folders:", e);
-      }
-      populateSubfolders();
-    }
-
-    function populateSubfolders() {
+    // دالة جلب وقراءة المجلدات الفرعية والمخصصة فوراً
+    async function populateSubfolders() {
       const selectedMainFolder = folderSelect.value;
       subfolderSelect.innerHTML = '<option value="">-- بدون مجلد فرعي (حفظ في الرئيسي مباشرة) --</option>';
 
-      // 1. إضافة المجلدات الفرعية الافتراضية
+      // جلب أحدث المجلدات المتزامنة من السحابة
+      try {
+        cloudCustomFolders = await getCloudFolders();
+      } catch(e) {
+        console.warn("Could not fetch cloud folders:", e);
+      }
+
+      // 1. المجلدات الافتراضية
       const defaultSubs = defaultSubfoldersMap[selectedMainFolder] || [];
       defaultSubs.forEach(sub => {
         const opt = document.createElement('option');
@@ -303,34 +301,41 @@
         subfolderSelect.appendChild(opt);
       });
 
-      // 2. إضافة المجلدات الفرعية السحابية المضافة يدوياً
+      // 2. المجلدات الجديدة التي أنشأتها
       const customSubs = cloudCustomFolders.filter(f => f.parentId === selectedMainFolder);
       customSubs.forEach(f => {
         if (!defaultSubs.includes(f.name)) {
           const opt = document.createElement('option');
           opt.value = f.name;
-          opt.textContent = `📁 ${f.name} (سحابي)`;
+          opt.textContent = `📁 ${f.name} (مجلد مخصص)`;
           subfolderSelect.appendChild(opt);
         }
       });
 
-      // فحص الرابط إن وُجد تحديد مسبق للمجلد الفرعي
+      // تحديد المجلد الفرعي إذا كان ممرراً في الرابط
       const urlParams = new URLSearchParams(window.location.search);
       const presetSub = urlParams.get('sub');
-      if (presetSub && subfolderSelect.querySelector(`option[value="${presetSub}"]`)) {
-        subfolderSelect.value = presetSub;
+      if (presetSub) {
+        for (let i = 0; i < subfolderSelect.options.length; i++) {
+          if (subfolderSelect.options[i].value === presetSub) {
+            subfolderSelect.selectedIndex = i;
+            break;
+          }
+        }
       }
     }
 
     // تحديث المجلدات الفرعية عند تغيير المجلد الرئيسي
     folderSelect.addEventListener('change', populateSubfolders);
 
-    // تفعيل قراءة المجلد التلقائي من الرابط
-    const urlParams = new URLSearchParams(window.location.search);
-    const presetFolder = urlParams.get('folder');
-    if (presetFolder && folderSelect.querySelector(`option[value="${presetFolder}"]`)) {
-      folderSelect.value = presetFolder;
-      populateSubfolders();
+    // تفعيل قراءة المجلد التلقائي من الرابط إن وجد
+    async function initPage() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const presetFolder = urlParams.get('folder');
+      if (presetFolder && folderSelect.querySelector(`option[value="${presetFolder}"]`)) {
+        folderSelect.value = presetFolder;
+      }
+      await populateSubfolders();
     }
 
     // إظهار وإخفاء حقل إضافة مجلد فرعي جديد
@@ -440,7 +445,7 @@
       }
     });
 
-    initSubfolders();
+    initPage();
   </script>
 </body>
 </html>
