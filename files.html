@@ -1,231 +1,277 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>استعراض ملفات المجلد - ثانوية الكسائي</title>
-  
-  <!-- Tailwind CSS & Fonts & Icons -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <style>
-    body {
-      font-family: 'IBM Plex Sans Arabic', sans-serif;
-      background-color: #f7faf9;
-    }
-  </style>
-</head>
-
-<body class="text-slate-800 min-h-screen flex">
-
-  <!-- القائمة الجانبية -->
-  <aside class="w-64 bg-white border-l border-slate-200 flex flex-col justify-between hidden md:flex shrink-0">
-    <div>
-      <div class="p-6 border-b border-slate-100 flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-teal-600/10 text-teal-700 flex items-center justify-center font-bold text-xl">
-          <i class="fa-solid fa-school"></i>
-        </div>
-        <div>
-          <h1 class="font-bold text-slate-800 text-sm">ثانوية الكسائي</h1>
-          <p class="text-xs text-teal-700 font-medium">تعليم الشرقية</p>
-        </div>
-      </div>
-
-      <nav class="p-4 space-y-1">
-        <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 transition">
-          <i class="fa-solid fa-table-cells-large w-5 text-slate-400"></i>
-          <span class="text-sm font-medium">الرئيسية والمجلدات</span>
-        </a>
-        <a href="upload.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 transition">
-          <i class="fa-solid fa-cloud-arrow-up w-5 text-slate-400"></i>
-          <span class="text-sm font-medium">رفع وثيقة جديدة</span>
-        </a>
-        <a href="visitor.html" target="_blank" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 transition">
-          <i class="fa-solid fa-qrcode w-5 text-slate-400"></i>
-          <span class="text-sm font-medium">بوابة الزوار (QR)</span>
-        </a>
-      </nav>
-    </div>
-
-    <div class="p-4 border-t border-slate-100 text-xs text-slate-400 text-center">
-      حقوق التصميم للأستاذ: سعد القرني
-    </div>
-  </aside>
-
-  <!-- المحتوى الرئيسي -->
-  <main class="flex-1 flex flex-col min-w-0">
-    <header class="h-20 bg-white border-b border-slate-200 px-6 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <a href="index.html" class="w-9 h-9 rounded-xl border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 transition">
-          <i class="fa-solid fa-arrow-right text-sm"></i>
-        </a>
-        <div>
-          <h2 class="font-bold text-base md:text-lg text-slate-800" id="headerFolderTitle">مستندات المجلد</h2>
-          <p class="text-xs text-teal-700 font-medium" id="headerBreadcrumb">لوحة التحكم • استعراض الملفات السحابية</p>
-        </div>
-      </div>
-
-      <div class="flex items-center gap-3">
-        <a href="upload.html" class="px-4 py-2 rounded-xl bg-teal-700 hover:bg-teal-800 text-white text-xs md:text-sm font-semibold flex items-center gap-2 shadow-sm transition">
-          <i class="fa-solid fa-cloud-arrow-up"></i> رفع في هذا المجلد
-        </a>
-      </div>
-    </header>
-
-    <div class="p-6 md:p-8 space-y-6 max-w-7xl mx-auto w-full">
-      
-      <!-- شريط البحث والفلترة -->
-      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
-        <div class="relative w-full md:w-96">
-          <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-3 text-slate-400 text-sm"></i>
-          <input type="text" id="searchInput" placeholder="البحث في وثائق هذا المجلد..." class="w-full pr-10 pl-4 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-600 bg-slate-50/50">
-        </div>
-        <div class="flex items-center gap-2 w-full md:w-auto justify-end">
-          <span class="text-xs text-slate-500 font-medium" id="folderStatsCount">جاري الحساب...</span>
-        </div>
-      </div>
-
-      <!-- جدول الملفات السحابية -->
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-        <div class="overflow-x-auto">
-          <table class="w-full text-right text-sm">
-            <thead class="bg-slate-50 text-slate-500 text-xs font-semibold border-b border-slate-100">
-              <tr>
-                <th class="py-3 px-4">اسم الوثيقة</th>
-                <th class="py-3 px-4">المجلد الرئيسي</th>
-                <th class="py-3 px-4">الحجم</th>
-                <th class="py-3 px-4">تاريخ الإيداع</th>
-                <th class="py-3 px-4 text-center">الإجراءات</th>
-              </tr>
-            </thead>
-            <tbody id="folderFilesTableBody" class="divide-y divide-slate-100">
-              <tr>
-                <td colspan="5" class="py-12 text-center text-slate-400">
-                  <i class="fa-solid fa-circle-notch fa-spin text-teal-600 text-2xl mb-2 block"></i> جاري جلب الملفات من السحابة...
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-    </div>
-  </main>
-
-  <!-- نص البرمجة والربط السحابي -->
-  <script type="module">
-    import { getCloudDocuments, deleteCloudDocument } from './firebase-db.js';
-
-    // قراءة المجلد المستهدف من رابط الصفحة (مثلاً: files.html?folder=planning)
-    const urlParams = new URLSearchParams(window.location.search);
-    const targetFolderId = urlParams.get('folder') || 'all';
-
-    const folderNamesMap = {
-      'planning': 'التنظيم والتخطيط',
-      'circulars': 'الوثائق والتعاميم',
-      'academic': 'الشؤون التعليمية والمتابعة',
-      'students': 'شؤون الطلاب',
-      'committees': 'الاجتماعات واللجان',
-      'all': 'جميع الملفات المودعة'
-    };
-
-    const currentFolderName = folderNamesMap[targetFolderId] || 'مستندات المجلد';
-    document.getElementById('headerFolderTitle').textContent = `مجلد: ${currentFolderName}`;
-    document.getElementById('headerBreadcrumb').textContent = `لوحة التحكم • ${currentFolderName}`;
-
-    let folderDocs = [];
-
-    async function loadFolderData() {
-      try {
-        const allDocs = await getCloudDocuments();
-        
-        // فلترة الوثائق الخاصة بهذا المجلد فقط (أو الكل إذا لم يحدد)
-        if (targetFolderId === 'all') {
-          folderDocs = allDocs;
-        } else {
-          folderDocs = allDocs.filter(d => d.folderId === targetFolderId);
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>استعراض ملفات المجلد - ثانوية الكسائي</title>
+    
+    <!-- الخطوط والأيقونات الخارجية -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            background-color: #f7faf9;
         }
-        
-        renderTable(folderDocs);
-      } catch (err) {
-        console.error(err);
-        document.getElementById('folderFilesTableBody').innerHTML = `
-          <tr><td colspan="5" class="py-8 text-center text-rose-500">حدث خطأ أثناء تحميل الملفات السحابية.</td></tr>
-        `;
-      }
-    }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex bg-[#f7faf9]">
 
-    function renderTable(docsToDisplay) {
-      const tbody = document.getElementById('folderFilesTableBody');
-      const countDisplay = document.getElementById('folderStatsCount');
-      
-      countDisplay.textContent = `إجمالي المستندات: ${docsToDisplay.length}`;
-      tbody.innerHTML = '';
-
-      if (docsToDisplay.length === 0) {
-        tbody.innerHTML = `
-          <tr>
-            <td colspan="5" class="py-12 text-center text-slate-400">
-              <i class="fa-solid fa-folder-open text-3xl text-slate-300 mb-2 block"></i> لا توجد ملفات مودعة في هذا المجلد حالياً.
-            </td>
-          </tr>
-        `;
-        return;
-      }
-
-      docsToDisplay.forEach(doc => {
-        const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-50 transition';
-        tr.innerHTML = `
-          <td class="py-3 px-4 flex items-center gap-3">
-            <i class="fa-solid fa-file-pdf text-rose-500 text-lg"></i>
-            <span class="font-medium text-slate-800">${doc.name}</span>
-          </td>
-          <td class="py-3 px-4">
-            <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-teal-50 text-teal-800 border border-teal-100">${doc.folderName || 'عام'}</span>
-          </td>
-          <td class="py-3 px-4 text-xs text-slate-500">${doc.sizeText || '0 MB'}</td>
-          <td class="py-3 px-4 text-xs text-slate-500">${doc.date || '-'}</td>
-          <td class="py-3 px-4 text-center">
-            <div class="flex items-center justify-center gap-2">
-              <a href="viewer.html?file=${encodeURIComponent(doc.fileUrl)}&title=${encodeURIComponent(doc.name)}" class="px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-medium transition flex items-center gap-1">
-                <i class="fa-solid fa-eye"></i> معاينة
-              </a>
-              <button data-id="${doc.id}" data-path="${doc.storagePath || ''}" class="delete-doc-btn px-2.5 py-1 text-rose-500 hover:bg-rose-50 rounded-lg text-xs transition" title="حذف المستند">
-                <i class="fa-solid fa-trash-can"></i>
-              </button>
+    <!-- ========================================== -->
+    <!-- 1. القائمة الجانبية (Sidebar)             -->
+    <!-- ========================================== -->
+    <aside class="w-72 bg-white border-l border-slate-200 flex flex-col justify-between hidden xl:flex shrink-0 shadow-sm">
+        <div>
+            <!-- شعار الهوية والتعليم -->
+            <div class="p-6 border-b border-slate-100 flex flex-col items-center text-center">
+                <div class="w-20 h-20 mb-2 flex items-center justify-center">
+                    <svg class="w-full h-full text-[#0d5c75]" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="30" cy="40" r="7" fill="#0d5c75"/><circle cx="48" cy="43" r="6.5" fill="#0d5c75"/><circle cx="65" cy="48" r="6" fill="#148398"/><circle cx="81" cy="55" r="5.5" fill="#1fa882"/><circle cx="95" cy="65" r="5" fill="#2eb872"/><circle cx="105" cy="65" r="5" fill="#2eb872"/><circle cx="119" cy="55" r="5.5" fill="#1fa882"/><circle cx="135" cy="48" r="6" fill="#148398"/><circle cx="152" cy="43" r="6.5" fill="#0d5c75"/><circle cx="170" cy="40" r="7" fill="#0d5c75"/>
+                        <circle cx="30" cy="60" r="7" fill="#0d5c75"/><circle cx="48" cy="63" r="6.5" fill="#0d5c75"/><circle cx="65" cy="68" r="6" fill="#148398"/><circle cx="135" cy="68" r="6" fill="#148398"/><circle cx="152" cy="63" r="6.5" fill="#0d5c75"/><circle cx="170" cy="60" r="7" fill="#0d5c75"/>
+                        <circle cx="30" cy="80" r="7" fill="#0d5c75"/><circle cx="48" cy="83" r="6.5" fill="#0d5c75"/><circle cx="152" cy="83" r="6.5" fill="#0d5c75"/><circle cx="170" cy="80" r="7" fill="#0d5c75"/>
+                    </svg>
+                </div>
+                <h1 class="font-bold text-slate-800 text-base">وزارة التعليم</h1>
+                <p class="text-xs text-[#0d5c75] font-semibold">الإدارة العامة للتعليم بالمنطقة الشرقية</p>
+                <p class="text-xs text-slate-500 font-bold mt-0.5">ثانوية الكسائي</p>
             </div>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
 
-      // تفعيل أزرار الحذف السحابي
-      document.querySelectorAll('.delete-doc-btn').forEach(btn => {
-        btn.addEventListener('click', async () => {
-          const docId = btn.dataset.id;
-          const storagePath = btn.dataset.path;
-          if (confirm('هل أنت متأكد من حذف هذه الوثيقة نهائياً من السحابة؟')) {
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>';
-            btn.disabled = true;
-            await deleteCloudDocument(docId, storagePath);
-            await loadFolderData();
-          }
+            <!-- روابط التنقل -->
+            <nav class="p-4 space-y-1.5">
+                <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 transition">
+                    <i class="fa-solid fa-table-cells-large w-5 text-slate-400"></i>
+                    <span class="text-sm font-medium">الرئيسية والمجلدات</span>
+                </a>
+                <a href="files.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#0d5c75]/10 text-[#0d5c75] font-bold">
+                    <i class="fa-solid fa-folder-tree w-5 text-[#0d5c75]"></i>
+                    <span class="text-sm">إدارة شجرة المجلدات</span>
+                </a>
+                <a href="upload.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 transition">
+                    <i class="fa-solid fa-cloud-arrow-up w-5 text-slate-400"></i>
+                    <span class="text-sm font-medium">رفع وثيقة جديدة</span>
+                </a>
+                <a href="visitor.html" target="_blank" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 transition">
+                    <i class="fa-solid fa-qrcode w-5 text-slate-400"></i>
+                    <span class="text-sm font-medium">بوابة الزوار (QR)</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- تذييل القائمة الجانبية -->
+        <div class="p-4 border-t border-slate-100 text-center">
+            <div class="py-1 px-3 bg-slate-100 rounded-lg text-xs text-slate-600 font-semibold border border-slate-200 inline-block">
+                حقوق التصميم والتطوير: أ. سعد القرني
+            </div>
+        </div>
+    </aside>
+
+    <!-- ========================================== -->
+    <!-- 2. المحتوى الرئيسي (Main Content)        -->
+    <!-- ========================================== -->
+    <main class="flex-1 flex flex-col min-w-0">
+        
+        <!-- الشريط العلوي (Header) -->
+        <header class="h-16 bg-white border-b border-slate-200 px-6 flex items-center justify-between shadow-xs">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition text-xs" title="الرجوع للرئيسية">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <div>
+                    <h2 class="font-bold text-slate-800 text-sm md:text-base" id="headerTitle">استعراض وتصفح المجلدات</h2>
+                    <p class="text-[11px] text-teal-700 font-semibold" id="headerBreadcrumb">لوحة التحكم • شجرة المجلدات</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <a href="upload.html" class="px-3.5 py-1.5 rounded-xl bg-[#0d5c75] hover:bg-[#0a4659] text-white text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-solid fa-plus"></i> رفع في هذا المجلد
+                </a>
+            </div>
+        </header>
+
+        <!-- جسم الصفحة الداخلي -->
+        <div class="p-6 md:p-8 max-w-7xl mx-auto w-full space-y-6">
+            
+            <!-- شريط البحث والفلترة السريعة للمجلدات -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="relative w-full md:w-96">
+                    <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-3 text-slate-400 text-xs"></i>
+                    <input type="text" id="searchInput" placeholder="بحث باسم المستند، رقم القيد..." class="w-full pr-10 pl-4 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#0d5c75] outline-none transition">
+                </div>
+                
+                <div class="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-1" id="filterFolderBtns">
+                    <button data-folder="all" class="filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-[#0d5c75] text-white shrink-0 shadow-xs">جميع المجلدات</button>
+                    <button data-folder="planning" class="filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 shrink-0">التنظيم والتخطيط</button>
+                    <button data-folder="circulars" class="filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 shrink-0">الوثائق والتعاميم</button>
+                    <button data-folder="academic" class="filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 shrink-0">الشؤون التعليمية</button>
+                    <button data-folder="students" class="filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 shrink-0">شؤون الطلاب</button>
+                    <button data-folder="committees" class="filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 shrink-0">الاجتماعات واللجان</button>
+                </div>
+            </div>
+
+            <!-- جدول المستندات -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right text-sm">
+                        <thead class="bg-slate-50 text-slate-500 text-xs font-semibold border-b border-slate-100">
+                            <tr>
+                                <th class="py-3.5 px-4">اسم الوثيقة والمستند</th>
+                                <th class="py-3.5 px-4">المجلد الرئيسي / الفرعي</th>
+                                <th class="py-3.5 px-4">الحجم</th>
+                                <th class="py-3.5 px-4">تاريخ الإيداع (هـ)</th>
+                                <th class="py-3.5 px-4 text-center">الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="filesTableBody" class="divide-y divide-slate-100">
+                            <tr>
+                                <td colspan="5" class="py-12 text-center text-slate-400">
+                                    <i class="fa-solid fa-circle-notch fa-spin text-teal-600 text-2xl mb-2 block"></i> 
+                                    جاري جلب الوثائق من السحابة...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ========================================== -->
+    <!-- 3. البرمجة التفاعلية (JavaScript Module)    -->
+    <!-- ========================================== -->
+    <script type="module">
+        import { getCloudDocuments, deleteCloudDocument } from './firebase-db.js';
+
+        const urlParams = new URLSearchParams(window.location.search);
+        let currentFolder = urlParams.get('folder') || 'all';
+        let allDocs = [];
+
+        const folderNamesMap = {
+            'all': 'جميع المجلدات المعتمدة',
+            'planning': 'مجلد التنظيم والتخطيط والمالي',
+            'circulars': 'مجلد الوثائق والتعاميم الرسمية',
+            'academic': 'الشؤون التعليمية والمتابعة',
+            'students': 'مجلد شؤون الطلاب',
+            'committees': 'مجلد الاجتماعات واللجان'
+        };
+
+        // تحديث العنوان الهيدر والمسار الرئيسي
+        function updateHeader() {
+            const name = folderNamesMap[currentFolder] || 'مستندات المجلد';
+            document.getElementById('headerTitle').textContent = name;
+            document.getElementById('headerBreadcrumb').textContent = `لوحة التحكم • ${name}`;
+        }
+
+        // جلب البيانات السحابية
+        async function loadFiles() {
+            try {
+                allDocs = await getCloudDocuments();
+                renderTable();
+            } catch (err) {
+                console.error(err);
+                document.getElementById('filesTableBody').innerHTML = `
+                    <tr>
+                        <td colspan="5" class="py-8 text-center text-rose-500 font-semibold">
+                            <i class="fa-solid fa-triangle-exclamation text-lg mb-1 block"></i>
+                            حدث خطأ في جلب الملفات من السحابة.
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        // بناء وعرض جدول البيانات
+        function renderTable(docsToRender = null) {
+            const tbody = document.getElementById('filesTableBody');
+            const docs = docsToRender || (currentFolder === 'all' ? allDocs : allDocs.filter(d => d.folderId === currentFolder));
+
+            if (docs.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="py-12 text-center text-slate-400">
+                            <i class="fa-solid fa-folder-open text-3xl text-slate-300 mb-2 block"></i>
+                            لا توجد وثائق مودعة في هذا المجلد حالياً.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = '';
+            docs.forEach(doc => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50/80 transition';
+                tr.innerHTML = `
+                    <td class="py-3.5 px-4 flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center text-sm shrink-0">
+                            <i class="fa-solid fa-file-pdf"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-slate-800 text-xs">${doc.name}</p>
+                            <span class="text-[10px] text-slate-400 font-mono">${doc.code || 'وثيقة رسمية'}</span>
+                        </div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                        <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-teal-50 text-[#0d5c75] border border-teal-100">${doc.folderName || 'عام'}</span>
+                        ${doc.subfolderId ? `<span class="text-[10px] text-slate-400 mr-1">/ ${doc.subfolderId}</span>` : ''}
+                    </td>
+                    <td class="py-3.5 px-4 text-xs font-semibold text-slate-600">${doc.sizeText || '0.0 MB'}</td>
+                    <td class="py-3.5 px-4 text-xs text-slate-500">${doc.date || '-'}</td>
+                    <td class="py-3.5 px-4 text-center">
+                        <div class="flex items-center justify-center gap-2">
+                            <a href="viewer.html?file=${encodeURIComponent(doc.fileUrl)}&title=${encodeURIComponent(doc.name)}" class="px-3 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition flex items-center gap-1">
+                                <i class="fa-solid fa-eye"></i> معاينة
+                            </a>
+                            <button data-id="${doc.id}" class="delete-btn px-2 py-1 rounded-lg text-rose-500 hover:bg-rose-50 text-xs transition" title="حذف الوثيقة">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // ربط أحداث أزرار الحذف
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    if (confirm('هل أنت متأكد من حذف هذه الوثيقة نهائياً؟')) {
+                        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>';
+                        btn.disabled = true;
+                        await deleteCloudDocument(btn.dataset.id);
+                        await loadFiles();
+                    }
+                });
+            });
+        }
+
+        // تفاعل أزرار الفلترة بحسب المجلد
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => {
+                    b.className = 'filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 shrink-0';
+                });
+                btn.className = 'filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-[#0d5c75] text-white shrink-0 shadow-xs';
+                currentFolder = btn.dataset.folder;
+                updateHeader();
+                renderTable();
+            });
         });
-      });
-    }
 
-    // البحث الفوري بالاسم
-    document.getElementById('searchInput').addEventListener('input', (e) => {
-      const term = e.target.value.toLowerCase().trim();
-      const filtered = folderDocs.filter(d => d.name.toLowerCase().includes(term));
-      renderTable(filtered);
-    });
+        // أحداث البحث اللحظي
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase().trim();
+            const filtered = allDocs.filter(d => 
+                (d.name && d.name.toLowerCase().includes(term)) || 
+                (d.code && d.code.toLowerCase().includes(term))
+            );
+            renderTable(filtered);
+        });
 
-    loadFolderData();
-  </script>
-
+        // التشغيل المبدئي
+        updateHeader();
+        loadFiles();
+    </script>
 </body>
 </html>

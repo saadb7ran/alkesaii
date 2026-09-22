@@ -1,4 +1,6 @@
-// firebase-db.js - منظومة ثانوية الكسائي السحابية المعتمدة
+// ==========================================
+// firebase-db.js - منظومة ثانوية الكسائي السحابية
+// ==========================================
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { 
@@ -8,11 +10,10 @@ import {
   getDocs, 
   deleteDoc, 
   doc, 
-  query, 
-  orderBy 
+  updateDoc 
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// إعدادات Firebase الخاصة بمشروع ثانوية الكسائي
+// إعدادات مشروع Firebase المعتمدة لـ ثانوية الكسائي
 const firebaseConfig = {
   apiKey: "AIzaSyAhwcbBVFr1i0mLOw5iKdVRS9_EZeJrvbg",
   authDomain: "alkisaee-portal.firebaseapp.com",
@@ -23,78 +24,71 @@ const firebaseConfig = {
   measurementId: "G-001J0DY6QZ"
 };
 
-// تهيئة الخدمة
+// تهيئة تطبيق Firebase وخدمة قاعدة البيانات
 const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
+const db = getFirestore(app);
 
-// المجلدات الرئيسية المعتمدة لثانوية الكسائي
-export const DEFAULT_FOLDERS = [
-  { id: 'planning', name: 'التنظيم والتخطيط' },
-  { id: 'circulars', name: 'الوثائق والتعاميم' },
-  { id: 'academic', name: 'الشؤون التعليمية والمتابعة' },
-  { id: 'students', name: 'شؤون الطلاب' },
-  { id: 'committees', name: 'الاجتماعات واللجان' }
-];
-
-/**
- * تحويل ملف PDF إلى بيانات سريعة وموثقة (Base64)
- */
+// ------------------------------------------
+// دالة مساعدة: تحويل ملف PDF إلى Base64 للحفظ السريع
+// ------------------------------------------
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => resolve(reader.result);
-    reader.onerror = (e) => reject(e);
+    reader.onerror = (error) => reject(error);
   });
 }
 
+// ------------------------------------------
+// 1. إدارة المستندات (رفع، جلب، حذف)
+// ------------------------------------------
+
 /**
- * 1. رفع وتوثيق المستند سحابياً (في أقل من ثانية)
+ * رفع وتوثيق مستند جديد
  */
 export async function uploadCloudDocument(file, docMeta) {
   try {
     const fileDataUrl = await fileToBase64(file);
-
     const docRef = await addDoc(collection(db, "documents"), {
       name: docMeta.name || file.name,
       folderId: docMeta.folderId || 'planning',
+      subfolderId: docMeta.subfolderId || '',
       folderName: docMeta.folderName || 'التنظيم والتخطيط',
       code: docMeta.code || '',
       fileUrl: fileDataUrl,
       sizeBytes: file.size,
       sizeText: (file.size / (1024 * 1024)).toFixed(2) + ' MB',
-      date: docMeta.hijriDate || new Intl.DateTimeFormat('ar-SA-u-ca-islamic', {
+      date: docMeta.hijriDate || new Intl.DateTimeFormat('ar-SA-u-ca-islamic', { 
         day: 'numeric', 
         month: 'long', 
-        year: 'numeric'
+        year: 'numeric' 
       }).format(new Date()),
+      gregDate: docMeta.gregDate || new Date().toLocaleDateString('en-GB'),
+      description: docMeta.description || '',
       createdAt: Date.now()
     });
-
-    return { id: docRef.id, fileUrl: fileDataUrl };
+    
+    return { id: docRef.id, success: true };
   } catch (err) {
-    console.error("خطأ الحفظ السحابي:", err);
+    console.error("خطأ في رفع المستند:", err);
     throw err;
   }
 }
 
 /**
- * 2. جلب المجلدات المعتمدة
- */
-export async function getCloudFolders() {
-  return DEFAULT_FOLDERS;
-}
-
-/**
- * 3. جلب جميع الوثائق السحابية مرتبة حسب الأحدث
+ * جلب جميع الوثائق المودعة مرتبة حسب الأحدث
  */
 export async function getCloudDocuments() {
   try {
-    const q = query(collection(db, "documents"), orderBy("createdAt", "desc"));
-    const snap = await getDocs(q);
-    let docs = [];
-    snap.forEach((d) => docs.push({ id: d.id, ...d.data() }));
-    return docs;
+    const querySnapshot = await getDocs(collection(db, "documents"));
+    const docs = [];
+    
+    querySnapshot.forEach((d) => {
+      docs.push({ id: d.id, ...d.data() });
+    });
+    
+    return docs.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
   } catch (err) {
     console.error("خطأ جلب المستندات:", err);
     return [];
@@ -102,7 +96,7 @@ export async function getCloudDocuments() {
 }
 
 /**
- * 4. حذف وثيقة من السحابة
+ * حذف مستند بواسطة المعرف (docId)
  */
 export async function deleteCloudDocument(docId) {
   try {
@@ -110,6 +104,59 @@ export async function deleteCloudDocument(docId) {
     return true;
   } catch (err) {
     console.error("خطأ حذف المستند:", err);
+    throw err;
+  }
+}
+
+// ------------------------------------------
+// 2. إدارة المجلدات المخصصة والفرعية
+// ------------------------------------------
+
+/**
+ * جلب جميع المجلدات
+ */
+export async function getCloudFolders() {
+  try {
+    const querySnapshot = await getDocs(collection(db, "folders"));
+    const folders = [];
+    
+    querySnapshot.forEach((d) => {
+      folders.push({ id: d.id, ...d.data() });
+    });
+    
+    return folders;
+  } catch (err) {
+    console.error("خطأ جلب المجلدات:", err);
+    return [];
+  }
+}
+
+/**
+ * إضافة مجلد جديد
+ */
+export async function addCloudFolder(folderData) {
+  try {
+    const docRef = await addDoc(collection(db, "folders"), {
+      ...folderData,
+      createdAt: Date.now()
+    });
+    
+    return { id: docRef.id, ...folderData };
+  } catch (err) {
+    console.error("خطأ إضافة مجلد:", err);
+    throw err;
+  }
+}
+
+/**
+ * حذف مجلد بواسطة المعرف (folderId)
+ */
+export async function deleteCloudFolder(folderId) {
+  try {
+    await deleteDoc(doc(db, "folders", folderId));
+    return true;
+  } catch (err) {
+    console.error("خطأ حذف المجلد:", err);
     throw err;
   }
 }

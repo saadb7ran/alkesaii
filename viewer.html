@@ -1,75 +1,95 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مستعرض وثائق PDF - ثانوية الكسائي</title>
-
-  <!-- Tailwind CSS & Fonts & Icons -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <style>
-    body {
-      font-family: 'IBM Plex Sans Arabic', sans-serif;
-      background-color: #0f172a;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستعرض وثائق PDF - ثانوية الكسائي</title>
+    
+    <!-- الخطوط والأيقونات الخارجية -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            background-color: #0f172a;
+        }
+    </style>
 </head>
-
 <body class="h-screen flex flex-col overflow-hidden text-slate-200">
 
-  <!-- الشريط العلوي -->
-  <header class="h-16 bg-slate-900 border-b border-slate-800 px-4 md:px-6 flex items-center justify-between shrink-0">
-    <div class="flex items-center gap-3">
-      <button id="backBtn" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold flex items-center gap-1.5 transition">
-        <i class="fa-solid fa-arrow-right"></i> عودة
-      </button>
-      <div class="h-4 w-px bg-slate-700"></div>
-      <div>
-        <h1 class="font-bold text-sm text-white truncate max-w-xs md:max-w-md" id="docTitle">مستعرض الوثائق المدرسية</h1>
-        <p class="text-[10px] text-teal-400">ثانوية الكسائي • تعليم الشرقية</p>
-      </div>
-    </div>
+    <!-- ========================================== -->
+    <!-- 1. الشريط العلوي (Header Toolbar)          -->
+    <!-- ========================================== -->
+    <header class="h-16 bg-slate-900 border-b border-slate-800 px-4 md:px-6 flex items-center justify-between shrink-0 shadow-md z-10">
+        
+        <!-- زر العودة وعنوان المستند -->
+        <div class="flex items-center gap-3 min-w-0">
+            <button id="backBtn" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold flex items-center gap-1.5 transition border border-slate-700/50">
+                <i class="fa-solid fa-arrow-right"></i> عودة
+            </button>
+            <div class="h-4 w-px bg-slate-700 shrink-0"></div>
+            <div class="min-w-0">
+                <h1 class="font-bold text-xs md:text-sm text-white truncate max-w-xs md:max-w-md" id="docTitle">مستعرض الوثائق الرسمية</h1>
+                <p class="text-[10px] text-teal-400 font-semibold flex items-center gap-1">
+                    <i class="fa-solid fa-graduation-cap"></i> ثانوية الكسائي • تعليم الشرقية
+                </p>
+            </div>
+        </div>
 
-    <div>
-      <a id="downloadBtn" href="#" target="_blank" download class="px-3 py-1.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-semibold flex items-center gap-1.5 transition">
-        <i class="fa-solid fa-download"></i> تحميل المستند
-      </a>
-    </div>
-  </header>
+        <!-- أزرار الإجراءات (التحميل) -->
+        <div class="flex items-center gap-2">
+            <a id="downloadBtn" href="#" target="_blank" download class="px-3.5 py-1.5 rounded-xl bg-[#0d5c75] hover:bg-teal-600 text-white text-xs font-bold flex items-center gap-1.5 transition shadow-xs">
+                <i class="fa-solid fa-download"></i> 
+                <span class="hidden sm:inline">تحميل المستند</span>
+            </a>
+        </div>
+    </header>
 
-  <!-- عارض المستند -->
-  <main class="flex-1 bg-slate-950 w-full h-full relative">
-    <iframe id="pdfFrame" class="w-full h-full border-0" src="about:blank"></iframe>
-  </main>
+    <!-- ========================================== -->
+    <!-- 2. منطقة عرض المستند بملء الشاشة (Viewer)  -->
+    <!-- ========================================== -->
+    <main class="flex-1 bg-slate-950 w-full h-full relative">
+        <iframe id="pdfFrame" class="w-full h-full border-0" src="about:blank" title="عارض الملفات"></iframe>
+    </main>
 
-  <!-- البرمجة الخاصة بقراءة المتغيرات وتوجيه العودة -->
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const fileUrl = params.get('file');
-    const title = params.get('title');
-    const mode = params.get('mode');
+    <!-- ========================================== -->
+    <!-- 3. البرمجة التفاعلية (JavaScript)          -->
+    <!-- ========================================== -->
+    <script>
+        // قراءة المتغيرات من رابط الصفحة (URL Parameters)
+        const params = new URLSearchParams(window.location.search);
+        const fileUrl = params.get('file');
+        const title = params.get('title');
+        const mode = params.get('mode');
 
-    if (title) {
-      document.getElementById('docTitle').textContent = decodeURIComponent(title);
-    }
+        // تعيين عنوان المستند
+        if (title) {
+            document.getElementById('docTitle').textContent = decodeURIComponent(title);
+        }
 
-    if (fileUrl) {
-      const decodedUrl = decodeURIComponent(fileUrl);
-      document.getElementById('pdfFrame').src = decodedUrl;
-      document.getElementById('downloadBtn').href = decodedUrl;
-    }
+        // عرض المستند وتحديث رابط التحميل
+        if (fileUrl) {
+            const decodedUrl = decodeURIComponent(fileUrl);
+            document.getElementById('pdfFrame').src = decodedUrl;
+            document.getElementById('downloadBtn').href = decodedUrl;
+        }
 
-    document.getElementById('backBtn').addEventListener('click', () => {
-      if (mode === 'visitor') {
-        window.location.href = 'visitor.html';
-      } else {
-        window.history.length > 1 ? window.history.back() : window.location.href = 'index.html';
-      }
-    });
-  </script>
-
+        // منطق التوجيه الذكي لزر العودة
+        document.getElementById('backBtn').addEventListener('click', () => {
+            if (mode === 'visitor') {
+                // توجيه الزائر دائماً لصفحة الزوار ومنع دخوله للوحة الإدارة
+                window.location.href = 'visitor.html';
+            } else {
+                // توجيه المستخدم الإداري للصفحة السابقة أو الرئيسية
+                if (window.history.length > 1) {
+                    window.history.back();
+                } else {
+                    window.location.href = 'index.html';
+                }
+            }
+        });
+    </script>
 </body>
 </html>
